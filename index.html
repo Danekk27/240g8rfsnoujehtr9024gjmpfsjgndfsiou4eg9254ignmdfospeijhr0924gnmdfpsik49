@@ -1660,11 +1660,25 @@ function drawWalletChart(hovIdx){
     canvas.width=W*dpr;canvas.height=H*dpr;
     const ctx=canvas.getContext('2d');
     ctx.scale(dpr,dpr);
-    const maxV=Math.max(...pts.map(p=>p.v),1);
     const padL=8,padR=8,padT=18,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
     const sx=i=>padL+i*(gw/(pts.length-1));
-    const sy=v=>padT+gh-(v/maxV)*gh;
+    // Smart scale: 0 pinned to bottom, real changes fill the chart
+    const realPts=pts.slice(1);
+    const maxReal=Math.max(...realPts.map(p=>p.v),1);
+    let sy;
+    if(realPts.length<=1){
+        sy=v=>padT+gh-(v/(maxReal*1.1))*gh;
+    } else {
+        const minReal=Math.min(...realPts.map(p=>p.v));
+        const rng=(maxReal-minReal)||maxReal*0.2||1;
+        const scMin=Math.max(0,minReal-rng*0.5);
+        const scMax=maxReal+rng*0.15;
+        sy=v=>{
+            if(v===0)return padT+gh; // 0 always at bottom
+            return padT+gh-((v-scMin)/(scMax-scMin))*gh;
+        };
+    }
     const rgb=getGlowRGB();
     // Fill gradient
     const grad=ctx.createLinearGradient(0,padT,0,H);
@@ -1702,7 +1716,7 @@ function drawWalletChart(hovIdx){
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)}.${dt.getFullYear()} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
-        const line1=hovIdx===0?'Start  0 💎':(p.d>0?`+${p.d} 💎  →  ${p.v} 💎`:`${p.d} 💎  →  ${p.v} 💎`);
+        const line1=hovIdx===0?'0 💎':(p.d>0?`+${p.d} 💎`:`${p.d} 💎`);
         const line2=dateStr;
         // Measure box
         ctx.font='bold 11px Inter,sans-serif';

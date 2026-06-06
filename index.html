@@ -848,39 +848,69 @@
                 <div class="current-plan-dates" id="currentPlanDates">—</div>
             </div>
             <div class="upgrade-card premium-card">
-                <div class="upgrade-info">
-                    <span class="upgrade-title">Premium</span>
-                    <span class="upgrade-price">100$ / <span data-i18n="perMonth">month</span></span>
+                <div class="upgrade-card-row">
+                    <div class="upgrade-info"><span class="upgrade-title">Premium</span><span class="upgrade-price">100$ / <span data-i18n="perMonth">month</span></span></div>
+                    <button class="upgrade-btn" onclick="setPlan('premium')" data-i18n="btnSelect">Select</button>
                 </div>
-                <button class="upgrade-btn" onclick="setPlan('premium')" data-i18n="btnSelect">Select</button>
+                <button class="upgrade-details-toggle" onclick="togglePlanDetails('premium',this)">
+                    <span data-i18n="planDetails">Details</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="upgrade-details-body" id="details-premium">
+                    <div class="upgrade-features" id="features-premium"></div>
+                </div>
             </div>
             <div class="upgrade-card pro-card">
-                <div class="upgrade-info">
-                    <span class="upgrade-title">Pro</span>
-                    <span class="upgrade-price">50$ / <span data-i18n="perMonth">month</span></span>
+                <div class="upgrade-card-row">
+                    <div class="upgrade-info"><span class="upgrade-title">Pro</span><span class="upgrade-price">50$ / <span data-i18n="perMonth">month</span></span></div>
+                    <button class="upgrade-btn" onclick="setPlan('pro')" data-i18n="btnSelect">Select</button>
                 </div>
-                <button class="upgrade-btn" onclick="setPlan('pro')" data-i18n="btnSelect">Select</button>
+                <button class="upgrade-details-toggle" onclick="togglePlanDetails('pro',this)">
+                    <span data-i18n="planDetails">Details</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="upgrade-details-body" id="details-pro">
+                    <div class="upgrade-features" id="features-pro"></div>
+                </div>
             </div>
             <div class="upgrade-card lite-card">
-                <div class="upgrade-info">
-                    <span class="upgrade-title">Lite</span>
-                    <span class="upgrade-price">25$ / <span data-i18n="perMonth">month</span></span>
+                <div class="upgrade-card-row">
+                    <div class="upgrade-info"><span class="upgrade-title">Lite</span><span class="upgrade-price">25$ / <span data-i18n="perMonth">month</span></span></div>
+                    <button class="upgrade-btn" onclick="setPlan('lite')" data-i18n="btnSelect">Select</button>
                 </div>
-                <button class="upgrade-btn" onclick="setPlan('lite')" data-i18n="btnSelect">Select</button>
+                <button class="upgrade-details-toggle" onclick="togglePlanDetails('lite',this)">
+                    <span data-i18n="planDetails">Details</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="upgrade-details-body" id="details-lite">
+                    <div class="upgrade-features" id="features-lite"></div>
+                </div>
             </div>
             <div class="upgrade-card plus-card">
-                <div class="upgrade-info">
-                    <span class="upgrade-title">Plus</span>
-                    <span class="upgrade-price">10$ / <span data-i18n="perMonth">month</span></span>
+                <div class="upgrade-card-row">
+                    <div class="upgrade-info"><span class="upgrade-title">Plus</span><span class="upgrade-price">10$ / <span data-i18n="perMonth">month</span></span></div>
+                    <button class="upgrade-btn" onclick="setPlan('plus')" data-i18n="btnSelect">Select</button>
                 </div>
-                <button class="upgrade-btn" onclick="setPlan('plus')" data-i18n="btnSelect">Select</button>
+                <button class="upgrade-details-toggle" onclick="togglePlanDetails('plus',this)">
+                    <span data-i18n="planDetails">Details</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="upgrade-details-body" id="details-plus">
+                    <div class="upgrade-features" id="features-plus"></div>
+                </div>
             </div>
             <div class="upgrade-card">
-                <div class="upgrade-info">
-                    <span class="upgrade-title">Default</span>
-                    <span class="upgrade-price" data-i18n="freeLabel">Free</span>
+                <div class="upgrade-card-row">
+                    <div class="upgrade-info"><span class="upgrade-title">Default</span><span class="upgrade-price" data-i18n="freeLabel">Free</span></div>
+                    <button class="upgrade-btn" onclick="setPlan('default')" data-i18n="btnSelect">Select</button>
                 </div>
-                <button class="upgrade-btn" onclick="setPlan('default')" data-i18n="btnSelect">Select</button>
+                <button class="upgrade-details-toggle" onclick="togglePlanDetails('default',this)">
+                    <span data-i18n="planDetails">Details</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="upgrade-details-body" id="details-default">
+                    <div class="upgrade-features" id="features-default"></div>
+                </div>
             </div>
         </div>
 
@@ -1358,11 +1388,11 @@ function getTermsLocale(countryCode) {
 
 // ── TRANSLATIONS ──
 const translations = {
-    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",yourPlan:"Your plan",planActive:"Active",planExpired:"Expired",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:"},
-    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:"},
-    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",yourPlan:"現在のプラン",planActive:"有効",planExpired:"期限切れ",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:"},
-    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",yourPlan:"当前套餐",planActive:"有效",planExpired:"已过期",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:"},
-    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:"}
+    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",yourPlan:"Your plan",planActive:"Active",planExpired:"Expired",planDetails:"Details",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:"},
+    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",planDetails:"Подробнее",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:"},
+    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",yourPlan:"現在のプラン",planActive:"有効",planExpired:"期限切れ",planDetails:"詳細",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:"},
+    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",yourPlan:"当前套餐",planActive:"有效",planExpired:"已过期",planDetails:"详情",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:"},
+    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:"}
 };
 
 var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create';
@@ -1449,6 +1479,58 @@ function setAccentTheme(color){
 function changeGlow(color){document.documentElement.setAttribute('data-glow',color);document.querySelectorAll('.glow-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.glow-btn[data-color="${color}"]`);if(btn)btn.classList.add('active');saveMemory('glow',color);}
 
 function setPlan(plan){const current=aiMemory.plan||'default',currentRank=PLAN_RANK[current]||0,targetRank=PLAN_RANK[plan]||0;if(plan===current){haptic('rigid');return;}if(targetRank<currentRank){haptic('rigid');const msgs={ru:'Нельзя перейти на менее выгодный тариф',en:'Downgrading to a lower plan is not allowed',ja:'下位プランへのダウングレードはできません',zh:'不允许降级到较低套餐',uk:'Не можна перейти на менш вигідний тариф'};alert(msgs[currentLang]||msgs.en);return;}if(plan==='default'){saveMemory('plan','default');showPlanGlow('default');haptic('light');return;}window._payAction='upgrade';window._payPlan=plan;window._payDiamonds=null;const m=document.getElementById('paymentModal');if(m)m.style.display='flex';payShowStep(2);haptic('medium');}
+const PLAN_FEATURES={
+    premium:{
+        en:[[1,'Unlimited photo generation'],[1,'4K / HD quality'],[1,'Advanced AI editing'],[1,'Custom styles & presets'],[1,'Priority processing queue'],[1,'Unlimited AI chat'],[1,'All future features'],[1,'Dedicated 24/7 support']],
+        ru:[[1,'Безлимитная генерация фото'],[1,'Качество 4K / HD'],[1,'Продвинутое AI-редактирование'],[1,'Кастомные стили и пресеты'],[1,'Приоритетная очередь'],[1,'Безлимитный чат с AI'],[1,'Все будущие функции'],[1,'Личная поддержка 24/7']],
+        ja:[[1,'無制限フォト生成'],[1,'4K / HD品質'],[1,'高度なAI編集'],[1,'カスタムスタイル'],[1,'優先処理'],[1,'無制限AIチャット'],[1,'将来の全機能'],[1,'専任サポート24/7']],
+        zh:[[1,'无限照片生成'],[1,'4K / HD质量'],[1,'高级AI编辑'],[1,'自定义样式'],[1,'优先队列'],[1,'无限AI聊天'],[1,'所有未来功能'],[1,'专属全天候支持']],
+        uk:[[1,'Безлімітна генерація фото'],[1,'Якість 4K / HD'],[1,'Розширене AI-редагування'],[1,'Кастомні стилі'],[1,'Пріоритетна черга'],[1,'Безлімітний чат з AI'],[1,'Всі майбутні функції'],[1,'Особиста підтримка 24/7']]
+    },
+    pro:{
+        en:[[1,'1000 photos / month'],[1,'HD quality'],[1,'Advanced AI editing'],[1,'Priority queue'],[1,'AI chat — 500 msg/mo'],[1,'Priority support'],[0,'Custom styles'],[0,'4K quality']],
+        ru:[[1,'1000 фото / месяц'],[1,'HD качество'],[1,'Продвинутое AI-редактирование'],[1,'Приоритетная очередь'],[1,'Чат с AI — 500 сообщений/мес'],[1,'Приоритетная поддержка'],[0,'Кастомные стили'],[0,'Качество 4K']],
+        ja:[[1,'月1000枚'],[1,'HD品質'],[1,'高度なAI編集'],[1,'優先処理'],[1,'AIチャット 500通/月'],[1,'優先サポート'],[0,'カスタムスタイル'],[0,'4K品質']],
+        zh:[[1,'每月1000张'],[1,'HD质量'],[1,'高级AI编辑'],[1,'优先队列'],[1,'AI聊天500条/月'],[1,'优先支持'],[0,'自定义样式'],[0,'4K质量']],
+        uk:[[1,'1000 фото / місяць'],[1,'HD якість'],[1,'Розширене AI-редагування'],[1,'Пріоритетна черга'],[1,'Чат з AI — 500 пов/міс'],[1,'Пріоритетна підтримка'],[0,'Кастомні стилі'],[0,'Якість 4K']]
+    },
+    lite:{
+        en:[[1,'300 photos / month'],[1,'Standard quality'],[1,'Basic AI editing'],[1,'AI chat — 200 msg/mo'],[1,'Standard support'],[0,'Priority queue'],[0,'HD quality'],[0,'Advanced editing']],
+        ru:[[1,'300 фото / месяц'],[1,'Стандартное качество'],[1,'Базовое AI-редактирование'],[1,'Чат с AI — 200 сообщений/мес'],[1,'Стандартная поддержка'],[0,'Приоритетная очередь'],[0,'HD качество'],[0,'Продвинутое редактирование']],
+        ja:[[1,'月300枚'],[1,'標準品質'],[1,'基本AI編集'],[1,'AIチャット 200通/月'],[1,'標準サポート'],[0,'優先処理'],[0,'HD品質'],[0,'高度な編集']],
+        zh:[[1,'每月300张'],[1,'标准质量'],[1,'基础AI编辑'],[1,'AI聊天200条/月'],[1,'标准支持'],[0,'优先队列'],[0,'HD质量'],[0,'高级编辑']],
+        uk:[[1,'300 фото / місяць'],[1,'Стандартна якість'],[1,'Базове AI-редагування'],[1,'Чат з AI — 200 пов/міс'],[1,'Стандартна підтримка'],[0,'Пріоритетна черга'],[0,'HD якість'],[0,'Розширене редагування']]
+    },
+    plus:{
+        en:[[1,'100 photos / month'],[1,'Standard quality'],[1,'Basic AI editing'],[1,'AI chat — 50 msg/mo'],[1,'Community support'],[0,'Priority queue'],[0,'HD quality'],[0,'Advanced editing']],
+        ru:[[1,'100 фото / месяц'],[1,'Стандартное качество'],[1,'Базовое AI-редактирование'],[1,'Чат с AI — 50 сообщений/мес'],[1,'Поддержка сообщества'],[0,'Приоритетная очередь'],[0,'HD качество'],[0,'Продвинутое редактирование']],
+        ja:[[1,'月100枚'],[1,'標準品質'],[1,'基本AI編集'],[1,'AIチャット 50通/月'],[1,'コミュニティサポート'],[0,'優先処理'],[0,'HD品質'],[0,'高度な編集']],
+        zh:[[1,'每月100张'],[1,'标准质量'],[1,'基础AI编辑'],[1,'AI聊天50条/月'],[1,'社区支持'],[0,'优先队列'],[0,'HD质量'],[0,'高级编辑']],
+        uk:[[1,'100 фото / місяць'],[1,'Стандартна якість'],[1,'Базове AI-редагування'],[1,'Чат з AI — 50 пов/міс'],[1,'Підтримка спільноти'],[0,'Пріоритетна черга'],[0,'HD якість'],[0,'Розширене редагування']]
+    },
+    default:{
+        en:[[1,'10 photos / month'],[1,'Standard quality'],[1,'AI chat — 10 msg/mo'],[1,'Community support'],[0,'AI editing'],[0,'Priority queue'],[0,'HD quality']],
+        ru:[[1,'10 фото / месяц'],[1,'Стандартное качество'],[1,'Чат с AI — 10 сообщений/мес'],[1,'Поддержка сообщества'],[0,'AI-редактирование'],[0,'Приоритетная очередь'],[0,'HD качество']],
+        ja:[[1,'月10枚'],[1,'標準品質'],[1,'AIチャット 10通/月'],[1,'コミュニティサポート'],[0,'AI編集'],[0,'優先処理'],[0,'HD品質']],
+        zh:[[1,'每月10张'],[1,'标准质量'],[1,'AI聊天10条/月'],[1,'社区支持'],[0,'AI编辑'],[0,'优先队列'],[0,'HD质量']],
+        uk:[[1,'10 фото / місяць'],[1,'Стандартна якість'],[1,'Чат з AI — 10 пов/міс'],[1,'Підтримка спільноти'],[0,'AI-редагування'],[0,'Пріоритетна черга'],[0,'HD якість']]
+    }
+};
+function togglePlanDetails(plan,btn){
+    const body=document.getElementById('details-'+plan);
+    const feat=document.getElementById('features-'+plan);
+    if(!body)return;
+    const isOpen=body.classList.contains('open');
+    if(!isOpen&&feat&&!feat.dataset.built){
+        feat.dataset.built='1';
+        const lang=(['ru','uk','ja','zh'].includes(currentLang)?currentLang:'en');
+        const list=(PLAN_FEATURES[plan]&&PLAN_FEATURES[plan][lang])||PLAN_FEATURES[plan].en||[];
+        feat.innerHTML=list.map(([ok,text])=>`<div class="upgrade-feature"><span class="upgrade-feature-check ${ok?'yes':'no'}">${ok?'✓':'✕'}</span><span>${text}</span></div>`).join('');
+    }
+    body.classList.toggle('open',!isOpen);
+    if(btn)btn.classList.toggle('open',!isOpen);
+    haptic('light');
+}
 function updateCurrentPlanBlock(){
     const plan=aiMemory.plan||'default';
     const names={premium:'Premium',pro:'Pro',lite:'Lite',plus:'Plus',default:'Default'};

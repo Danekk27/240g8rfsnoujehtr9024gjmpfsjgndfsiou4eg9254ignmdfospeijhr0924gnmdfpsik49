@@ -346,22 +346,43 @@
         .terms-back-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.12); }
 
         /* ── WALLET SCREEN ── */
-        #walletScreen { position:fixed;inset:0;z-index:10000;background:#0d141c;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);overflow-y:auto; }
+        #walletScreen { position:fixed;inset:0;z-index:10000;background:#0d141c;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);overflow:hidden; }
         #walletScreen.open { transform:translateY(0); }
         .wallet-header { position:sticky;top:0;z-index:10;background:rgba(13,20,28,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;padding:14px 20px;flex-shrink:0; }
         .wallet-header-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff; }
-        .wallet-body { padding:24px 20px;display:flex;flex-direction:column;gap:20px; }
+        .wallet-body { padding:24px 20px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;flex:1; }
         .wallet-balance-card { background:var(--card-bg);border-radius:20px;padding:28px 24px;text-align:center;border:1px solid rgba(255,255,255,0.07); }
         .wallet-balance-label { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px; }
         .wallet-balance-amount { font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;line-height:1; }
         .wallet-balance-amount span.gem { font-size:40px;filter:drop-shadow(0 0 12px rgba(93,180,255,0.7)); }
         .wallet-chart-card { background:var(--card-bg);border-radius:20px;padding:20px 18px;border:1px solid rgba(255,255,255,0.07); }
         .wallet-chart-title { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
-        #walletChart { width:100%;height:90px;display:block; }
-        .wallet-actions { display:flex;flex-direction:column;gap:10px; }
+        #walletChart { width:100%;height:110px;display:block; }
+        .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:6px; }
+        .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.2); }
+        .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
         .wallet-action-btn { background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:14px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 14px var(--accent-shadow);transition:transform .2s,filter .2s; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .avatar-box { cursor:pointer; }
+        /* Topup sheet */
+        .wallet-topup-overlay { position:absolute;inset:0;background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20; }
+        .wallet-topup-overlay.open { opacity:1;pointer-events:auto; }
+        .wallet-topup-sheet { position:absolute;bottom:0;left:0;right:0;background:#131c26;border-radius:22px 22px 0 0;padding:0 0 32px;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.22,1,0.36,1);z-index:21; }
+        .wallet-topup-sheet.open { transform:translateY(0); }
+        .wallet-topup-handle { width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0; }
+        .wallet-topup-head { display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px; }
+        .wallet-topup-title { font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff; }
+        .wallet-topup-close { background:rgba(255,255,255,0.07);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.6);transition:background .2s; }
+        .wallet-topup-close:active { background:rgba(255,255,255,0.14); }
+        .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px; }
+        .wallet-topup-btn { background:var(--input-bg);border:1px solid var(--border-color);border-radius:14px;padding:14px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:border-color .2s,background .2s,transform .15s; }
+        .wallet-topup-btn:active { transform:scale(.95); }
+        .wallet-topup-btn:hover { border-color:var(--accent-color);background:var(--accent-tint); }
+        .wallet-topup-gem { font-size:22px;filter:drop-shadow(0 0 6px rgba(93,180,255,0.5)); }
+        .wallet-topup-amount { font-size:15px;font-weight:700;color:#fff; }
+        .wallet-topup-btn.rank-1 { border-color:rgba(247,201,72,0.5);background:rgba(247,201,72,0.07); }
+        .wallet-topup-btn.rank-2 { border-color:rgba(190,200,215,0.4);background:rgba(190,200,215,0.06); }
+        .wallet-topup-btn.rank-3 { border-color:rgba(205,127,50,0.4);background:rgba(205,127,50,0.06); }
         .terms-header-info { flex: 1; min-width: 0; }
         .terms-header-title {
             font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
@@ -1547,43 +1568,83 @@ function openWalletScreen(){
     s.style.display='flex';
     requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add('open')));
     const t=translations[currentLang]||translations.en;
-    const lb=document.getElementById('walletBalanceLabel');
-    const ab=document.getElementById('walletActivityLabel');
-    const ub=document.getElementById('walletUpgradeBtn');
-    const tb=document.getElementById('walletTopupBtn');
-    const ht=document.getElementById('walletHeaderTitle');
-    if(lb)lb.textContent=t.walletBalance||'Your balance';
-    if(ab)ab.textContent=t.walletActivity||'Diamond activity';
-    if(ub)ub.textContent=t.walletUpgrade||'System Upgrade';
-    if(tb)tb.textContent=t.walletTopup||'Top up balance';
-    if(ht)ht.textContent=t.walletTitle||'Wallet';
-    const bal=parseInt(document.getElementById('starCount').textContent)||0;
-    const ba=document.getElementById('walletBalanceNum');
-    if(ba)ba.textContent=bal.toLocaleString();
-    drawWalletChart();
+    const el=(id)=>document.getElementById(id);
+    const set=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
+    set('walletBalanceLabel',t.walletBalance||'Your balance');
+    set('walletActivityLabel',t.walletActivity||'Diamond activity');
+    set('walletUpgradeBtn',t.walletUpgrade||'System Upgrade');
+    set('walletTopupBtn',t.walletTopup||'Top up balance');
+    set('walletHeaderTitle',t.walletTitle||'Wallet');
+    const bal=aiMemory.diamonds||0;
+    set('walletBalanceNum',Number(bal).toLocaleString());
+    setTimeout(drawWalletChart,50);
 }
 function closeWalletScreen(){
     haptic('light');
+    closeWalletTopup();
     const s=document.getElementById('walletScreen');
     s.classList.remove('open');
     setTimeout(()=>{ s.style.display='none'; },400);
+}
+function openWalletTopup(){
+    haptic('light');
+    document.getElementById('walletTopupSheet').classList.add('open');
+    document.getElementById('walletTopupOverlay').classList.add('open');
+}
+function closeWalletTopup(){
+    const sh=document.getElementById('walletTopupSheet');
+    const ov=document.getElementById('walletTopupOverlay');
+    if(sh)sh.classList.remove('open');
+    if(ov)ov.classList.remove('open');
+}
+function addDiamonds(amount){
+    haptic('medium');
+    const newBal=(aiMemory.diamonds||0)+amount;
+    aiMemory.diamonds=newBal;
+    if(!aiMemory.diamondHistory)aiMemory.diamondHistory=[];
+    aiMemory.diamondHistory.push({t:Date.now(),v:newBal,d:amount});
+    if(aiMemory.diamondHistory.length>30)aiMemory.diamondHistory=aiMemory.diamondHistory.slice(-30);
+    saveMemory('diamonds',newBal);
+    saveMemory('diamondHistory',aiMemory.diamondHistory);
+    const sc=document.getElementById('starCount');
+    if(sc)sc.textContent=Number(newBal).toLocaleString();
+    const wb=document.getElementById('walletBalanceNum');
+    if(wb)wb.textContent=Number(newBal).toLocaleString();
+    closeWalletTopup();
+    setTimeout(drawWalletChart,60);
+    haptic('success');
 }
 function drawWalletChart(){
     const canvas=document.getElementById('walletChart');
     if(!canvas)return;
     const dpr=window.devicePixelRatio||1;
-    const W=canvas.offsetWidth,H=90;
+    const W=canvas.offsetWidth,H=110;
     canvas.width=W*dpr;canvas.height=H*dpr;
     const ctx=canvas.getContext('2d');
     ctx.scale(dpr,dpr);
-    const pts=[0,5,3,12,8,20,15,10,18,25,22,30,28,24,35];
-    const max=Math.max(...pts)||1;
-    const pad=8,gw=W-pad*2,gh=H-pad*2;
-    const sx=(i)=>pad+i*(gw/(pts.length-1));
-    const sy=(v)=>pad+gh-(v/max)*gh;
-    const grad=ctx.createLinearGradient(0,0,0,H);
+    const history=aiMemory.diamondHistory||[];
+    let pts,labels;
+    if(history.length>=2){
+        pts=history.map(h=>h.v);
+        labels=history.map(h=>{
+            const d=new Date(h.t);
+            return d.getDate()+'.'+(d.getMonth()+1);
+        });
+    } else {
+        const cur=aiMemory.diamonds||0;
+        pts=[cur,cur,cur,cur,cur,cur,cur];
+        labels=['','','','','','',''];
+    }
+    const maxV=Math.max(...pts,1),minV=Math.min(...pts,0);
+    const range=maxV-minV||1;
+    const padL=8,padR=8,padT=10,padB=10;
+    const gw=W-padL-padR,gh=H-padT-padB;
+    const sx=(i)=>padL+i*(gw/(pts.length-1));
+    const sy=(v)=>padT+gh-((v-minV)/range)*gh;
     const rgb=getGlowRGB();
-    grad.addColorStop(0,`rgba(${rgb},0.35)`);
+    // Gradient fill
+    const grad=ctx.createLinearGradient(0,padT,0,H);
+    grad.addColorStop(0,`rgba(${rgb},0.4)`);
     grad.addColorStop(1,`rgba(${rgb},0)`);
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0]));
@@ -1593,13 +1654,37 @@ function drawWalletChart(){
     }
     ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
     ctx.fillStyle=grad;ctx.fill();
+    // Glow line
+    ctx.shadowColor=`rgba(${rgb},0.6)`;ctx.shadowBlur=6;
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0]));
     for(let i=1;i<pts.length;i++){
         const cx=(sx(i-1)+sx(i))/2;
         ctx.bezierCurveTo(cx,sy(pts[i-1]),cx,sy(pts[i]),sx(i),sy(pts[i]));
     }
-    ctx.strokeStyle=`rgba(${rgb},0.9)`;ctx.lineWidth=2.5;ctx.stroke();
+    ctx.strokeStyle=`rgba(${rgb},1)`;ctx.lineWidth=2.5;ctx.stroke();
+    ctx.shadowBlur=0;
+    // Dots on real data points
+    if(history.length>=2){
+        pts.forEach((v,i)=>{
+            ctx.beginPath();
+            ctx.arc(sx(i),sy(v),3.5,0,Math.PI*2);
+            ctx.fillStyle=`rgba(${rgb},1)`;ctx.fill();
+            ctx.strokeStyle='#0d141c';ctx.lineWidth=1.5;ctx.stroke();
+        });
+    }
+    // Labels
+    const labEl=document.getElementById('walletChartLabels');
+    if(labEl&&history.length>=2){
+        const show=[0,Math.floor(pts.length/2),pts.length-1];
+        labEl.innerHTML='';
+        show.forEach(i=>{
+            const sp=document.createElement('span');
+            sp.className='wallet-chart-label';
+            sp.textContent=labels[i]||'';
+            labEl.appendChild(sp);
+        });
+    }
 }
 function openTgProfile(){
     haptic('light');
@@ -1614,6 +1699,7 @@ function openTgProfile(){
     else changeLang('auto');
     if(aiMemory.accentTheme)setAccentTheme(aiMemory.accentTheme);else if(aiMemory.glow)changeGlow(aiMemory.glow);
     if(aiMemory.plan)showPlanGlow(aiMemory.plan);
+    if(aiMemory.diamonds){const sc=document.getElementById('starCount');if(sc)sc.textContent=Number(aiMemory.diamonds).toLocaleString();}
     if(aiMemory.mode)setMode(aiMemory.mode);else setMode('create');
     updateParticlesVisibility('tab-main');
     setTimeout(()=>{makeInputSmooth('textPrompt','chatCharIn');},100);
@@ -1670,10 +1756,33 @@ function openTgProfile(){
         <div class="wallet-chart-card">
             <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
             <canvas id="walletChart"></canvas>
+            <div class="wallet-chart-labels" id="walletChartLabels"></div>
         </div>
         <div class="wallet-actions">
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">System Upgrade</button>
-            <button class="wallet-action-btn" id="walletTopupBtn" onclick="closeWalletScreen();setTimeout(()=>openPaymentModal(),420);">Top up balance</button>
+            <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up balance</button>
+        </div>
+    </div>
+    <!-- Topup overlay -->
+    <div class="wallet-topup-overlay" id="walletTopupOverlay" onclick="closeWalletTopup()"></div>
+    <!-- Topup sheet -->
+    <div class="wallet-topup-sheet" id="walletTopupSheet">
+        <div class="wallet-topup-handle"></div>
+        <div class="wallet-topup-head">
+            <div class="wallet-topup-title">💎 Top up balance</div>
+            <button class="wallet-topup-close" onclick="closeWalletTopup()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="wallet-topup-grid">
+            <button class="wallet-topup-btn" onclick="addDiamonds(100)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">100</span></button>
+            <button class="wallet-topup-btn" onclick="addDiamonds(250)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">250</span></button>
+            <button class="wallet-topup-btn" onclick="addDiamonds(500)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">500</span></button>
+            <button class="wallet-topup-btn rank-3" onclick="addDiamonds(1000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">1 000</span></button>
+            <button class="wallet-topup-btn rank-1" onclick="addDiamonds(2500)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">2 500</span></button>
+            <button class="wallet-topup-btn rank-2" onclick="addDiamonds(5000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">5 000</span></button>
+            <button class="wallet-topup-btn" onclick="addDiamonds(10000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">10 000</span></button>
+            <button class="wallet-topup-btn" onclick="addDiamonds(25000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">25 000</span></button>
         </div>
     </div>
 </div>

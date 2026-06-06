@@ -337,6 +337,24 @@
             flex-shrink: 0;
         }
         .terms-back-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.12); }
+
+        /* ── WALLET SCREEN ── */
+        #walletScreen { position:fixed;inset:0;z-index:10000;background:#0d141c;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);overflow-y:auto; }
+        #walletScreen.open { transform:translateY(0); }
+        .wallet-header { position:sticky;top:0;z-index:10;background:rgba(13,20,28,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;padding:14px 20px;flex-shrink:0; }
+        .wallet-header-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff; }
+        .wallet-body { padding:24px 20px;display:flex;flex-direction:column;gap:20px; }
+        .wallet-balance-card { background:var(--card-bg);border-radius:20px;padding:28px 24px;text-align:center;border:1px solid rgba(255,255,255,0.07); }
+        .wallet-balance-label { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px; }
+        .wallet-balance-amount { font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;line-height:1; }
+        .wallet-balance-amount span.gem { font-size:40px;filter:drop-shadow(0 0 12px rgba(93,180,255,0.7)); }
+        .wallet-chart-card { background:var(--card-bg);border-radius:20px;padding:20px 18px;border:1px solid rgba(255,255,255,0.07); }
+        .wallet-chart-title { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
+        #walletChart { width:100%;height:90px;display:block; }
+        .wallet-actions { display:flex;flex-direction:column;gap:10px; }
+        .wallet-action-btn { background:var(--accent-bg);color:white;border:none;padding:14px;border-radius:14px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 12px var(--accent-shadow);transition:transform .2s,filter .2s; }
+        .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
+        .avatar-box { cursor:pointer; }
         .terms-header-info { flex: 1; min-width: 0; }
         .terms-header-title {
             font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
@@ -718,12 +736,12 @@
 
     <div class="header-panel">
         <div class="user-info">
-            <div id="userAvatar" class="avatar-box">
+            <div id="userAvatar" class="avatar-box" onclick="openTgProfile()">
                 <svg viewBox="0 0 24 24" width="22" height="22" stroke="#707b86" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
             <div class="user-name" id="userName">User</div>
         </div>
-        <div class="merged-wallet-btn" onclick="openPaymentModal()">
+        <div class="merged-wallet-btn" onclick="openWalletScreen()">
             <span style="font-size:15px;">💎</span>
             <span id="starCount">0</span>
             <div class="wallet-icon-circle">
@@ -742,8 +760,8 @@
                 <div class="shop-title" data-i18n="shopTitle">Need more limits?</div>
                 <div class="shop-desc" data-i18n="shopDesc">If you can no longer edit photos...</div>
                 <div class="shop-buttons">
-                    <button class="shop-btn-primary" onclick="openPaymentModal()" data-i18n="btnTopup" style="background:linear-gradient(135deg,#2563eb,#6366f1,#2563eb);background-size:200%;animation:btnShimmer 3s ease infinite;box-shadow:0 4px 16px rgba(99,102,241,0.35);">Top up balance</button>
-                    <button class="shop-btn-primary" onclick="switchTab('tab-upgrade',document.getElementById('nav-upgrade'))" data-i18n="btnUpgrade" style="background:linear-gradient(135deg,#7c3aed,#a855f7,#7c3aed);background-size:200%;animation:btnShimmer 3s ease infinite;color:white;box-shadow:0 4px 16px rgba(124,58,237,0.35);">Upgrade bot</button>
+                    <button class="shop-btn-primary" onclick="openPaymentModal()" data-i18n="btnTopup">Top up balance</button>
+                    <button class="shop-btn-primary" onclick="switchTab('tab-upgrade',document.getElementById('nav-upgrade'))" data-i18n="btnUpgrade">Upgrade bot</button>
                 </div>
             </div>
         </div>
@@ -1277,11 +1295,11 @@ function getTermsLocale(countryCode) {
 
 // ── TRANSLATIONS ──
 const translations = {
-    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:"},
-    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:"},
-    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:"},
-    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:"},
-    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:"}
+    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:"},
+    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:"},
+    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:"},
+    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:"},
+    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:"}
 };
 
 var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create';
@@ -1515,6 +1533,74 @@ function closeTerms(){
     haptic('light');
 }
 
+// ── WALLET SCREEN ──
+function openWalletScreen(){
+    haptic('light');
+    const s=document.getElementById('walletScreen');
+    s.style.display='flex';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add('open')));
+    const t=translations[currentLang]||translations.en;
+    const lb=document.getElementById('walletBalanceLabel');
+    const ab=document.getElementById('walletActivityLabel');
+    const ub=document.getElementById('walletUpgradeBtn');
+    const tb=document.getElementById('walletTopupBtn');
+    const ht=document.getElementById('walletHeaderTitle');
+    if(lb)lb.textContent=t.walletBalance||'Your balance';
+    if(ab)ab.textContent=t.walletActivity||'Diamond activity';
+    if(ub)ub.textContent=t.walletUpgrade||'System Upgrade';
+    if(tb)tb.textContent=t.walletTopup||'Top up balance';
+    if(ht)ht.textContent=t.walletTitle||'Wallet';
+    const bal=parseInt(document.getElementById('starCount').textContent)||0;
+    const ba=document.getElementById('walletBalanceNum');
+    if(ba)ba.textContent=bal.toLocaleString();
+    drawWalletChart();
+}
+function closeWalletScreen(){
+    haptic('light');
+    const s=document.getElementById('walletScreen');
+    s.classList.remove('open');
+    setTimeout(()=>{ s.style.display='none'; },400);
+}
+function drawWalletChart(){
+    const canvas=document.getElementById('walletChart');
+    if(!canvas)return;
+    const dpr=window.devicePixelRatio||1;
+    const W=canvas.offsetWidth,H=90;
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    const ctx=canvas.getContext('2d');
+    ctx.scale(dpr,dpr);
+    const pts=[0,5,3,12,8,20,15,10,18,25,22,30,28,24,35];
+    const max=Math.max(...pts)||1;
+    const pad=8,gw=W-pad*2,gh=H-pad*2;
+    const sx=(i)=>pad+i*(gw/(pts.length-1));
+    const sy=(v)=>pad+gh-(v/max)*gh;
+    const grad=ctx.createLinearGradient(0,0,0,H);
+    const rgb=getGlowRGB();
+    grad.addColorStop(0,`rgba(${rgb},0.35)`);
+    grad.addColorStop(1,`rgba(${rgb},0)`);
+    ctx.beginPath();
+    ctx.moveTo(sx(0),sy(pts[0]));
+    for(let i=1;i<pts.length;i++){
+        const cx=(sx(i-1)+sx(i))/2;
+        ctx.bezierCurveTo(cx,sy(pts[i-1]),cx,sy(pts[i]),sx(i),sy(pts[i]));
+    }
+    ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
+    ctx.fillStyle=grad;ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(sx(0),sy(pts[0]));
+    for(let i=1;i<pts.length;i++){
+        const cx=(sx(i-1)+sx(i))/2;
+        ctx.bezierCurveTo(cx,sy(pts[i-1]),cx,sy(pts[i]),sx(i),sy(pts[i]));
+    }
+    ctx.strokeStyle=`rgba(${rgb},0.9)`;ctx.lineWidth=2.5;ctx.stroke();
+}
+function openTgProfile(){
+    haptic('light');
+    const u=tg.initDataUnsafe?.user;
+    if(!u)return;
+    if(u.username)tg.openLink('https://t.me/'+u.username);
+}
+
 // ── INIT ──
 (function(){
     if(aiMemory.lang && aiMemory.lang !== 'auto') changeLang(aiMemory.lang);
@@ -1558,6 +1644,32 @@ function closeTerms(){
     </div>
 </div>
 
+<!-- ── WALLET SCREEN ── -->
+<div id="walletScreen" style="display:none;">
+    <div class="wallet-header">
+        <button class="terms-back-btn" onclick="closeWalletScreen()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="wallet-header-title" id="walletHeaderTitle">Wallet</div>
+    </div>
+    <div class="wallet-body">
+        <div class="wallet-balance-card">
+            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance</div>
+            <div class="wallet-balance-amount">
+                <span class="gem">💎</span>
+                <span id="walletBalanceNum">0</span>
+            </div>
+        </div>
+        <div class="wallet-chart-card">
+            <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
+            <canvas id="walletChart"></canvas>
+        </div>
+        <div class="wallet-actions">
+            <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">System Upgrade</button>
+            <button class="wallet-action-btn" id="walletTopupBtn" onclick="closeWalletScreen();setTimeout(()=>openPaymentModal(),420);">Top up balance</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

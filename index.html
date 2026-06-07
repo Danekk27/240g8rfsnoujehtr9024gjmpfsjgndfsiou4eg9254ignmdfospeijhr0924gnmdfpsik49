@@ -852,8 +852,8 @@
         @keyframes olDown{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
         .online-lbl{font-size:10px;font-weight:600;color:rgba(34,197,94,.65);letter-spacing:.3px;text-transform:uppercase;}
         /* ── WELCOME MODAL ── */
-        #welcomeModal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .3s;}
-        #welcomeModal.open{opacity:1;}
+        #welcomeModal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;}
+        #welcomeModal.open{opacity:1;pointer-events:auto;}
         #welcomeModalCard{background:var(--card-bg);border-radius:26px;padding:26px 22px 22px;border:1px solid var(--glow-shadow);max-width:330px;width:100%;position:relative;overflow:hidden;transform:scale(.9) translateY(30px);transition:transform .38s cubic-bezier(.22,1,.36,1);}
         #welcomeModal.open #welcomeModalCard{transform:scale(1) translateY(0);}
         #welcomeModalCard::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-tint),transparent 60%);pointer-events:none;}
@@ -900,6 +900,8 @@
     </div>
 
 <script>(function(){
+    try{var _m=JSON.parse(localStorage.getItem('aiMemory')||'{}')}catch(e){var _m={};}
+    if(_m.welcomed){var _ws=document.getElementById('welcomeScreen');if(_ws)_ws.style.display='none';}
     var btn=document.getElementById('welcomeBtn');
     if(btn)btn.onclick=function(){
         var ws=document.getElementById('welcomeScreen');

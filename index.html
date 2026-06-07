@@ -866,6 +866,15 @@
 <!-- ══════════════════════════════════════════
      WELCOME SCREEN
 ══════════════════════════════════════════ -->
+<script>
+function dismissWelcome(){
+    var ws=document.getElementById("welcomeScreen");
+    if(ws){ws.style.transition="opacity .5s";ws.style.opacity="0";setTimeout(function(){ws.style.display="none";ws.style.opacity="";ws.style.transition="";},520);}
+    try{if(window._wcCancelAnim)window._wcCancelAnim();}catch(e){}
+    try{window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");}catch(e){}
+}
+try{if((JSON.parse(localStorage.getItem("aiMemory")||"{}")||{}).welcomed){document.addEventListener("DOMContentLoaded",function(){var ws=document.getElementById("welcomeScreen");if(ws)ws.style.display="none";});}}catch(e){}
+</script>
 <div id="welcomeScreen">
     <canvas id="welcomeCanvas"></canvas>
     <div class="wc-fade-top"></div>
@@ -891,27 +900,14 @@
             Personal AI assistant that does it all: creates and edits photos, answers questions, helps with tasks.
         </div>
 
-        <button class="wc-btn" id="welcomeBtn">Start</button>
+        <button class="wc-btn" id="welcomeBtn" onclick="dismissWelcome()" ontouchend="dismissWelcome()">Start</button>
 
         <div class="wc-legal">
             By clicking «Start», you accept the<br>
             <a onclick="openTerms();return false;" style="cursor:pointer;">Terms of Service</a>, confirm you are 18+.<br>For personal use only.
         </div>
     </div>
-
-<script>(function(){
-    try{var _m=JSON.parse(localStorage.getItem('aiMemory')||'{}')}catch(e){var _m={};}
-    if(_m.welcomed){var _ws=document.getElementById('welcomeScreen');if(_ws)_ws.style.display='none';}
-    var btn=document.getElementById('welcomeBtn');
-    if(btn)btn.onclick=function(){
-        var ws=document.getElementById('welcomeScreen');
-        if(!ws)return;
-        ws.classList.add('hiding');
-        try{window._wcCancelAnim&&window._wcCancelAnim();}catch(e){}
-        setTimeout(function(){ws.style.display='none';},700);
-        try{window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');}catch(e){}
-    };
-})();</script></div>
+</div>
 
 <!-- ══════════════════════════════════════════
      MAIN APP

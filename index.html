@@ -901,7 +901,7 @@
             Personal AI assistant that does it all: creates and edits photos, answers questions, helps with tasks.
         </div>
 
-        <button class="wc-btn" id="welcomeBtn">Start</button>
+        <button class="wc-btn" id="welcomeBtn" onclick="startApp()">Start</button>
 
         <div class="wc-legal">
             By clicking «Start», you accept the<br>
@@ -1615,15 +1615,19 @@ function getTermsLocale(countryCode) {
 
     start();
 
-    document.getElementById('welcomeBtn').addEventListener('click', function(){
-        const ws = document.getElementById('welcomeScreen');
-        ws.classList.add('hiding');
-        cancelAnimationFrame(animId);
-        setTimeout(()=>{ ws.style.display='none'; }, 700);
-        try{ window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('medium'); }catch(e){}
-    });
+    window._welcomeAnimId = animId;
+    window._wcCancelAnim = function(){ try{ cancelAnimationFrame(animId); }catch(e){} };
 
 })();
+
+function startApp(){
+    var ws=document.getElementById('welcomeScreen');
+    if(!ws)return;
+    ws.classList.add('hiding');
+    if(window._wcCancelAnim)window._wcCancelAnim();
+    setTimeout(function(){ws.style.display='none';},700);
+    try{window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');}catch(e){}
+}
 
 // ── TRANSLATIONS ──
 const translations = {

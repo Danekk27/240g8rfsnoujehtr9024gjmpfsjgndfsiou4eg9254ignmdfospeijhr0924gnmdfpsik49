@@ -547,6 +547,37 @@
         .tab-content { display:none; padding:0 16px 20px; animation:fadeInUp 0.35s ease both; }
         .tab-content.active { display:block; }
         .section-title { font-size:24px; font-weight:700; margin:10px 0 16px 4px; font-family:'Syne',sans-serif; }
+        .section-title-row { display:flex; align-items:center; justify-content:space-between; margin:10px 0 16px 4px; }
+        .section-title-row .section-title { margin:0; }
+        .btn-new-chat { display:flex; align-items:center; gap:6px; padding:7px 13px; border-radius:10px; border:1px solid var(--glow-shadow); background:var(--accent-tint); color:rgba(255,255,255,0.8); font-family:'Syne',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:opacity .2s,transform .15s; flex-shrink:0; }
+        .btn-new-chat:active { opacity:.7; transform:scale(.96); }
+        .btn-new-chat svg { flex-shrink:0; }
+
+        /* Library items */
+        .library-list { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+        .library-chat-item { background:var(--card-bg); border-radius:16px; padding:14px 16px; border:1px solid var(--glow-shadow); display:flex; align-items:center; gap:12px; }
+        .library-chat-info { flex:1; min-width:0; }
+        .library-chat-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:4px; }
+        .library-chat-date { font-size:11px; color:rgba(255,255,255,0.38); }
+        .library-chat-del { width:34px; height:34px; border-radius:9px; border:1px solid rgba(255,80,80,0.22); background:rgba(255,80,80,0.07); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; transition:background .2s; }
+        .library-chat-del:active { background:rgba(255,80,80,0.2); }
+        .library-empty { text-align:center; padding:40px 20px; }
+        .library-empty-icon { filter:drop-shadow(0 0 10px var(--glow-color-1)); margin-bottom:14px; }
+        .library-empty-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:#fff; margin-bottom:6px; }
+        .library-empty-sub { font-size:13px; color:rgba(255,255,255,0.35); }
+        .library-clear-btn { width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,80,80,0.28); background:rgba(255,80,80,0.07); color:rgba(255,110,110,0.85); font-family:'Syne',sans-serif; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px; transition:background .2s; display:none; }
+        .library-clear-btn:active { background:rgba(255,80,80,0.17); }
+
+        /* Confirm modal */
+        .confirm-overlay { position:fixed; inset:0; z-index:9500; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; pointer-events:none; transition:opacity .2s; }
+        .confirm-overlay.open { opacity:1; pointer-events:auto; }
+        .confirm-modal { background:var(--card-bg); border-radius:20px; border:1px solid var(--glow-shadow); padding:28px 24px 22px; width:100%; max-width:300px; }
+        .confirm-title { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; color:#fff; margin-bottom:8px; }
+        .confirm-text { font-size:13px; color:rgba(255,255,255,0.48); margin-bottom:24px; line-height:1.55; }
+        .confirm-btns { display:flex; gap:10px; }
+        .confirm-btn-yes { flex:1; padding:13px; border-radius:12px; background:rgba(255,80,80,0.15); border:1px solid rgba(255,80,80,0.32); color:rgba(255,110,110,0.9); font-family:'Syne',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:background .2s; }
+        .confirm-btn-yes:active { background:rgba(255,80,80,0.28); }
+        .confirm-btn-no { flex:1; padding:13px; border-radius:12px; background:var(--accent-tint); border:1px solid var(--glow-shadow); color:rgba(255,255,255,0.8); font-family:'Syne',sans-serif; font-size:14px; font-weight:600; cursor:pointer; }
         .main-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:20px; margin-bottom:16px; transition:background-color 0.3s,border-color 0.3s; position:relative; }
 
         .mode-toggle { display:flex; gap:8px; margin-bottom:10px; padding:0 2px; }
@@ -773,6 +804,39 @@
         .pay-plan-lite .pay-plan-name { color:var(--lite-glow-2); }
         .pay-plan-plus { border-color:rgba(93,240,201,0.3); }
         .pay-plan-plus .pay-plan-name { color:var(--plus-glow-2); }
+
+        /* Orientation lock overlay */
+        #orientationOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #0a0a0f;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+        #orientationOverlay.show { display: flex; }
+        #orientationOverlay svg {
+            animation: rotateHint 1.6s ease-in-out infinite;
+        }
+        @keyframes rotateHint {
+            0%   { transform: rotate(0deg); }
+            40%  { transform: rotate(-90deg); }
+            60%  { transform: rotate(-90deg); }
+            100% { transform: rotate(0deg); }
+        }
+        #orientationOverlay p {
+            margin: 0;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.75);
+            text-align: center;
+            max-width: 220px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -923,7 +987,13 @@
 
         <!-- MAIN -->
         <div id="tab-main" class="tab-content active">
-            <div class="section-title" data-i18n="navMain">Main</div>
+            <div class="section-title-row">
+                <div class="section-title" data-i18n="navMain">Main</div>
+                <button class="btn-new-chat" onclick="newChat()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span data-i18n="newChat">New chat</span>
+                </button>
+            </div>
             <div id="chatHistory"></div>
             <div id="aiOutputBox" style="display:none !important;"></div>
         </div>
@@ -1118,16 +1188,18 @@
         <!-- LIBRARY -->
         <div id="tab-library" class="tab-content">
             <div class="section-title" data-i18n="navLibrary">Library</div>
-            <div class="daily-bonus-card" style="text-align:center;padding:40px 20px;">
-                <div style="font-size:40px;margin-bottom:14px;filter:drop-shadow(0 0 10px var(--glow-color-1));">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="url(#libGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <div id="libraryList" class="library-list"></div>
+            <div id="libraryEmpty" class="library-empty">
+                <div class="library-empty-icon">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <defs><linearGradient id="libGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--glow-color-1)"/><stop offset="100%" stop-color="var(--glow-color-2)"/></linearGradient></defs>
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="url(#libGrad)"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="url(#libGrad)"/>
                     </svg>
                 </div>
-                <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;" data-i18n="navLibrary">Library</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.38);">Coming soon...</div>
+                <div class="library-empty-title" data-i18n="libraryEmptyTitle">No chats yet</div>
+                <div class="library-empty-sub" data-i18n="libraryEmptySub">Start a new chat and it will appear here</div>
             </div>
+            <button id="libraryClearBtn" class="library-clear-btn" onclick="clearLibrary()" data-i18n="libraryClear">Clear history</button>
         </div>
 
         <!-- FAVORITES -->
@@ -1523,11 +1595,11 @@ function getTermsLocale(countryCode) {
 
 // ── TRANSLATIONS ──
 const translations = {
-    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",yourPlan:"Your plan",planActive:"Active",planExpired:"Expired",planDetails:"Details",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",topupSelectTitle:"Select amount",navLibrary:"Library",navFavorites:"Favorites",dailyBonusTitle:"Daily Bonus",dailyBonusSubtitle:"Come back every day!",dailyBonusClaim:"Collect",dailyBonusClaimed:"Received",dailyBonusNextLabel:"Next bonus in",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:"},
-    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",planDetails:"Подробнее",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",topupSelectTitle:"Выберите количество",navLibrary:"Библиотека",navFavorites:"Избранное",dailyBonusTitle:"Ежедневный бонус",dailyBonusSubtitle:"Заходите каждый день!",dailyBonusClaim:"Забрать",dailyBonusClaimed:"Получено",dailyBonusNextLabel:"Следующий бонус через",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:"},
-    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",yourPlan:"現在のプラン",planActive:"有効",planExpired:"期限切れ",planDetails:"詳細",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",topupSelectTitle:"数量を選択",navLibrary:"ライブラリ",navFavorites:"お気に入り",dailyBonusTitle:"デイリーボーナス",dailyBonusSubtitle:"毎日チェックしよう！",dailyBonusClaim:"受け取る",dailyBonusClaimed:"受取済",dailyBonusNextLabel:"次のボーナスまで",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:"},
-    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",yourPlan:"当前套餐",planActive:"有效",planExpired:"已过期",planDetails:"详情",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",topupSelectTitle:"选择数量",navLibrary:"库",navFavorites:"收藏",dailyBonusTitle:"每日奖励",dailyBonusSubtitle:"每天来领取！",dailyBonusClaim:"领取",dailyBonusClaimed:"已领取",dailyBonusNextLabel:"下次奖励",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:"},
-    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:"}
+    en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",yourPlan:"Your plan",planActive:"Active",planExpired:"Expired",planDetails:"Details",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",topupSelectTitle:"Select amount",navLibrary:"Library",navFavorites:"Favorites",dailyBonusTitle:"Daily Bonus",dailyBonusSubtitle:"Come back every day!",dailyBonusClaim:"Collect",dailyBonusClaimed:"Received",dailyBonusNextLabel:"Next bonus in",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:",newChat:"New chat",libraryEmptyTitle:"No chats yet",libraryEmptySub:"Start a new chat and it will appear here",libraryClear:"Clear history",confirmYes:"Yes",confirmNo:"No",confirmDeleteTitle:"Delete chat?",confirmDeleteText:"This action cannot be undone.",confirmClearTitle:"Clear history?",confirmClearText:"All chats will be deleted."},
+    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",planDetails:"Подробнее",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",topupSelectTitle:"Выберите количество",navLibrary:"Библиотека",navFavorites:"Избранное",dailyBonusTitle:"Ежедневный бонус",dailyBonusSubtitle:"Заходите каждый день!",dailyBonusClaim:"Забрать",dailyBonusClaimed:"Получено",dailyBonusNextLabel:"Следующий бонус через",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:",newChat:"Новый чат",libraryEmptyTitle:"Нет чатов",libraryEmptySub:"Начните новый чат, и он появится здесь",libraryClear:"Очистить историю",confirmYes:"Да",confirmNo:"Нет",confirmDeleteTitle:"Удалить чат?",confirmDeleteText:"Это действие нельзя отменить.",confirmClearTitle:"Очистить историю?",confirmClearText:"Все чаты будут удалены."},
+    ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",yourPlan:"現在のプラン",planActive:"有効",planExpired:"期限切れ",planDetails:"詳細",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",topupSelectTitle:"数量を選択",navLibrary:"ライブラリ",navFavorites:"お気に入り",dailyBonusTitle:"デイリーボーナス",dailyBonusSubtitle:"毎日チェックしよう！",dailyBonusClaim:"受け取る",dailyBonusClaimed:"受取済",dailyBonusNextLabel:"次のボーナスまで",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:",newChat:"新しいチャット",libraryEmptyTitle:"チャットなし",libraryEmptySub:"新しいチャットを始めるとここに表示されます",libraryClear:"履歴を消去",confirmYes:"はい",confirmNo:"いいえ",confirmDeleteTitle:"削除しますか？",confirmDeleteText:"この操作は元に戻せません。",confirmClearTitle:"履歴を消去しますか？",confirmClearText:"すべてのチャットが削除されます。"},
+    zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",yourPlan:"当前套餐",planActive:"有效",planExpired:"已过期",planDetails:"详情",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",topupSelectTitle:"选择数量",navLibrary:"库",navFavorites:"收藏",dailyBonusTitle:"每日奖励",dailyBonusSubtitle:"每天来领取！",dailyBonusClaim:"领取",dailyBonusClaimed:"已领取",dailyBonusNextLabel:"下次奖励",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:",newChat:"新聊天",libraryEmptyTitle:"暂无聊天",libraryEmptySub:"开始新聊天，它将显示在这里",libraryClear:"清除历史",confirmYes:"是",confirmNo:"否",confirmDeleteTitle:"删除聊天？",confirmDeleteText:"此操作无法撤销。",confirmClearTitle:"清除历史？",confirmClearText:"所有聊天将被删除。"},
+    uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені."}
 };
 
 var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create';
@@ -1545,7 +1617,7 @@ function playClickSound(){if(!isSoundEnabled)return;initAudio();if(audioCtx.stat
 document.addEventListener('click',e=>{if(e.target.closest('button,.merged-wallet-btn,.nav-item,label.switch'))playClickSound();});
 function toggleSound(cb){isSoundEnabled=cb.checked;const l=document.getElementById('soundStateLabel');if(l)l.textContent=cb.checked?'On':'Off';}
 
-function switchTab(tabId,btn){haptic('light');if(tabId==='tab-shop')setTimeout(initDailyBonus,50);document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));const tab=document.getElementById(tabId);if(tab)tab.classList.add('active');if(btn)btn.classList.add('active');const bc=document.getElementById('bottomControls');if(bc)bc.style.display=(tabId==='tab-main')?'block':'none';currentTabId=tabId;const mc=document.getElementById('mainContent');if(mc)mc.scrollTop=0;updateParticlesVisibility(tabId);}
+function switchTab(tabId,btn){haptic('light');if(tabId==='tab-shop')setTimeout(initDailyBonus,50);if(tabId==='tab-library')setTimeout(renderLibrary,50);document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));const tab=document.getElementById(tabId);if(tab)tab.classList.add('active');if(btn)btn.classList.add('active');const bc=document.getElementById('bottomControls');if(bc)bc.style.display=(tabId==='tab-main')?'block':'none';currentTabId=tabId;const mc=document.getElementById('mainContent');if(mc)mc.scrollTop=0;updateParticlesVisibility(tabId);}
 
 function updateLanguageUI(){document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n'),t=translations[currentLang];if(t&&t[k]){if(el.tagName==='INPUT'&&el.type==='text')el.placeholder=t[k];else el.innerText=t[k];}});}
 const COUNTRY_LANG_MAP = {
@@ -1704,6 +1776,106 @@ function saveMemory(k,v){aiMemory[k]=v;try{localStorage.setItem('aiMemory',JSON.
 
 function showTypingBubble(){const hist=document.getElementById('chatHistory');if(!hist||document.getElementById('aiTypingBubble'))return;const container=document.createElement('div');container.id='aiTypingBubble';container.className='msg-container';const bubble=document.createElement('div');bubble.className='msg-ai';const dots=document.createElement('div');dots.className='typing-dots';dots.innerHTML='<span></span><span></span><span></span>';bubble.appendChild(dots);container.appendChild(bubble);hist.appendChild(container);setTimeout(()=>{hist.scrollTop=hist.scrollHeight;},50);}
 function hideTypingBubble(){const e=document.getElementById('aiTypingBubble');if(e)e.remove();}
+
+/* ── Chat Library ── */
+function _loadChatLib(){try{return JSON.parse(localStorage.getItem('chatLibrary')||'[]');}catch(e){return[];}}
+function _saveChatLib(lib){try{localStorage.setItem('chatLibrary',JSON.stringify(lib));}catch(e){}}
+
+function _escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function _addChatToLib(){
+    const hist=document.getElementById('chatHistory');
+    if(!hist)return;
+    const userBubbles=hist.querySelectorAll('.msg-user');
+    if(!userBubbles.length)return;
+    const firstText=(userBubbles[0].querySelector('div')||userBubbles[0]).textContent.trim();
+    if(!firstText)return;
+    const title=firstText.length>60?firstText.substring(0,57)+'…':firstText;
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const date=pad(now.getDate())+'.'+pad(now.getMonth()+1)+'.'+now.getFullYear();
+    const lib=_loadChatLib();
+    lib.unshift({id:Date.now(),title,date});
+    _saveChatLib(lib);
+}
+
+function renderLibrary(){
+    const lib=_loadChatLib();
+    const list=document.getElementById('libraryList');
+    const empty=document.getElementById('libraryEmpty');
+    const clearBtn=document.getElementById('libraryClearBtn');
+    if(!list)return;
+    list.innerHTML='';
+    const t=translations[currentLang]||translations.en;
+    if(lib.length===0){
+        if(empty)empty.style.display='block';
+        if(clearBtn)clearBtn.style.display='none';
+        return;
+    }
+    if(empty)empty.style.display='none';
+    if(clearBtn)clearBtn.style.display='block';
+    lib.forEach(function(chat){
+        const item=document.createElement('div');
+        item.className='library-chat-item';
+        item.innerHTML='<div class="library-chat-info"><div class="library-chat-title">'+_escHtml(chat.title)+'</div><div class="library-chat-date">'+_escHtml(chat.date)+'</div></div>'
+            +'<button class="library-chat-del" onclick="deleteChatItem('+chat.id+')" aria-label="delete">'
+            +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,110,110,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+            +'<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>'
+            +'<path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>';
+        list.appendChild(item);
+    });
+}
+
+var _confirmCb=null;
+function showConfirm(titleKey,textKey,cb){
+    const t=translations[currentLang]||translations.en;
+    const titleEl=document.getElementById('confirmTitle');
+    const textEl=document.getElementById('confirmText');
+    const yesBtn=document.getElementById('confirmYesBtn');
+    const noBtn=document.getElementById('confirmNoBtn');
+    if(titleEl)titleEl.textContent=t[titleKey]||titleKey;
+    if(textEl)textEl.textContent=t[textKey]||textKey;
+    if(yesBtn)yesBtn.textContent=t.confirmYes||'Да';
+    if(noBtn)noBtn.textContent=t.confirmNo||'Нет';
+    _confirmCb=cb;
+    haptic('light');
+    document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('open');_confirmCb=null;}
+function confirmYes(){const cb=_confirmCb;closeConfirm();if(cb){haptic('medium');cb();}}
+
+function deleteChatItem(id){
+    showConfirm('confirmDeleteTitle','confirmDeleteText',function(){
+        let lib=_loadChatLib();
+        lib=lib.filter(function(c){return c.id!==id;});
+        _saveChatLib(lib);
+        renderLibrary();
+    });
+}
+
+function clearLibrary(){
+    showConfirm('confirmClearTitle','confirmClearText',function(){
+        _saveChatLib([]);
+        renderLibrary();
+    });
+}
+
+function newChat(){
+    haptic('medium');
+    const hist=document.getElementById('chatHistory');
+    if(!hist)return;
+    _addChatToLib();
+    hist.style.transition='opacity .2s';
+    hist.style.opacity='0';
+    setTimeout(function(){
+        hist.innerHTML='';
+        hist.style.opacity='1';
+        const p=document.getElementById('textPrompt');
+        if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}
+        clearPreview&&clearPreview();
+        document.getElementById('mainContent').scrollTop=0;
+    },200);
+}
 
 function appendMessage(role,text,photoSrc){const hist=document.getElementById('chatHistory');if(!hist)return;const container=document.createElement('div');container.className='msg-container';const bubble=document.createElement('div');bubble.className=role==='user'?'msg-user':'msg-ai';if(photoSrc){const img=document.createElement('img');img.src=photoSrc;img.className='msg-photo';bubble.appendChild(img);}if(text){const txtNode=document.createElement('div');txtNode.textContent=text;bubble.appendChild(txtNode);}container.appendChild(bubble);hist.appendChild(container);setTimeout(()=>{document.getElementById('mainContent').scrollTop=document.getElementById('mainContent').scrollHeight;},50);}
 
@@ -2262,5 +2434,55 @@ function openTgProfile(){
     </div>
 </div>
 
+<!-- Confirm dialog -->
+<div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-modal">
+        <div class="confirm-title" id="confirmTitle">Вы уверены?</div>
+        <div class="confirm-text" id="confirmText">Это действие нельзя отменить.</div>
+        <div class="confirm-btns">
+            <button class="confirm-btn-yes" id="confirmYesBtn" onclick="confirmYes()">Да</button>
+            <button class="confirm-btn-no" id="confirmNoBtn" onclick="closeConfirm()">Нет</button>
+        </div>
+    </div>
+</div>
+
+<!-- Orientation lock -->
+<div id="orientationOverlay">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2"/>
+        <path d="M9 21h6"/>
+        <circle cx="12" cy="17.5" r="0.5" fill="rgba(255,255,255,0.6)" stroke="none"/>
+    </svg>
+    <p id="orientationText">Пожалуйста, поверните устройство</p>
+</div>
+
+<script>
+(function(){
+    var msgs = {
+        en: 'Please rotate your device',
+        ru: 'Пожалуйста, поверните устройство',
+        ja: 'デバイスを縦向きにしてください',
+        zh: '请将设备竖向放置',
+        uk: 'Будь ласка, поверніть пристрій'
+    };
+    function checkOrientation(){
+        var isLandscape = window.innerWidth > window.innerHeight;
+        var overlay = document.getElementById('orientationOverlay');
+        var txt = document.getElementById('orientationText');
+        if(!overlay) return;
+        if(isLandscape){
+            var lang = (typeof currentLang !== 'undefined' && msgs[currentLang]) ? currentLang : 'ru';
+            if(txt) txt.textContent = msgs[lang] || msgs.ru;
+            overlay.classList.add('show');
+        } else {
+            overlay.classList.remove('show');
+        }
+    }
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', function(){ setTimeout(checkOrientation, 100); });
+    window.addEventListener('load', checkOrientation);
+    checkOrientation();
+})();
+</script>
 </body>
 </html>

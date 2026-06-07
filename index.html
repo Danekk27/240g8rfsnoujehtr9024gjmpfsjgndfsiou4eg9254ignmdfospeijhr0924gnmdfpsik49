@@ -1618,8 +1618,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Ваш ШІ-асистент для створення та редагування зображень.",welcomeGems:"стартових діамантів",welcomeTip1:"Створюйте зображення за допомогою ШІ",welcomeTip2:"Редагуйте фото в один клік",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс прив'язаний до вашого Telegram-акаунта",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені."}
 };
 
-const GEMINI_KEY='AQ.Ab8RN6LfDfcxXl_zaVxP87N2IO4azVsGBsOwgpG41y9X4K_dDw';
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,_geminiHistory=[];
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 
@@ -1939,7 +1938,7 @@ function newChat(){
     if(!hist)return;
     _chatSaved=false;
     _currentChatId=null;
-    _geminiHistory=[];
+    
 
     const containers=Array.from(hist.querySelectorAll('.msg-container'));
     if(!containers.length){
@@ -2068,96 +2067,8 @@ function toggleFavoriteImg(src,btn){
     }
 }
 
-async function callGemini(){
-    const hist=document.getElementById('chatHistory');
-    if(!hist)return;
-    try{
-        const res=await fetch(
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?key='+GEMINI_KEY+'&alt=sse',
-            {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    system_instruction:{parts:[{text:'You are CynovaAI — a smart, creative and friendly AI assistant built into a Telegram app. Answer concisely and helpfully. Support all languages.'}]},
-                    contents:_geminiHistory,
-                    generationConfig:{temperature:1.0,maxOutputTokens:8192,topP:0.95}
-                })
-            }
-        );
-        hideTypingBubble();
-        if(!res.ok){const err=await res.json();appendMessage('ai','⚠️ '+(err.error?err.error.message:'API error'),null);return;}
-        const container=document.createElement('div');
-        container.className='msg-container';
-        const bubble=document.createElement('div');
-        bubble.className='msg-ai';
-        const textDiv=document.createElement('div');
-        bubble.appendChild(textDiv);
-        container.appendChild(bubble);
-        hist.appendChild(container);
-        const reader=res.body.getReader();
-        const decoder=new TextDecoder();
-        let fullText='',buf='';
-        while(true){
-            const{done,value}=await reader.read();
-            if(done)break;
-            buf+=decoder.decode(value,{stream:true});
-            const lines=buf.split('
-');
-            buf=lines.pop();
-            for(const line of lines){
-                if(!line.startsWith('data: '))continue;
-                const json=line.slice(6).trim();
-                if(!json||json==='[DONE]')continue;
-                try{
-                    const d=JSON.parse(json);
-                    const chunk=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
-                    if(chunk){fullText+=chunk;textDiv.textContent=fullText;}
-                    const mc=document.getElementById('mainContent');
-                    if(mc)mc.scrollTop=mc.scrollHeight;
-                }catch(e){}
-            }
-        }
-        if(fullText){
-            _geminiHistory.push({role:'model',parts:[{text:fullText}]});
-            if(_chatSaved&&_currentChatId)_updateChatInLib();
-        } else if(!fullText){
-            bubble.remove();container.remove();
-        }
-    }catch(e){
-        hideTypingBubble();
-        appendMessage('ai','⚠️ '+e.message,null);
-    }
-}
-function processAction(){
-    const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),
-          txt=p?p.value.trim():'',
-          hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));
-    if(!txt&&!hasImg)return;
-    const isImgTask=hasImg||(currentMode==='edit');
-    if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима «Изменить»',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото для режиму «Змінити»'};alert(msgs[currentLang]||msgs.en);return;}}
-    if(isImgTask){
-        const bal=aiMemory.diamonds||0;
-        if(bal<25){
-            haptic('rigid');
-            const t=translations[currentLang]||translations.en;
-            appendMessage('ai','💎 '+(t.notEnoughDiamonds||'Not enough diamonds')+' (need 25, have '+bal+')',null);
-            return;
-        }
-        addDiamonds(-25);
-    }
-    haptic('medium');
-    appendMessage('user',txt,hasImg?pi.src:null);
-    if(!_chatSaved){_chatSaved=true;_addChatToLib();}
-    if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}
-    const parts=[];
-    if(hasImg){const b64=pi.src.split(',')[1],mime=pi.src.split(';')[0].split(':')[1]||'image/jpeg';parts.push({inline_data:{mime_type:mime,data:b64}});}
-    if(txt)parts.push({text:txt});
-    if(!txt&&hasImg)parts.push({text:'Describe this image'});
-    _geminiHistory.push({role:'user',parts:parts});
-    if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}
-    clearPreview();
-    callGemini();
-}
+function callMockAI(isImg){var delay=isImg?3200:(1200+Math.random()*600);setTimeout(function(){hideTypingBubble();var t=translations[currentLang]||translations.en;if(isImg){appendMessage('ai','🎨 '+(t.creatingImage||'Creating image...')+' — AI не подключён',null);}else{appendMessage('ai','👋 CynovaAI — демо режим',null);}if(_chatSaved&&_currentChatId)_updateChatInLib();},delay);}
+function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}if(isImgTask){const bal=aiMemory.diamonds||0;if(bal<25){haptic('rigid');const t=translations[currentLang]||translations.en;appendMessage('ai','💎 '+(t.notEnoughDiamonds||'Not enough diamonds')+' (need 25, have '+bal+')',null);return;}addDiamonds(-25);}haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
 
 function openVoiceModal(){haptic('medium');const m=document.getElementById('voiceModal');if(m)m.style.display='flex';const t=document.getElementById('voiceTranscript');if(t)t.textContent='';const s=document.getElementById('voiceStatus');if(s)s.textContent='Listening...';const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){if(s)s.textContent='Not supported';return;}recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.lang=currentLang==='ru'?'ru-RU':currentLang==='ja'?'ja-JP':currentLang==='zh'?'zh-CN':currentLang==='uk'?'uk-UA':'en-US';recognition.onresult=e=>{let txt='';for(let i=0;i<e.results.length;i++)txt+=e.results[i][0].transcript;const t=document.getElementById('voiceTranscript');if(t)t.textContent=txt;};recognition.start();}
 function stopVoice(){if(recognition)recognition.stop();const m=document.getElementById('voiceModal');if(m)m.style.display='none';const t=document.getElementById('voiceTranscript');if(t&&t.textContent){const p=document.getElementById('textPrompt');if(p)p.value=t.textContent;}}

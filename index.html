@@ -837,38 +837,7 @@
         .pay-plan-plus { border-color:rgba(93,240,201,0.3); }
         .pay-plan-plus .pay-plan-name { color:var(--plus-glow-2); }
 
-        /* Orientation lock overlay */
-        #orientationOverlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            background: #0a0a0f;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-        }
-        #orientationOverlay.show { display: flex; }
-        #orientationOverlay svg {
-            animation: rotateHint 1.6s ease-in-out infinite;
-        }
-        @keyframes rotateHint {
-            0%   { transform: rotate(0deg); }
-            40%  { transform: rotate(-90deg); }
-            60%  { transform: rotate(-90deg); }
-            100% { transform: rotate(0deg); }
-        }
-        #orientationOverlay p {
-            margin: 0;
-            font-family: 'Syne', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.75);
-            text-align: center;
-            max-width: 220px;
-            line-height: 1.5;
-        }
+
     </style>
 </head>
 <body>
@@ -901,14 +870,25 @@
             Personal AI assistant that does it all: creates and edits photos, answers questions, helps with tasks.
         </div>
 
-        <button class="wc-btn" id="welcomeBtn" onclick="startApp()">Start</button>
+        <button class="wc-btn" id="welcomeBtn">Start</button>
 
         <div class="wc-legal">
             By clicking «Start», you accept the<br>
             <a onclick="openTerms();return false;" style="cursor:pointer;">Terms of Service</a>, confirm you are 18+.<br>For personal use only.
         </div>
     </div>
-</div>
+
+<script>(function(){
+    var btn=document.getElementById('welcomeBtn');
+    if(btn)btn.onclick=function(){
+        var ws=document.getElementById('welcomeScreen');
+        if(!ws)return;
+        ws.classList.add('hiding');
+        try{window._wcCancelAnim&&window._wcCancelAnim();}catch(e){}
+        setTimeout(function(){ws.style.display='none';},700);
+        try{window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');}catch(e){}
+    };
+})();</script></div>
 
 <!-- ══════════════════════════════════════════
      MAIN APP
@@ -2801,43 +2781,5 @@ function showWelcomeMessage(){
     </div>
 </div>
 
-<!-- Orientation lock -->
-<div id="orientationOverlay">
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2"/>
-        <path d="M9 21h6"/>
-        <circle cx="12" cy="17.5" r="0.5" fill="rgba(255,255,255,0.6)" stroke="none"/>
-    </svg>
-    <p id="orientationText">Пожалуйста, поверните устройство</p>
-</div>
-
-<script>
-(function(){
-    var msgs = {
-        en: 'Please rotate your device',
-        ru: 'Пожалуйста, поверните устройство',
-        ja: 'デバイスを縦向きにしてください',
-        zh: '请将设备竖向放置',
-        uk: 'Будь ласка, поверніть пристрій'
-    };
-    function checkOrientation(){
-        var isLandscape = window.innerWidth > window.innerHeight;
-        var overlay = document.getElementById('orientationOverlay');
-        var txt = document.getElementById('orientationText');
-        if(!overlay) return;
-        if(isLandscape){
-            var lang = (typeof currentLang !== 'undefined' && msgs[currentLang]) ? currentLang : 'ru';
-            if(txt) txt.textContent = msgs[lang] || msgs.ru;
-            overlay.classList.add('show');
-        } else {
-            overlay.classList.remove('show');
-        }
-    }
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', function(){ setTimeout(checkOrientation, 100); });
-    window.addEventListener('load', checkOrientation);
-    checkOrientation();
-})();
-</script>
 </body>
 </html>

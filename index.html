@@ -738,10 +738,9 @@
         .daily-bonus-btn{width:100%;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:white;border:none;padding:13px;border-radius:13px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 14px var(--accent-shadow);transition:opacity .3s,transform .2s,background .4s,color .3s,box-shadow .3s;}
         .daily-bonus-btn:active{transform:scale(.96);}
         .daily-bonus-btn.claimed{background:rgba(255,255,255,0.07)!important;animation:none!important;box-shadow:none!important;cursor:default;color:rgba(255,255,255,0.35)!important;-webkit-text-fill-color:rgba(255,255,255,0.35)!important;}
-        .daily-bonus-next{margin-top:14px;border:1px solid var(--glow-shadow);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;gap:5px;overflow:hidden;max-height:42px;padding:11px 16px;transition:max-height .5s cubic-bezier(.22,1,.36,1);}
-        .daily-bonus-next.visible{max-height:90px;}
-        .daily-bonus-next-label{font-size:11px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;transition:color .35s ease;}
-        .daily-bonus-next.visible .daily-bonus-next-label{color:rgba(255,255,255,0.32);}
+        .daily-bonus-next{border:1px solid transparent;border-radius:14px;background:transparent;display:flex;flex-direction:column;align-items:center;gap:5px;overflow:hidden;max-height:0;padding:0 16px;margin-top:0;transition:max-height .5s cubic-bezier(.22,1,.36,1),padding .5s cubic-bezier(.22,1,.36,1),margin-top .5s cubic-bezier(.22,1,.36,1),border-color .4s ease,background .4s ease;}
+        .daily-bonus-next.visible{max-height:90px;padding:11px 16px;margin-top:14px;border-color:var(--glow-shadow);background:rgba(255,255,255,0.03);}
+        .daily-bonus-next-label{font-size:11px;color:rgba(255,255,255,0.32);text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
         .daily-bonus-timer{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;font-variant-numeric:tabular-nums;opacity:0;transform:translateY(8px);transition:opacity .35s ease .18s,transform .35s ease .18s;}
         .daily-bonus-next.visible .daily-bonus-timer{opacity:1;transform:translateY(0);}
 

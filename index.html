@@ -600,7 +600,8 @@
         }
         .chat-preview-container { display:none; position:relative; width:54px; height:54px; margin-bottom:10px; }
         .chat-preview-img { width:100%; height:100%; object-fit:cover; border-radius:12px; }
-        .chat-clear-btn { position:absolute; top:-7px; right:-7px; background:rgba(0,0,0,0.75); border:1.5px solid rgba(255,255,255,0.18); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10; transition:transform .15s,background .15s; backdrop-filter:blur(4px); }
+        .chat-clear-btn { position:absolute; top:-7px; right:-7px; background:rgba(0,0,0,0.75); border:1.5px solid rgba(255,255,255,0.18); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10; opacity:0; transition:transform .15s,background .15s,opacity .18s; backdrop-filter:blur(4px); }
+        .chat-preview-container:hover .chat-clear-btn { opacity:1; }
         .chat-clear-btn:active { transform:scale(.85); background:rgba(0,0,0,0.9); }
         .chat-clear-btn svg { display:block; }
         .chat-row { display:flex; align-items:center; gap:10px; }
@@ -2453,12 +2454,7 @@ function syncDiamondsFromCloud(callback){
 // ── WALLET SCREEN ──
 function openWalletAndTopup(){
     openWalletScreen();
-    setTimeout(function(){
-        var m=document.getElementById('paymentModal');
-        if(m)m.style.display='flex';
-        payChoose('topup');
-        haptic('light');
-    },380);
+    setTimeout(openWalletTopup, 420);
 }
 function openWalletScreen(){
     haptic('light');
@@ -2507,8 +2503,15 @@ function closeWalletTopup(){
 function wtChooseAmount(n){
     haptic('light');
     _wtAmount=n;
-    const lbl=document.getElementById('wtAmountLabel');
-    if(lbl)lbl.textContent='+'+n.toLocaleString('en')+' 💎';
+    const t=translations[currentLang]||translations.en;
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    set('wtAmountLabel','+'+n.toLocaleString('en')+' 💎');
+    set('wtDepositTitle',t.payDepositTitle||'Deposit');
+    set('wtDonateLabel',(t.paySummaryDonate||'You\'re donating:')+' ');
+    set('wtBackLbl',t.payBack||'Back');
+    set('wtDepositSubtitle',t.payDepositSubtitle||'Select any convenient method');
+    const pi=document.getElementById('wtPromoInput');
+    if(pi)pi.placeholder=t.payPromo||'Enter promocode...';
     const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
     if(s1)s1.style.display='none';
     if(s2){s2.style.display='';s2.style.animation='none';void s2.offsetWidth;s2.style.animation='fadeInUp .22s ease both';}
@@ -2522,6 +2525,15 @@ function wtBack(){
 function wtChooseMethod(method){
     haptic('success');
     addDiamonds(_wtAmount);
+}
+function wtApplyPromo(){
+    haptic('light');
+    const input=document.getElementById('wtPromoInput');
+    const code=input?input.value.trim():'';
+    const t=translations[currentLang]||translations.en;
+    if(code){alert((t.payPromo||'Promocode')+': '+code);}
+    else{const msgs={ru:'Введите промокод',en:'Enter promocode',ja:'プロモコードを入力',zh:'请输入促销码',uk:'Введіть промокод'};alert(msgs[currentLang]||msgs.en);}
+    if(input)input.value='';
 }
 function addDiamonds(amount){
     haptic('medium');
@@ -2719,29 +2731,23 @@ function showWelcomeModal(){
     const card=document.getElementById('welcomeModalCard');
     if(!modal||!card)return;
     const srcImg=document.querySelector('.wc-logomark-icon img');
-    const logoHtml=srcImg
-        ?'<img src="'+srcImg.src+'" style="width:38px;height:38px;object-fit:contain;border-radius:10px;" />'
-        :'<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--glow-color-1)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>';
+    const logoInner=srcImg
+        ?'<img src="'+srcImg.src+'" style="width:34px;height:34px;object-fit:contain;" />'
+        :'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>';
     card.innerHTML=
-        '<div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">'
-        +'<div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#4dd9f5,#3bc4a0,#2edb85);display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px rgba(77,217,245,0.35);margin-bottom:12px;">'+logoHtml+'</div>'
-        +'<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.3px;">CynovaAI</div>'
+        '<div class="welcome-logo" style="margin-bottom:18px;">'
+        +'<div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#4dd9f5,#3bc4a0,#2edb85);display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(77,217,245,0.35);flex-shrink:0;">'+logoInner+'</div>'
+        +'<div class="welcome-logo-name">CynovaAI</div>'
         +'</div>'
         +'<div class="welcome-title">'+(t.welcomeTitle||'Welcome!')+(name?' '+name:'')+'</div>'
         +'<div class="welcome-sub">'+(t.welcomeSub||'Your AI assistant.')+'</div>'
-        +'<div class="welcome-gems">'
-        +'<div class="welcome-gems-icon">💎</div>'
-        +'<div class="welcome-gems-text">'
-        +'<div class="welcome-gems-amount">+500</div>'
-        +'<div class="welcome-gems-label">'+(t.welcomeGems||'starting diamonds')+'</div>'
-        +'</div></div>'
         +'<div class="welcome-tips">'
         +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip1||'Create images with AI')+'</div>'
         +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip2||'Edit photos in one tap')+'</div>'
         +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip3||'Claim daily bonus in Shop')+'</div>'
         +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip4||'Balance linked to Telegram account')+'</div>'
         +'</div>'
-        +'<button class="wm-start-btn" onclick="closeWelcomeModal()">Start</button>';
+        +'<button class="wm-start-btn" onclick="closeWelcomeModal()">'+(t.btnSelect&&currentLang!=='en'?'Start':'Start')+'</button>';
     modal.style.display='flex';
     requestAnimationFrame(function(){requestAnimationFrame(function(){modal.classList.add('open');});});
 }
@@ -3012,14 +3018,19 @@ function closeWelcomeModal(){
         <!-- Шаг 2: способ оплаты -->
         <div id="wtStep2" style="display:none;animation:fadeInUp .22s ease both;">
             <div class="wallet-topup-head" style="padding-bottom:10px;">
-                <button class="pay-back-btn" style="margin:0;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span data-i18n="payBack">Назад</span></button>
+                <button class="pay-back-btn" style="margin:0;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span id="wtBackLbl">Назад</span></button>
                 <button class="wallet-topup-close" onclick="closeWalletTopup()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <div style="padding:0 18px 20px;">
-                <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;" data-i18n="payDepositTitle">Deposit</div>
-                <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;"><span data-i18n="paySummaryDonate">You're donating:</span> <span id="wtAmountLabel" style="color:var(--accent-color);font-weight:600;">—</span></div>
+                <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;" id="wtDepositTitle">Deposit</div>
+                <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><span id="wtDonateLabel">You're donating:</span> <span id="wtAmountLabel" style="color:var(--accent-color);font-weight:600;">—</span></div>
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <input type="text" id="wtPromoInput" placeholder="Промокод..." style="flex:1;background:var(--input-bg);color:var(--text-color);border:1px solid var(--border-color);padding:13px 14px;border-radius:13px;font-size:14px;outline:none;transition:border-color .3s;font-family:inherit;">
+                    <button onclick="wtApplyPromo()" style="background:var(--accent-color);color:white;border:none;padding:10px 18px;border-radius:13px;font-weight:600;cursor:pointer;font-size:14px;transition:transform .2s,opacity .2s;">OK</button>
+                </div>
+                <div id="wtDepositSubtitle" style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Выберите способ оплаты</div>
                 <div class="pay-methods-grid">
                     <button class="pay-method-card" onclick="wtChooseMethod('ton')">
                         <div class="pay-method-icon" style="background:#0098ea;"><svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg></div>

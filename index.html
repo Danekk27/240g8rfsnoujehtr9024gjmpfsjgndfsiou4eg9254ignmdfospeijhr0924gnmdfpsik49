@@ -1754,6 +1754,7 @@ function changeLang(lang){
             currentLang = detectedLang;
             updateLanguageUI();
             updateAcctInfo();
+            updateWalletTopupLang();
             if(window.smoothInputUpdaters && window.smoothInputUpdaters.textPrompt) window.smoothInputUpdaters.textPrompt();
             const langToLocale={ru:'ru',uk:'ru',ja:'ja',zh:'zh',en:'en'};
             const ts=document.getElementById('termsScreen');
@@ -1767,6 +1768,7 @@ function changeLang(lang){
     if(btn)btn.classList.add('active');
     updateLanguageUI();
     updateAcctInfo();
+    updateWalletTopupLang();
     saveMemory('lang',lang);
     if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();
     const langToLocale={ru:'ru',uk:'ru',ja:'ja',zh:'zh',en:'en'};
@@ -2514,6 +2516,27 @@ function closeWalletScreen(){
     setTimeout(()=>{ s.style.display='none'; },400);
 }
 var _wtAmount=0,_wtCustomVal=0;
+function updateWalletTopupLang(){
+    const t=translations[currentLang]||translations.en;
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    const ttl=document.getElementById('walletTopupTitle');
+    if(ttl)ttl.textContent=(t.payDiamondsTitle||'Choose amount 💎');
+    set('wtStep1Subtitle',t.payDiamondsSubtitle||'How many do you need?');
+    set('wtRank1Badge',t.payTop1||'Top 1');
+    set('wtRank2Badge',t.payTop2||'Top 2');
+    set('wtRank3Badge',t.payTop3||'Top 3');
+    const lbl={ru:'Своё количество',en:'Custom amount',ja:'カスタム数量',zh:'自定义数量',uk:'Своя кількість'};
+    set('wtCustomLbl',lbl[currentLang]||lbl.en);
+    set('wtRateLabel','1 💎 = $0.05');
+    set('wtDepositTitle',t.payDepositTitle||'Deposit');
+    set('wtDonateLabel',t.paySummaryDonate||"You're donating:");
+    set('wtBackLbl',t.payBack||'Back');
+    set('wtDepositSubtitle',t.payDepositSubtitle||'Select any convenient method');
+    const pi=document.getElementById('wtPromoInput');
+    if(pi)pi.placeholder=t.payPromo||'Enter promocode...';
+    const wb=document.getElementById('walletTopupBtn');
+    if(wb)wb.textContent=t.walletTopup||'Top up balance';
+}
 function wtRefreshCustom(){
     var price=_wtCustomVal*0.05;
     var str=price===0?'$0':'$'+(Number.isInteger(price)?price:price.toFixed(2));
@@ -2532,19 +2555,10 @@ function wtTyped(v){
 }
 function openWalletTopup(){
     haptic('light');
-    const t=translations[currentLang]||translations.en;
-    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-    const ttl=document.getElementById('walletTopupTitle');
-    if(ttl){ttl.textContent=(t.payDiamondsTitle||'Choose amount 💎');}
-    set('wtStep1Subtitle',t.payDiamondsSubtitle||'How many do you need?');
-    set('wtRank1Badge',t.payTop1||'Top 1');
-    set('wtRank2Badge',t.payTop2||'Top 2');
-    set('wtRank3Badge',t.payTop3||'Top 3');
-    const lbl={ru:'Своё',en:'Custom',ja:'カスタム',zh:'自定义',uk:'Своє'};
-    set('wtCustomLbl',lbl[currentLang]||lbl.en);
+    updateWalletTopupLang();
     _wtCustomVal=0;
     var _d=document.getElementById('wtCustomDisplay');if(_d)_d.value=0;
-    set('wtCustomPrice','$0');
+    var pe=document.getElementById('wtCustomPrice');if(pe)pe.textContent='$0';
     const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
     if(s1)s1.style.display='';
     if(s2)s2.style.display='none';
@@ -2560,15 +2574,9 @@ function closeWalletTopup(){
 function wtChooseAmount(n){
     haptic('light');
     _wtAmount=n;
-    const t=translations[currentLang]||translations.en;
-    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-    set('wtAmountLabel','+'+n.toLocaleString('en')+' 💎');
-    set('wtDepositTitle',t.payDepositTitle||'Deposit');
-    set('wtDonateLabel',(t.paySummaryDonate||'You\'re donating:')+' ');
-    set('wtBackLbl',t.payBack||'Back');
-    set('wtDepositSubtitle',t.payDepositSubtitle||'Select any convenient method');
-    const pi=document.getElementById('wtPromoInput');
-    if(pi)pi.placeholder=t.payPromo||'Enter promocode...';
+    updateWalletTopupLang();
+    var el=document.getElementById('wtAmountLabel');
+    if(el)el.textContent='+'+n.toLocaleString('en')+' 💎';
     const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
     if(s1)s1.style.display='none';
     if(s2){s2.style.display='';s2.style.animation='none';void s2.offsetWidth;s2.style.animation='fadeInUp .22s ease both';}
@@ -3093,7 +3101,7 @@ function closeWelcomeModal(){
                 <input type="hidden" id="wtCustomAmount" value="0">
                 <div class="wt-custom-row">
                     <div>
-                        <div class="wt-custom-lbl" id="wtCustomLbl">Своё</div>
+                        <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
                         <div class="wt-custom-usd" id="wtCustomPrice">$0</div>
                     </div>
                     <div class="wt-custom-right">
@@ -3106,7 +3114,7 @@ function closeWelcomeModal(){
                         <button class="wallet-topup-custom-go" onclick="wtBuyCustom()">→</button>
                     </div>
                 </div>
-                <div class="wallet-topup-rate">1 💎 = $0.05</div>
+                <div class="wallet-topup-rate" id="wtRateLabel">1 💎 = $0.05</div>
             </div>
         </div>
         <!-- Шаг 2: способ оплаты -->

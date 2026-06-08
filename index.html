@@ -875,7 +875,7 @@ function dismissWelcome(){
     try{if(window._wcCancelAnim)window._wcCancelAnim();}catch(e){}
     try{window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");}catch(e){}
 }
-try{if((JSON.parse(localStorage.getItem("aiMemory")||"{}")||{}).welcomed){document.addEventListener("DOMContentLoaded",function(){var ws=document.getElementById("welcomeScreen");if(ws)ws.style.display="none";});}}catch(e){}
+/* welcome always visible for now */
 </script>
 <div id="welcomeScreen">
     <canvas id="welcomeCanvas"></canvas>
@@ -2730,8 +2730,8 @@ function closeWelcomeModal(){
                 const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
             }
             saveMemory('welcomed',true);
-            window._showWelcomeAfterSplash=true;
         }
+        window._showWelcomeAfterSplash=true;
     });
     document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')syncDiamondsFromCloud();});
     (function(){const srcImg=document.querySelector('.wc-logomark-icon img');if(!srcImg)return;const s=srcImg.src;['cynovaHeaderImg','cynovaDropImg','cyriusDropImg'].forEach(function(id){const el=document.getElementById(id);if(el)el.src=s;});})();

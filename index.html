@@ -405,7 +405,7 @@
         .wt-rank-badge { position:absolute;top:-7px;right:-4px;font-size:7px;font-weight:800;padding:1px 5px;border-radius:5px;white-space:nowrap;letter-spacing:.4px;line-height:1.5; }
         .wallet-topup-btn.rank-1 .wt-rank-badge { background:#f7c948;color:#1a1200; }
         .wallet-topup-btn.rank-2 .wt-rank-badge { background:#b0bac8;color:#1a1e28; }
-        .wallet-topup-btn.rank-3 .wt-rank-badge { background:#1a1a1a;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.12); }
+        .wallet-topup-btn.rank-3 .wt-rank-badge { background:linear-gradient(135deg,#d4945a,#b36e30);color:#1a0a00; }
         .wt-pay-method { display:flex;align-items:center;gap:12px;width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s; }
         .wt-pay-method:hover { border-color:var(--accent-color);background:var(--accent-tint); }
         .wt-pay-method:active { transform:scale(.97); }
@@ -3102,11 +3102,13 @@ function closeWelcomeModal(){
                 <div class="wt-custom-row">
                     <div>
                         <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
-                        <div class="wt-custom-usd" id="wtCustomPrice">$0</div>
+                        <div style="display:flex;align-items:center;gap:4px;margin-top:3px;">
+                            <span class="wt-gem-sm">💎</span>
+                            <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
+                        </div>
                     </div>
                     <div class="wt-custom-right">
-                        <span class="wt-gem-sm">💎</span>
-                        <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
+                        <div class="wt-custom-usd" id="wtCustomPrice">$0</div>
                         <div class="wt-stepper">
                             <button class="wt-step-btn" onclick="wtStep(1)">▲</button>
                             <button class="wt-step-btn" onclick="wtStep(-1)">▼</button>

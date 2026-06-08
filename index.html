@@ -1115,7 +1115,7 @@ try{if((JSON.parse(localStorage.getItem("aiMemory")||"{}")||{}).welcomed){docume
 
         <!-- SETTINGS -->
         <div id="tab-settings" class="tab-content">
-            <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;padding-right:4px;"><span data-i18n="navSettings">Settings</span><div class="online-counter" id="onlineCounter"><span class="online-dot"></span><div class="online-num-wrap"><span class="online-num" id="onlineNum">—</span></div><span class="online-lbl">online</span></div></div>
+            <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;padding-right:4px;"><span data-i18n="navSettings">Settings</span><div class="online-counter" id="onlineCounter"><span class="online-dot"></span><div class="online-num-wrap" id="onlineNumWrap"><span class="online-num" id="onlineNum">—</span></div><span class="online-lbl">online</span></div></div>
 
             <!-- Terms button — top, standalone card -->
             <div onclick="openTerms()" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(37,99,235,0.08));border:1px solid rgba(99,102,241,0.25);border-radius:16px;padding:16px 18px;margin-bottom:16px;cursor:pointer;transition:transform .2s,background .2s;" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.98)'" ontouchend="this.style.transform=''">
@@ -2617,8 +2617,8 @@ function closeWelcomeModal(){
 (function(){
     var h=new Date().getHours();
     var night=(h<8||h>=23);
-    var cur=night ? (3000+Math.floor(Math.random()*1500)) : (4500+Math.floor(Math.random()*4000));
-    if(cur>9000)cur=9000;
+    var cur=night ? (3000+Math.floor(Math.random()*2000)) : (5000+Math.floor(Math.random()*8000));
+    if(cur>13000)cur=13000;
     var prevStr='';
     var animBusy=false;
 
@@ -2706,15 +2706,12 @@ function closeWelcomeModal(){
     }
 
     function setNum(next){
+        if(animBusy)return;
         var dir=next>cur?'up':'down';
         var delta=Math.abs(next-cur);
-        if(delta<=4&&!animBusy){
-            animBusy=true;
-            countSteps(cur,next,dir,delta,110);
-        } else {
-            cur=next;
-            render(next,dir);
-        }
+        animBusy=true;
+        var delay=delta<=4?110:delta<=8?60:35;
+        countSteps(cur,next,dir,delta,delay);
     }
 
     function tick(){
@@ -2727,7 +2724,7 @@ function closeWelcomeModal(){
 
         var next=cur+delta;
         if(next<3000)next=3000+Math.floor(Math.random()*40);
-        if(next>9000)next=9000-Math.floor(Math.random()*40);
+        if(next>13000)next=13000-Math.floor(Math.random()*40);
 
         if(delta!==0) setNum(next);
         var d=delta===0?1200+Math.random()*2500:600+Math.random()*3800;

@@ -374,13 +374,13 @@
         .wallet-topup-close { background:none;border:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.35);transition:color .2s;flex-shrink:0; }
         .wallet-topup-close:active { color:rgba(255,255,255,0.7); }
         .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 11px; }
-        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:11px 8px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible; }
+        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
         .wallet-topup-btn:active { transform:scale(.93); }
         .wallet-topup-btn:hover { border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.06); }
-        .wallet-topup-gem { font-size:17px; }
-        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;margin-top:1px; }
+        .wallet-topup-gem { font-size:15px;flex-shrink:0; }
+        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;flex:1;text-align:left; }
         .wallet-topup-right { display:none; }
-        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400; }
+        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0; }
         .wallet-topup-custom { padding:8px 11px 10px; }
         .wallet-topup-rate { font-size:10px;color:rgba(255,255,255,0.22);text-align:center;margin-top:5px; }
         .wt-custom-row { display:flex;align-items:center;justify-content:space-between;gap:8px; }
@@ -388,7 +388,8 @@
         .wt-custom-usd { font-size:14px;font-weight:700;color:var(--accent-color); }
         .wt-custom-right { display:flex;align-items:center;gap:6px; }
         .wt-gem-sm { font-size:14px;line-height:1; }
-        .wt-step-num { font-size:13px;font-weight:700;color:#fff;min-width:38px;text-align:center; }
+        .wt-step-num { font-size:13px;font-weight:700;color:#fff;width:46px;text-align:center;background:none;border:none;outline:none;font-family:inherit;-moz-appearance:textfield; }
+        .wt-step-num::-webkit-outer-spin-button,.wt-step-num::-webkit-inner-spin-button { -webkit-appearance:none; }
         .wt-stepper { display:flex;flex-direction:column;gap:2px; }
         .wt-step-btn { background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:5px;width:22px;height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.55);font-size:8px;transition:background .15s,color .15s;padding:0; }
         .wt-step-btn:hover { background:rgba(255,255,255,0.13);color:#fff; }
@@ -404,7 +405,7 @@
         .wt-rank-badge { position:absolute;top:-7px;right:-4px;font-size:7px;font-weight:800;padding:1px 5px;border-radius:5px;white-space:nowrap;letter-spacing:.4px;line-height:1.5; }
         .wallet-topup-btn.rank-1 .wt-rank-badge { background:#f7c948;color:#1a1200; }
         .wallet-topup-btn.rank-2 .wt-rank-badge { background:#b0bac8;color:#1a1e28; }
-        .wallet-topup-btn.rank-3 .wt-rank-badge { background:#c07840;color:#fff; }
+        .wallet-topup-btn.rank-3 .wt-rank-badge { background:#1a1a1a;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.12); }
         .wt-pay-method { display:flex;align-items:center;gap:12px;width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s; }
         .wt-pay-method:hover { border-color:var(--accent-color);background:var(--accent-tint); }
         .wt-pay-method:active { transform:scale(.97); }
@@ -2513,14 +2514,21 @@ function closeWalletScreen(){
     setTimeout(()=>{ s.style.display='none'; },400);
 }
 var _wtAmount=0,_wtCustomVal=0;
-function wtStep(d){
-    _wtCustomVal=Math.max(0,_wtCustomVal+d);
-    var disp=document.getElementById('wtCustomDisplay');
-    if(disp)disp.textContent=_wtCustomVal?_wtCustomVal.toLocaleString('en'):'0';
+function wtRefreshCustom(){
     var price=_wtCustomVal*0.05;
     var str=price===0?'$0':'$'+(Number.isInteger(price)?price:price.toFixed(2));
     var pe=document.getElementById('wtCustomPrice');if(pe)pe.textContent=str;
     var inp=document.getElementById('wtCustomAmount');if(inp)inp.value=_wtCustomVal;
+}
+function wtStep(d){
+    _wtCustomVal=Math.max(0,_wtCustomVal+d);
+    var disp=document.getElementById('wtCustomDisplay');
+    if(disp)disp.value=_wtCustomVal;
+    wtRefreshCustom();
+}
+function wtTyped(v){
+    _wtCustomVal=Math.max(0,parseInt(v)||0);
+    wtRefreshCustom();
 }
 function openWalletTopup(){
     haptic('light');
@@ -2535,7 +2543,8 @@ function openWalletTopup(){
     const lbl={ru:'Своё',en:'Custom',ja:'カスタム',zh:'自定义',uk:'Своє'};
     set('wtCustomLbl',lbl[currentLang]||lbl.en);
     _wtCustomVal=0;
-    set('wtCustomDisplay','0');set('wtCustomPrice','$0');
+    var _d=document.getElementById('wtCustomDisplay');if(_d)_d.value=0;
+    set('wtCustomPrice','$0');
     const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
     if(s1)s1.style.display='';
     if(s2)s2.style.display='none';
@@ -3089,7 +3098,7 @@ function closeWelcomeModal(){
                     </div>
                     <div class="wt-custom-right">
                         <span class="wt-gem-sm">💎</span>
-                        <span class="wt-step-num" id="wtCustomDisplay">0</span>
+                        <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
                         <div class="wt-stepper">
                             <button class="wt-step-btn" onclick="wtStep(1)">▲</button>
                             <button class="wt-step-btn" onclick="wtStep(-1)">▼</button>

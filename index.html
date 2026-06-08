@@ -2619,99 +2619,31 @@ function closeWelcomeModal(){
     var night=(h<8||h>=23);
     var cur=night ? (3000+Math.floor(Math.random()*2000)) : (5000+Math.floor(Math.random()*8000));
     if(cur>13000)cur=13000;
-    var prevStr='';
     var animBusy=false;
+    var targetVal=cur;
 
-    // ── render: split number into per-digit cells ──
-    function render(val,dir){
-        var wrap=document.getElementById('onlineNumWrap');
-        if(!wrap)return;
-        var s=val.toLocaleString('en');  // "4,521"
-        var oldS=prevStr;
-        prevStr=s;
-
-        // rebuild cells if length changed
-        if(s.length!==oldS.length){
-            wrap.innerHTML='';
-            for(var i=0;i<s.length;i++){
-                var ch=s[i];
-                if(ch===','||ch==='.'){
-                    var sep=document.createElement('span');
-                    sep.className='od-sep';
-                    sep.textContent=ch;
-                    wrap.appendChild(sep);
-                } else {
-                    var cell=document.createElement('span');
-                    cell.className='od-cell';
-                    var inner=document.createElement('span');
-                    inner.textContent=ch;
-                    cell.appendChild(inner);
-                    wrap.appendChild(cell);
-                }
-            }
-            return;
-        }
-
-        // update only changed digits
-        var cells=wrap.querySelectorAll('.od-cell');
-        var ci=0;
-        // align digit positions
-        var newDigits=s.replace(/[,.]/g,'');
-        var oldDigits=oldS.replace(/[,.]/g,'');
-        for(var i=0;i<s.length;i++){
-            var ch=s[i];
-            if(ch===','||ch==='.') continue;
-            var dIdx=newDigits.indexOf(ch,ci); // rough
-            var oldCh=ci<oldDigits.length?oldDigits[ci]:null;
-            if(ci<cells.length && oldCh!==null && oldCh!==ch && dir){
-                (function(cell,newCh,d,stagger){
-                    var fromY=d==='up'?'14px':'-14px';
-                    var toY=d==='up'?'-14px':'14px';
-                    var color=d==='down'?'#f87171':'#4ade80';
-                    // exit old
-                    var old=cell.firstChild;
-                    if(old){
-                        old.style.setProperty('--od-to',toY);
-                        old.classList.add('od-out');
-                    }
-                    // enter new
-                    var span=document.createElement('span');
-                    span.textContent=newCh;
-                    span.style.color=color;
-                    span.style.setProperty('--od-from',fromY);
-                    span.style.animationDelay=stagger+'ms';
-                    span.classList.add('od-in');
-                    cell.appendChild(span);
-                    // fade color back to green
-                    setTimeout(function(){
-                        span.style.transition='color .45s';
-                        span.style.color='#22c55e';
-                        if(old&&old.parentNode)old.parentNode.removeChild(old);
-                    },300+stagger);
-                })(cells[ci],ch,dir,ci*18);
-            }
-            ci++;
-        }
+    function render(val){
+        var el=document.getElementById('onlineNum');
+        if(el) el.textContent=val.toLocaleString('en');
     }
 
-    // ── step-by-step counting for small deltas ──
-    function countSteps(from,to,dir,steps,delay){
-        if(from===to||steps<=0){render(to,dir);animBusy=false;cur=to;return;}
-        var step=dir==='up'?1:-1;
-        var mid=from+step;
-        render(mid,dir);
-        cur=mid;
-        if(mid!==to) setTimeout(function(){countSteps(mid,to,dir,steps-1,delay);},delay);
-        else {animBusy=false;}
+    function countSteps(from,to,delay){
+        if(from===to){animBusy=false;return;}
+        var step=to>from?1:-1;
+        var next=from+step;
+        render(next);
+        cur=next;
+        if(next!==to) setTimeout(function(){countSteps(next,to,delay);},delay);
+        else animBusy=false;
     }
 
     function setNum(next){
         if(animBusy)return;
-        var dir=next>cur?'up':'down';
         var delta=Math.abs(next-cur);
+        if(delta===0)return;
         animBusy=true;
         var delay=delta<=4?110:delta<=8?60:35;
-        countSteps(cur,next,dir,delta,delay);
+        countSteps(cur,next,delay);
     }
 
     function tick(){
@@ -2732,8 +2664,8 @@ function closeWelcomeModal(){
     }
 
     function init(){
-        var wrap=document.getElementById('onlineNumWrap');
-        if(wrap){render(cur,null);setTimeout(tick,800+Math.random()*1500);}
+        var el=document.getElementById('onlineNum');
+        if(el){render(cur);setTimeout(tick,800+Math.random()*1500);}
         else setTimeout(init,300);
     }
     init();

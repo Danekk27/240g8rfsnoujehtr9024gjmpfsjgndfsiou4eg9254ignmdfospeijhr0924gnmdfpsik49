@@ -1122,7 +1122,7 @@ try{if((JSON.parse(localStorage.getItem("aiMemory")||"{}")||{}).welcomed){docume
                 </div>
                 <div style="flex:1;min-width:0;">
                     <div style="font-size:14px;font-weight:600;color:var(--text-color);">Мой аккаунт</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span id="acctBtnDiamonds">1 240</span> алмазов · Telegram не привязан</div>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span id="acctBtnDiamonds">—</span> алмазов · <span id="acctBtnTg">Telegram</span></div>
                 </div>
                 <span style="font-size:18px;color:var(--text-muted);">›</span>
             </div>
@@ -1643,7 +1643,7 @@ function startApp(){
 // ── TRANSLATIONS ──
 const translations = {
     en:{navMain:"Main",navShop:"Shop",navSite:"Site",navUpgrade:"System Upgrade",navUpgradeShort:"Upgrade",navSettings:"Settings",aiGenerating:"🔮 AI is generating...",shopTitle:"Need more limits?",shopDesc:"If you can no longer edit photos or need new features, top up your diamond balance or upgrade the AI bot!",btnTopup:"Top up balance",btnUpgrade:"Upgrade bot",siteDesc:"Official web resource of the project.",perMonth:"month",btnSelect:"Select",themeTitle:"Theme",langTitle:"Language / Язык",glowTitle:"Neon Glow",soundTitle:"Interface Sounds",glowAuto:"Auto",glowNone:"None",glowGreen:"Green",glowPink:"Pink",glowBlue:"Blue",glowRed:"Red",glowYellow:"Yellow",glowPurple:"Purple",glowAuthor:"Author",yourPlan:"Your plan",planActive:"Active",planExpired:"Expired",planDetails:"Details",walletTitle:"Wallet",walletBalance:"Your balance",walletActivity:"Diamond activity",walletUpgrade:"System Upgrade",walletTopup:"Top up balance",topupSelectTitle:"Select amount",navLibrary:"Library",navFavorites:"Favorites",dailyBonusTitle:"Daily Bonus",dailyBonusSubtitle:"Come back every day!",dailyBonusClaim:"Collect",dailyBonusClaimed:"Received",dailyBonusNextLabel:"Next bonus in",termsTitle:"Terms of Service",termsLastUpdated:"Last updated: June 2026",termsYourCountry:"Your country:",chatPlaceholder:"Enter your request...",modeCreate:"Create",modeEdit:"Edit",freeLabel:"Free",payChooseTitle:"Choose option",payChooseSubtitle:"What do you want to do?",payChoiceUpgrade:"System Upgrade",payChoiceUpgradeDesc:"Switch tariff plan",payChoiceTopup:"Top up balance",payChoiceTopupDesc:"Get more diamonds",payDepositTitle:"Deposit",payDepositSubtitle:"Select any convenient method",payBack:"Back",payWallet:"Wallet:",payDisconnect:"Disconnect",payPromo:"Enter promocode...",payDiamondsTitle:"Choose amount 💎",payDiamondsSubtitle:"How many diamonds do you need?",payTop1:"Top 1",payTop2:"Top 2",payTop3:"Top 3",payPlansTitle:"Choose plan",payCurrentPlan:"Current plan:",payCurrent:"Current",paySummaryDonate:"You're donating:",paySummaryUpgrade:"You're upgrading to:",newChat:"New chat",creatingImage:"Creating image...",editingImage:"Editing image...",notEnoughDiamonds:"Not enough diamonds",welcomeTitle:"Welcome to CynovaAI!",welcomeSub:"Your AI assistant for image creation and editing.",welcomeGems:"starting diamonds",welcomeTip1:"Create images with AI",welcomeTip2:"Edit photos in one tap",welcomeTip3:"Claim daily bonus in the Shop",welcomeTip4:"Balance is linked to your Telegram account",libraryEmptyTitle:"No chats yet",libraryEmptySub:"Start a new chat and it will appear here",libraryClear:"Clear history",confirmYes:"Yes",confirmNo:"No",confirmDeleteTitle:"Delete chat?",confirmDeleteText:"This action cannot be undone.",confirmClearTitle:"Clear history?",confirmClearText:"All chats will be deleted."},
-    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс бриллиантов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",planDetails:"Подробнее",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",topupSelectTitle:"Выберите количество",navLibrary:"Библиотека",navFavorites:"Избранное",dailyBonusTitle:"Ежедневный бонус",dailyBonusSubtitle:"Заходите каждый день!",dailyBonusClaim:"Забрать",dailyBonusClaimed:"Получено",dailyBonusNextLabel:"Следующий бонус через",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше бриллиантов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько бриллиантов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:",newChat:"Новый чат",creatingImage:"Создание изображения...",editingImage:"Изменение изображения...",notEnoughDiamonds:"Недостаточно бриллиантов",welcomeTitle:"Добро пожаловать в CynovaAI!",welcomeSub:"Ваш ИИ-ассистент для создания и редактирования изображений.",welcomeGems:"стартовых бриллианта",welcomeTip1:"Создавайте изображения с помощью ИИ",welcomeTip2:"Редактируйте фото в один клик",welcomeTip3:"Забирайте ежедневный бонус в Магазине",welcomeTip4:"Баланс привязан к вашему Telegram-аккаунту",libraryEmptyTitle:"Нет чатов",libraryEmptySub:"Начните новый чат, и он появится здесь",libraryClear:"Очистить историю",confirmYes:"Да",confirmNo:"Нет",confirmDeleteTitle:"Удалить чат?",confirmDeleteText:"Это действие нельзя отменить.",confirmClearTitle:"Очистить историю?",confirmClearText:"Все чаты будут удалены."},
+    ru:{navMain:"Главная",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системы",navUpgradeShort:"Апгрейд",navSettings:"Настройки",aiGenerating:"🔮 Нейросеть генерирует...",shopTitle:"Не хватает лимитов?",shopDesc:"Пополните баланс алмазов или улучшите версию AI-бота!",btnTopup:"Пополнить баланс",btnUpgrade:"Улучшить бота",siteDesc:"Официальный веб-ресурс проекта.",perMonth:"месяц",btnSelect:"Выбрать",themeTitle:"Тема",langTitle:"Язык / Language",glowTitle:"Подсветка неона",soundTitle:"Звуки интерфейса",glowAuto:"Авто",glowNone:"Убрать",glowGreen:"Зеленая",glowPink:"Розовая",glowBlue:"Синяя",glowRed:"Красная",glowYellow:"Желтая",glowPurple:"Фиолетовая",glowAuthor:"Авторская",yourPlan:"Ваш тариф",planActive:"Активен",planExpired:"Истёк",planDetails:"Подробнее",walletTitle:"Кошелёк",walletBalance:"Ваш баланс",walletActivity:"Активность",walletUpgrade:"Апгрейд системы",walletTopup:"Пополнить баланс",topupSelectTitle:"Выберите количество",navLibrary:"Библиотека",navFavorites:"Избранное",dailyBonusTitle:"Ежедневный бонус",dailyBonusSubtitle:"Заходите каждый день!",dailyBonusClaim:"Забрать",dailyBonusClaimed:"Получено",dailyBonusNextLabel:"Следующий бонус через",termsTitle:"Пользовательское соглашение",termsLastUpdated:"Последнее обновление: июнь 2026",termsYourCountry:"Ваша страна:",chatPlaceholder:"Введите ваш запрос...",modeCreate:"Создать",modeEdit:"Изменить",freeLabel:"Бесплатно",payChooseTitle:"Выберите действие",payChooseSubtitle:"Что вы хотите сделать?",payChoiceUpgrade:"Апгрейд системы",payChoiceUpgradeDesc:"Сменить тарифный план",payChoiceTopup:"Пополнить баланс",payChoiceTopupDesc:"Получить больше алмазов",payDepositTitle:"Депозит",payDepositSubtitle:"Выберите любой удобный способ",payBack:"Назад",payWallet:"Кошелёк:",payDisconnect:"Отключить",payPromo:"Ввести промокод...",payDiamondsTitle:"Выберите количество 💎",payDiamondsSubtitle:"Сколько алмазов вам нужно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Выберите тариф",payCurrentPlan:"Текущий тариф:",payCurrent:"Текущий",paySummaryDonate:"Вы донатите:",paySummaryUpgrade:"Вы переходите на:",newChat:"Новый чат",creatingImage:"Создание изображения...",editingImage:"Изменение изображения...",notEnoughDiamonds:"Недостаточно алмазов",welcomeTitle:"Добро пожаловать в CynovaAI!",welcomeSub:"Ваш ИИ-ассистент для создания и редактирования изображений.",welcomeGems:"стартовых алмаза",welcomeTip1:"Создавайте изображения с помощью ИИ",welcomeTip2:"Редактируйте фото в один клик",welcomeTip3:"Забирайте ежедневный бонус в Магазине",welcomeTip4:"Баланс привязан к вашему Telegram-аккаунту",libraryEmptyTitle:"Нет чатов",libraryEmptySub:"Начните новый чат, и он появится здесь",libraryClear:"Очистить историю",confirmYes:"Да",confirmNo:"Нет",confirmDeleteTitle:"Удалить чат?",confirmDeleteText:"Это действие нельзя отменить.",confirmClearTitle:"Очистить историю?",confirmClearText:"Все чаты будут удалены."},
     ja:{navMain:"ホーム",navShop:"ショップ",navSite:"サイト",navUpgrade:"アップグレード",navUpgradeShort:"アップグレード",navSettings:"設定",shopTitle:"制限が足りない？",shopDesc:"ダイヤモンド残高を補充！",btnTopup:"残高を補充",btnUpgrade:"ボットをアップグレード",siteDesc:"公式ウェブリソース。",perMonth:"月",btnSelect:"選択",themeTitle:"テーマ",langTitle:"言語",glowTitle:"ネオングロー",soundTitle:"効果音",glowAuto:"自動",glowNone:"なし",glowGreen:"緑",glowPink:"ピンク",glowBlue:"青",glowRed:"赤",glowYellow:"黄色",glowPurple:"紫",glowAuthor:"オリジナル",yourPlan:"現在のプラン",planActive:"有効",planExpired:"期限切れ",planDetails:"詳細",walletTitle:"ウォレット",walletBalance:"残高",walletActivity:"アクティビティ",walletUpgrade:"アップグレード",walletTopup:"残高を補充",topupSelectTitle:"数量を選択",navLibrary:"ライブラリ",navFavorites:"お気に入り",dailyBonusTitle:"デイリーボーナス",dailyBonusSubtitle:"毎日チェックしよう！",dailyBonusClaim:"受け取る",dailyBonusClaimed:"受取済",dailyBonusNextLabel:"次のボーナスまで",termsTitle:"利用規約",termsLastUpdated:"最終更新: 2026年6月",termsYourCountry:"あなたの国:",chatPlaceholder:"リクエストを入力...",modeCreate:"作成",modeEdit:"編集",freeLabel:"無料",payChooseTitle:"オプション選択",payChooseSubtitle:"何をしますか？",payChoiceUpgrade:"アップグレード",payChoiceUpgradeDesc:"プラン変更",payChoiceTopup:"残高補充",payChoiceTopupDesc:"ダイヤモンド追加",payDepositTitle:"デポジット",payDepositSubtitle:"方法を選択",payBack:"戻る",payWallet:"ウォレット:",payDisconnect:"切断",payPromo:"プロモコードを入力...",payDiamondsTitle:"数量を選択 💎",payDiamondsSubtitle:"ダイヤモンドはいくつ？",payTop1:"トップ1",payTop2:"トップ2",payTop3:"トップ3",payPlansTitle:"プラン選択",payCurrentPlan:"現在のプラン:",payCurrent:"現在",paySummaryDonate:"寄付額:",paySummaryUpgrade:"アップグレード先:",newChat:"新しいチャット",creatingImage:"画像を生成中...",editingImage:"画像を編集中...",notEnoughDiamonds:"ダイヤモンドが不足しています",welcomeTitle:"CynovaAIへようこそ！",welcomeSub:"画像生成・編集のAIアシスタントです。",welcomeGems:"スターティングダイヤモンド",welcomeTip1:"AIで画像を生成",welcomeTip2:"ワンタップで写真を編集",welcomeTip3:"ショップでデイリーボーナスを獲得",welcomeTip4:"残高はTelegramアカウントに紐付け",libraryEmptyTitle:"チャットなし",libraryEmptySub:"新しいチャットを始めるとここに表示されます",libraryClear:"履歴を消去",confirmYes:"はい",confirmNo:"いいえ",confirmDeleteTitle:"削除しますか？",confirmDeleteText:"この操作は元に戻せません。",confirmClearTitle:"履歴を消去しますか？",confirmClearText:"すべてのチャットが削除されます。"},
     zh:{navMain:"主页",navShop:"商店",navSite:"网站",navUpgrade:"系统升级",navUpgradeShort:"升级",navSettings:"设置",shopTitle:"需要更多？",shopDesc:"充值钻石余额！",btnTopup:"充值",btnUpgrade:"升级",siteDesc:"官方网站。",perMonth:"月",btnSelect:"选择",themeTitle:"主题",langTitle:"语言",glowTitle:"霓虹",soundTitle:"声音",glowAuto:"自动",glowNone:"无",glowGreen:"绿",glowPink:"粉",glowBlue:"蓝",glowRed:"红",glowYellow:"黄",glowPurple:"紫",glowAuthor:"原创",yourPlan:"当前套餐",planActive:"有效",planExpired:"已过期",planDetails:"详情",walletTitle:"钱包",walletBalance:"您的余额",walletActivity:"钻石动态",walletUpgrade:"系统升级",walletTopup:"充值",topupSelectTitle:"选择数量",navLibrary:"库",navFavorites:"收藏",dailyBonusTitle:"每日奖励",dailyBonusSubtitle:"每天来领取！",dailyBonusClaim:"领取",dailyBonusClaimed:"已领取",dailyBonusNextLabel:"下次奖励",termsTitle:"用户协议",termsLastUpdated:"最后更新: 2026年6月",termsYourCountry:"您的国家:",chatPlaceholder:"输入请求...",modeCreate:"创建",modeEdit:"编辑",freeLabel:"免费",payChooseTitle:"选择选项",payChooseSubtitle:"您想做什么？",payChoiceUpgrade:"系统升级",payChoiceUpgradeDesc:"切换套餐",payChoiceTopup:"充值",payChoiceTopupDesc:"获取更多钻石",payDepositTitle:"存款",payDepositSubtitle:"选择任意方式",payBack:"返回",payWallet:"钱包:",payDisconnect:"断开",payPromo:"输入促销码...",payDiamondsTitle:"选择数量 💎",payDiamondsSubtitle:"需要多少钻石？",payTop1:"第一名",payTop2:"第二名",payTop3:"第三名",payPlansTitle:"选择套餐",payCurrentPlan:"当前套餐:",payCurrent:"当前",paySummaryDonate:"您正在捐赠:",paySummaryUpgrade:"您正在升级到:",newChat:"新聊天",creatingImage:"正在创建图像...",editingImage:"正在编辑图像...",notEnoughDiamonds:"钻石不足",welcomeTitle:"欢迎来到CynovaAI！",welcomeSub:"您的AI图像创作与编辑助手。",welcomeGems:"初始钻石",welcomeTip1:"用AI创建图像",welcomeTip2:"一键编辑照片",welcomeTip3:"在商店领取每日奖励",welcomeTip4:"余额与Telegram账号绑定",libraryEmptyTitle:"暂无聊天",libraryEmptySub:"开始新聊天，它将显示在这里",libraryClear:"清除历史",confirmYes:"是",confirmNo:"否",confirmDeleteTitle:"删除聊天？",confirmDeleteText:"此操作无法撤销。",confirmClearTitle:"清除历史？",confirmClearText:"所有聊天将被删除。"},
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Ваш ШІ-асистент для створення та редагування зображень.",welcomeGems:"стартових діамантів",welcomeTip1:"Створюйте зображення за допомогою ШІ",welcomeTip2:"Редагуйте фото в один клік",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс прив'язаний до вашого Telegram-акаунта",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені."}
@@ -1673,6 +1673,11 @@ function updateAcctInfo(){
     var lv=document.getElementById('acctLangVal');
     if(tv&&at) tv.textContent=themeMap[at.dataset.accent]||at.textContent;
     if(lv&&al) lv.textContent=langMap[al.dataset.lang]||al.textContent;
+    var u=tg.initDataUnsafe&&tg.initDataUnsafe.user;
+    var btnD=document.getElementById('acctBtnDiamonds');
+    if(btnD)btnD.textContent=Number(aiMemory.diamonds||0).toLocaleString('en');
+    var btnTg=document.getElementById('acctBtnTg');
+    if(btnTg)btnTg.textContent=u?(u.username?'@'+u.username:u.first_name):'Telegram';
 }
 function switchTab(tabId,btn){haptic('light');if(tabId==='tab-shop')setTimeout(initDailyBonus,50);if(tabId==='tab-library')setTimeout(renderLibrary,50);if(tabId==='tab-settings')setTimeout(updateAcctInfo,50);document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));const tab=document.getElementById(tabId);if(tab)tab.classList.add('active');if(btn)btn.classList.add('active');const bc=document.getElementById('bottomControls');if(bc)bc.style.display=(tabId==='tab-main')?'block':'none';currentTabId=tabId;const mc=document.getElementById('mainContent');if(mc)mc.scrollTop=0;updateParticlesVisibility(tabId);}
 
@@ -2153,8 +2158,95 @@ if(mainContentEl){mainContentEl.addEventListener('touchstart',e=>{touchStartX=e.
 // ── SMOOTH INPUT ──
 function makeInputSmooth(inputId,animationName='smoothCharIn'){const input=document.getElementById(inputId);if(!input)return;const wrap=document.createElement('div');wrap.style.cssText='position:relative;display:flex;flex:'+( input.style.flex||'1');input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const mirror=document.createElement('div');mirror.style.cssText='position:absolute;left:0;top:0;bottom:0;right:0;pointer-events:none;display:flex;align-items:center;white-space:pre;overflow:hidden;';const cs=window.getComputedStyle(input);mirror.style.padding=cs.padding;mirror.style.fontFamily=cs.fontFamily;mirror.style.fontSize=cs.fontSize;mirror.style.fontWeight=cs.fontWeight;mirror.style.color=cs.color;input.style.color='transparent';input.style.caretColor='var(--accent-color)';wrap.appendChild(mirror);let oldVal='';window.smoothInputUpdaters=window.smoothInputUpdaters||{};window.smoothInputUpdaters[inputId]=()=>{const val=input.value;if(!val){mirror.innerHTML=`<span style="color:#707b86;transition:opacity 0.2s;">${input.getAttribute('placeholder')||''}</span>`;oldVal=val;return;}mirror.innerHTML='';for(let i=0;i<val.length;i++){const span=document.createElement('span');span.textContent=val[i]===' '?'\u00A0':val[i];span.style.display='inline-block';if(i>=oldVal.length||val[i]!==oldVal[i])span.style.animation=`${animationName} 0.18s ease-out forwards`;else span.style.opacity='1';mirror.appendChild(span);}oldVal=val;};input.addEventListener('input',window.smoothInputUpdaters[inputId]);input.addEventListener('scroll',()=>{mirror.scrollLeft=input.scrollLeft;});window.smoothInputUpdaters[inputId]();}
 
+function renderPayHistory(){
+    var list=document.getElementById('acctPayList');
+    var countEl=document.getElementById('acctPayCount');
+    if(!list)return;
+    var items=[];
+    var hist=aiMemory.diamondHistory||[];
+    hist.slice().reverse().forEach(function(h){items.push({type:'diamonds',d:h.d,t:h.t});});
+    if(aiMemory.plan&&aiMemory.plan!=='default'&&aiMemory.planPurchasedAt){
+        items.push({type:'plan',plan:aiMemory.plan,t:aiMemory.planPurchasedAt});
+        items.sort(function(a,b){return b.t-a.t;});
+    }
+    var mn=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+    function fmtDate(ts){var d=new Date(ts);return d.getDate()+' '+mn[d.getMonth()]+' '+d.getFullYear();}
+    function gemIcon(c){return '<div style="width:36px;height:36px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg></div>';}
+    function crownIcon(){return '<div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg></div>';}
+    if(items.length===0){
+        list.innerHTML='<div style="padding:22px 18px;text-align:center;font-size:13px;color:var(--text-muted);">История пуста</div>';
+        if(countEl)countEl.textContent='';
+        return;
+    }
+    if(countEl){var n=items.length;countEl.textContent=n+(n===1?' запись':n<5?' записи':' записей');}
+    list.innerHTML=items.map(function(item,i){
+        var border=i<items.length-1?'border-bottom:1px solid var(--border-color);':'';
+        if(item.type==='diamonds'){
+            return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'
+                +gemIcon('#22c55e')
+                +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text-color);">+'+item.d+' алмазов</div>'
+                +'<div style="font-size:11px;color:var(--text-muted);margin-top:1px;">'+fmtDate(item.t)+'</div></div>'
+                +'<div style="font-size:10px;color:#22c55e;background:rgba(34,197,94,.1);border-radius:5px;padding:2px 8px;font-weight:600;flex-shrink:0;">✓ получено</div></div>';
+        } else {
+            var planNames={basic:'Базовая',pro:'Pro',premium:'Премиум'};
+            return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'
+                +crownIcon()
+                +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text-color);">Привилегия · '+(planNames[item.plan]||item.plan)+'</div>'
+                +'<div style="font-size:11px;color:var(--text-muted);margin-top:1px;">'+fmtDate(item.t)+'</div></div>'
+                +'<div style="font-size:10px;color:#8b5cf6;background:rgba(139,92,246,.1);border-radius:5px;padding:2px 8px;font-weight:600;flex-shrink:0;">✓ активна</div></div>';
+        }
+    }).join('');
+}
 function openAccount(){
+    var u=tg.initDataUnsafe&&tg.initDataUnsafe.user;
+
+    // Avatar
+    var aw=document.getElementById('acctAvatarWrap');
+    if(aw){
+        if(u&&u.photo_url){
+            aw.innerHTML='<img src="'+u.photo_url+'" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML=\'<svg width=26 height=26 viewBox=&quot;0 0 24 24&quot; fill=none stroke=white stroke-width=2.2 stroke-linecap=round stroke-linejoin=round><path d=&quot;M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2&quot;/><circle cx=12 cy=7 r=4/></svg>\'">';
+        } else if(u&&u.first_name){
+            aw.innerHTML='<span style="font-size:22px;font-weight:800;color:white;font-family:Syne,sans-serif;">'+u.first_name[0].toUpperCase()+'</span>';
+        }
+    }
+
+    // Name & ID
+    var name=u?(u.first_name+(u.last_name?' '+u.last_name:'')):'Мой аккаунт';
+    var el=document.getElementById('acctHeroName');if(el)el.textContent=name;
+    var idEl=document.getElementById('acctHeroId');if(idEl)idEl.textContent=u?'ID: '+u.id:'';
+
+    // Telegram
+    var tgEl=document.getElementById('acctTgVal');
+    if(tgEl)tgEl.textContent=u?(u.username?'@'+u.username:u.first_name):'—';
+
+    // Diamonds
+    var bal=Number(aiMemory.diamonds||0);
+    var dEl=document.getElementById('acctDiamonds');if(dEl)dEl.textContent=bal.toLocaleString('en');
+    var btnD=document.getElementById('acctBtnDiamonds');if(btnD)btnD.textContent=bal.toLocaleString('en');
+
+    // Plan
+    var plan=aiMemory.plan||'default';
+    var planNames={premium:'Premium',pro:'Pro',lite:'Lite',plus:'Plus',default:'Базовый'};
+    var planColors={premium:'var(--premium-glow-2)',pro:'var(--pro-glow-2)',lite:'var(--lite-glow-2)',plus:'var(--plus-glow-2)',default:'var(--text-muted)'};
+    var pn=document.getElementById('acctPlanName');
+    if(pn){pn.textContent=planNames[plan]||plan;pn.style.color=planColors[plan]||'var(--text-muted)';}
+    var pb=document.getElementById('acctPlanBadge');
+    if(pb){
+        var isExp=aiMemory.planExpiresAt&&Date.now()>aiMemory.planExpiresAt&&plan!=='default';
+        if(plan==='default'){
+            pb.textContent='';
+        } else if(isExp){
+            pb.innerHTML='<span style="color:#ff7a7a;background:rgba(255,122,122,.12);border-radius:5px;padding:1px 7px;font-weight:600;">✕ истёк</span>';
+        } else {
+            var pad=function(n){return String(n).padStart(2,'0');};
+            var fmtD=function(ts){var d=new Date(ts);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();};
+            var dates=aiMemory.planPurchasedAt?fmtD(aiMemory.planPurchasedAt)+(aiMemory.planExpiresAt?' — '+fmtD(aiMemory.planExpiresAt):''):'';
+            pb.innerHTML='<span style="color:#22c55e;background:rgba(34,197,94,.1);border-radius:5px;padding:1px 7px;font-weight:600;">✓ активен</span>'+(dates?'<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">'+dates+'</div>':'');
+        }
+    }
+
     updateAcctInfo();
+    renderPayHistory();
     var s=document.getElementById('accountScreen');
     s.style.display='flex';
     requestAnimationFrame(function(){s.style.transform='translateY(0)';});
@@ -2715,16 +2807,16 @@ function closeWelcomeModal(){
     <div style="flex:1;overflow-y:auto;padding:20px 16px 32px;">
         <!-- Hero -->
         <div style="background:linear-gradient(135deg,var(--accent-tint) 0%,transparent 100%);border:1px solid var(--glow-shadow);border-radius:20px;padding:22px 20px 18px;margin-bottom:16px;display:flex;align-items:center;gap:16px;">
-            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 18px var(--accent-shadow);">
+            <div id="acctAvatarWrap" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 18px var(--accent-shadow);overflow:hidden;border:2px solid transparent;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
             <div style="flex:1;min-width:0;">
-                <div style="font-size:18px;font-weight:700;color:var(--text-color);font-family:'Syne',sans-serif;">Мой аккаунт</div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">ID: —</div>
+                <div id="acctHeroName" style="font-size:18px;font-weight:700;color:var(--text-color);font-family:'Syne',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
+                <div id="acctHeroId" style="font-size:12px;color:var(--text-muted);margin-top:3px;">ID: —</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--accent-tint);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:12px 16px;flex-shrink:0;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
-                <span id="acctDiamonds" style="font-size:18px;font-weight:800;color:var(--accent-color);font-variant-numeric:tabular-nums;line-height:1.1;">1 240</span>
+                <span id="acctDiamonds" style="font-size:18px;font-weight:800;color:var(--accent-color);font-variant-numeric:tabular-nums;line-height:1.1;">—</span>
                 <span style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600;">алмазы</span>
             </div>
         </div>
@@ -2734,8 +2826,18 @@ function closeWelcomeModal(){
                 <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--text-muted)"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>
                 </div>
-                <span style="flex:1;font-size:14px;font-weight:500;color:var(--text-color);">Аккаунт Telegram</span>
-                <span id="acctTgVal" style="font-size:13px;color:var(--text-muted);">не привязан</span>
+                <span style="flex:1;font-size:14px;font-weight:500;color:var(--text-color);">Telegram</span>
+                <span id="acctTgVal" style="font-size:13px;color:#22c55e;font-weight:600;">—</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-color);">
+                <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>
+                </div>
+                <span style="flex:1;font-size:14px;font-weight:500;color:var(--text-color);">Тариф</span>
+                <div style="text-align:right;flex-shrink:0;">
+                    <div id="acctPlanName" style="font-size:13px;font-weight:700;color:var(--text-muted);">—</div>
+                    <div id="acctPlanBadge" style="font-size:10px;margin-top:2px;"></div>
+                </div>
             </div>
             <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-color);">
                 <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -2756,47 +2858,9 @@ function closeWelcomeModal(){
         <div style="background:var(--card-bg);border:1px solid var(--border-color);border-radius:16px;overflow:hidden;">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-color);">
                 <span style="font-size:14px;font-weight:700;color:var(--text-color);font-family:'Syne',sans-serif;">История оплаты</span>
-                <span style="font-size:11px;color:var(--text-muted);">3 записи</span>
+                <span id="acctPayCount" style="font-size:11px;color:var(--text-muted);"></span>
             </div>
-            <div style="display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--border-color);">
-                <div style="width:36px;height:36px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
-                </div>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-size:13px;font-weight:600;color:var(--text-color);">+500 алмазов</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:1px;">12 мая 2025 · Telegram Stars</div>
-                </div>
-                <div style="text-align:right;flex-shrink:0;">
-                    <div style="font-size:13px;font-weight:700;color:var(--text-color);">₽299</div>
-                    <div style="font-size:10px;color:#22c55e;background:rgba(34,197,94,.1);border-radius:5px;padding:1px 6px;margin-top:2px;display:inline-block;font-weight:600;">✓ оплачено</div>
-                </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--border-color);">
-                <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>
-                </div>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-size:13px;font-weight:600;color:var(--text-color);">Привилегия · Базовая</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:1px;">03 апр 2025 · App Store</div>
-                </div>
-                <div style="text-align:right;flex-shrink:0;">
-                    <div style="font-size:13px;font-weight:700;color:var(--text-color);">₽799</div>
-                    <div style="font-size:10px;color:#22c55e;background:rgba(34,197,94,.1);border-radius:5px;padding:1px 6px;margin-top:2px;display:inline-block;font-weight:600;">✓ оплачено</div>
-                </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:13px;padding:13px 18px;">
-                <div style="width:36px;height:36px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
-                </div>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-size:13px;font-weight:600;color:var(--text-color);">+100 алмазов</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:1px;">20 мар 2025 · Google Pay</div>
-                </div>
-                <div style="text-align:right;flex-shrink:0;">
-                    <div style="font-size:13px;font-weight:700;color:var(--text-color);">₽99</div>
-                    <div style="font-size:10px;color:#22c55e;background:rgba(34,197,94,.1);border-radius:5px;padding:1px 6px;margin-top:2px;display:inline-block;font-weight:600;">✓ оплачено</div>
-                </div>
-            </div>
+            <div id="acctPayList"></div>
         </div>
     </div>
 </div>

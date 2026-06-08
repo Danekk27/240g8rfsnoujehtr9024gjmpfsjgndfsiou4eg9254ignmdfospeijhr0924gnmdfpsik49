@@ -846,10 +846,10 @@
         @keyframes onlinePulse{0%,100%{box-shadow:0 0 4px #22c55e;opacity:1;}50%{box-shadow:0 0 14px #22c55e,0 0 28px rgba(34,197,94,.3);opacity:.7;}}
         .online-num-wrap{display:inline-flex;align-items:center;overflow:hidden;height:18px;}
         .online-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#22c55e;line-height:18px;white-space:nowrap;font-variant-numeric:tabular-nums;font-feature-settings:"tnum";display:block;}
-        @keyframes numUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes numDown{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
-        .num-up{animation:numUp .2s cubic-bezier(.22,1,.36,1) both;}
-        .num-down{animation:numDown .2s cubic-bezier(.22,1,.36,1) both;}
+        @keyframes numUp{0%{opacity:0;transform:translateY(6px)}60%{opacity:1;}100%{opacity:1;transform:translateY(0)}}
+        @keyframes numDown{0%{opacity:0;transform:translateY(-6px)}60%{opacity:1;}100%{opacity:1;transform:translateY(0)}}
+        .num-up{animation:numUp .38s ease-out both;}
+        .num-down{animation:numDown .38s ease-out both;}
         .online-lbl{font-size:10px;font-weight:600;color:rgba(34,197,94,.55);letter-spacing:.4px;text-transform:uppercase;}
         /* ── WELCOME MODAL ── */
         #welcomeModal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;}
@@ -2638,7 +2638,7 @@ function closeWelcomeModal(){
         var dist=Math.abs(t-shown);
         if(dist===0)return;
         var dir=t>shown?'up':'down';
-        var delay=dist===1?400:dist<=5?300:dist<=20?120:40;
+        var delay=dist===1?480:dist<=5?360:dist<=20?140:45;
         animId=setInterval(function(){
             if(shown===t){clearInterval(animId);animId=null;return;}
             shown+=(t>shown?1:-1);

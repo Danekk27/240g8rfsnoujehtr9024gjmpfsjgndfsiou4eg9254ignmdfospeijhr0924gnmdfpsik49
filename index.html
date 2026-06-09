@@ -71,6 +71,7 @@
             overflow: hidden; transition: background-color 0.3s, color 0.3s;
         }
 
+
         /* ══════════════════════════════════════════
            WELCOME SCREEN
         ══════════════════════════════════════════ */
@@ -85,8 +86,6 @@
             justify-content: flex-end;
             overflow: hidden;
         }
-
-        /* Canvas BG */
         #welcomeCanvas {
             position: absolute;
             inset: 0;
@@ -94,8 +93,6 @@
             height: 100%;
             pointer-events: none;
         }
-
-        /* Top gradient fade for canvas */
         .wc-fade-top {
             position: absolute;
             top: 0; left: 0; right: 0;
@@ -112,8 +109,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
-        /* Floating badge top-right */
         .wc-badge {
             position: absolute;
             top: 20px; right: 20px;
@@ -129,8 +124,6 @@
             backdrop-filter: blur(10px);
             animation: wc-fadein 0.8s 0.5s both;
         }
-
-        /* Content */
         .wc-content {
             position: relative;
             z-index: 5;
@@ -141,10 +134,9 @@
             align-items: flex-start;
             animation: wc-slideup 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
-
-        /* Logo mark */
         .wc-logomark {
             display: flex;
+            flex-direction: row;
             align-items: center;
             gap: 8px;
             margin-bottom: 20px;
@@ -157,25 +149,16 @@
             box-shadow: 0 0 20px rgba(99,102,241,0.5);
         }
         .wc-logomark-icon svg { display: block; }
-        .wc-logomark {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
         .wc-logomark-text {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 18px;
             font-weight: 700;
-            letter-spacing: 0px;
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             background: none !important;
             animation: none !important;
         }
         .wc-logomark-text span { font-weight: 700; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
-
         .wc-title {
             font-family: 'Syne', sans-serif;
             font-size: 32px;
@@ -194,7 +177,6 @@
             background-clip: text;
             animation: wc-shimmer 6s ease-in-out infinite;
         }
-
         .wc-chips {
             display: flex;
             flex-wrap: wrap;
@@ -216,7 +198,6 @@
             background: #6366f1;
             box-shadow: 0 0 6px #6366f1;
         }
-
         .wc-desc {
             font-size: 14px;
             color: rgba(255,255,255,0.45);
@@ -224,7 +205,6 @@
             margin-bottom: 28px;
             max-width: 340px;
         }
-
         @keyframes btnShimmer {
             0%   { background-position: 0% 50%; }
             50%  { background-position: 100% 50%; }
@@ -264,7 +244,6 @@
             pointer-events: none;
         }
         .wc-btn:active { transform: scale(0.97); opacity: 0.9; }
-
         .wc-legal {
             margin-top: 12px;
             font-size: 11px;
@@ -274,12 +253,9 @@
             width: 100%;
         }
         .wc-legal a { color: rgba(255,255,255,0.4); text-decoration: underline; }
-
-        /* Welcome screen exit */
         #welcomeScreen.hiding {
             animation: wc-exit 0.7s cubic-bezier(0.4, 0, 1, 1) forwards;
         }
-
         .wc-ripple {
             position: absolute;
             border-radius: 50%;
@@ -288,10 +264,7 @@
             animation: wc-ripple-anim 0.6s ease-out forwards;
             pointer-events: none;
         }
-        @keyframes wc-ripple-anim {
-            to { transform: scale(4); opacity: 0; }
-        }
-
+        @keyframes wc-ripple-anim { to { transform: scale(4); opacity: 0; } }
         @keyframes wc-slideup {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -374,13 +347,13 @@
         .wallet-topup-close { background:none;border:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.35);transition:color .2s;flex-shrink:0; }
         .wallet-topup-close:active { color:rgba(255,255,255,0.7); }
         .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 11px; }
-        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
+        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
         .wallet-topup-btn:active { transform:scale(.93); }
         .wallet-topup-btn:hover { border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.06); }
         .wallet-topup-gem { font-size:15px;flex-shrink:0; }
-        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;flex:1;text-align:left; }
+        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;white-space:nowrap; }
         .wallet-topup-right { display:none; }
-        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0; }
+        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0;white-space:nowrap; }
         .wallet-topup-custom { padding:8px 11px 10px; }
         .wallet-topup-rate { font-size:10px;color:rgba(255,255,255,0.22);text-align:center;margin-top:5px; }
         .wt-custom-row { display:flex;align-items:center;justify-content:space-between;gap:8px; }
@@ -666,21 +639,6 @@
         .img-creating-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);}
         .img-creating-bar{height:3px;border-radius:3px;background:linear-gradient(90deg,var(--glow-color-1),var(--glow-color-2),var(--glow-color-1));background-size:200% 100%;animation:imgBarMove 1.4s linear infinite;}
         .img-creating-cost{font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;}
-        .welcome-card{background:var(--card-bg);border-radius:18px;padding:20px;border:1px solid var(--glow-shadow);overflow:hidden;position:relative;}
-        .welcome-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-tint),transparent 60%);pointer-events:none;}
-        .welcome-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-        .welcome-logo-icon{width:42px;height:42px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--glow-shadow);display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 0 8px var(--glow-shadow));}
-        .welcome-logo-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff;}
-        .welcome-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
-        .welcome-sub{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.55;margin-bottom:16px;}
-        .welcome-gems{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border-radius:12px;padding:12px 14px;margin-bottom:14px;border:1px solid var(--glow-shadow);}
-        .welcome-gems-icon{font-size:26px;filter:drop-shadow(0 0 8px var(--glow-color-1));}
-        .welcome-gems-text{flex:1;}
-        .welcome-gems-amount{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;}
-        .welcome-gems-label{font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px;}
-        .welcome-tips{display:flex;flex-direction:column;gap:7px;}
-        .welcome-tip{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,0.55);}
-        .welcome-tip-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--glow-color-1),var(--glow-color-2));flex-shrink:0;filter:drop-shadow(0 0 4px var(--glow-color-1));}
 
         .switch { position:relative; display:inline-block; width:46px; height:26px; }
         .switch input { opacity:0; width:0; height:0; }
@@ -880,14 +838,6 @@
         .num-up{animation:numUp .38s ease-out both;}
         .num-down{animation:numDown .38s ease-out both;}
         .online-lbl{font-size:10px;font-weight:600;color:rgba(34,197,94,.55);letter-spacing:.4px;text-transform:uppercase;}
-        /* ── WELCOME MODAL ── */
-        #welcomeModal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;}
-        #welcomeModal.open{opacity:1;pointer-events:auto;}
-        #welcomeModalCard{background:var(--card-bg);border-radius:26px;padding:26px 22px 22px;border:1px solid var(--glow-shadow);max-width:330px;width:100%;position:relative;overflow:hidden;transform:scale(.9) translateY(30px);transition:transform .38s cubic-bezier(.22,1,.36,1);}
-        #welcomeModal.open #welcomeModalCard{transform:scale(1) translateY(0);}
-        #welcomeModalCard::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-tint),transparent 60%);pointer-events:none;}
-        .wm-start-btn{width:100%;margin-top:20px;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:#fff;border:none;border-radius:14px;padding:15px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.2px;box-shadow:0 4px 18px var(--accent-shadow);}
-        .wm-start-btn:active{transform:scale(.97);}
     </style>
 </head>
 <body>
@@ -898,11 +848,10 @@
 <script>
 function dismissWelcome(){
     var ws=document.getElementById("welcomeScreen");
-    if(ws){ws.style.transition="opacity .5s";ws.style.opacity="0";setTimeout(function(){ws.style.display="none";ws.style.opacity="";ws.style.transition="";if(window._showWelcomeAfterSplash){window._showWelcomeAfterSplash=false;if(typeof showWelcomeModal==="function")showWelcomeModal();}},520);}
+    if(ws){ws.style.transition="opacity .5s";ws.style.opacity="0";setTimeout(function(){ws.style.display="none";ws.style.opacity="";ws.style.transition="";},520);}
     try{if(window._wcCancelAnim)window._wcCancelAnim();}catch(e){}
     try{window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");}catch(e){}
 }
-/* welcome always visible for now */
 </script>
 <div id="welcomeScreen">
     <canvas id="welcomeCanvas"></canvas>
@@ -1573,21 +1522,20 @@ function getTermsLocale(countryCode) {
 // Terms will be rendered when openTerms() is called
 </script>
 
-<script>
+
 // ── WELCOME SCREEN CANVAS ──
 (function(){
     const canvas = document.getElementById('welcomeCanvas');
+    if(!canvas)return;
     const ctx = canvas.getContext('2d');
-    let w, h, particles = [], lines = [], animId;
+    let w, h, particles = [], animId;
 
     function resize(){
         const el = document.getElementById('welcomeScreen');
         w = canvas.width = el.offsetWidth;
         h = canvas.height = el.offsetHeight;
     }
-
     function randBetween(a,b){ return a + Math.random()*(b-a); }
-
     function initParticles(){
         particles = [];
         for(let i=0;i<55;i++){
@@ -1603,71 +1551,34 @@ function getTermsLocale(countryCode) {
             });
         }
     }
-
     function drawFrame(){
         ctx.clearRect(0,0,w,h);
-
-        // Draw connections between nearby particles
         for(let i=0;i<particles.length;i++){
             for(let j=i+1;j<particles.length;j++){
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx*dx+dy*dy);
-                if(dist < 90){
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(99,102,241,${0.08*(1-dist/90)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
+                const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+                const dist=Math.sqrt(dx*dx+dy*dy);
+                if(dist<90){
+                    ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);
+                    ctx.strokeStyle=`rgba(99,102,241,${0.08*(1-dist/90)})`;ctx.lineWidth=0.5;ctx.stroke();
                 }
             }
         }
-
         for(const p of particles){
-            p.x += p.dx; p.y += p.dy;
-            p.pulse += p.pulseSpeed;
-            if(p.x<0) p.x=w; if(p.x>w) p.x=0;
-            if(p.y<0) p.y=h; if(p.y>h) p.y=0;
-            const a = p.opacity*(0.5+0.5*Math.sin(p.pulse));
-
-            const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3.5);
-            g.addColorStop(0,`hsla(${p.hue},70%,65%,${a})`);
-            g.addColorStop(1,`hsla(${p.hue},70%,65%,0)`);
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.r*3.5,0,Math.PI*2);
-            ctx.fillStyle = g;
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle = `hsla(${p.hue},80%,75%,${Math.min(0.9,a*1.6)})`;
-            ctx.fill();
+            p.x+=p.dx;p.y+=p.dy;p.pulse+=p.pulseSpeed;
+            if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+            const a=p.opacity*(0.5+0.5*Math.sin(p.pulse));
+            const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3.5);
+            g.addColorStop(0,`hsla(${p.hue},70%,65%,${a})`);g.addColorStop(1,`hsla(${p.hue},70%,65%,0)`);
+            ctx.beginPath();ctx.arc(p.x,p.y,p.r*3.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+            ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=`hsla(${p.hue},80%,75%,${Math.min(0.9,a*1.6)})`;ctx.fill();
         }
-
-        animId = requestAnimationFrame(drawFrame);
+        animId=requestAnimationFrame(drawFrame);
     }
-
-    function start(){
-        resize(); initParticles(); drawFrame();
-        window.addEventListener('resize', ()=>{ resize(); initParticles(); });
-    }
-
+    function start(){ resize();initParticles();drawFrame();window.addEventListener('resize',()=>{resize();initParticles();}); }
     start();
-
-    window._welcomeAnimId = animId;
-    window._wcCancelAnim = function(){ try{ cancelAnimationFrame(animId); }catch(e){} };
-
+    window._wcCancelAnim=function(){try{cancelAnimationFrame(animId);}catch(e){}};
 })();
-
-function startApp(){
-    var ws=document.getElementById('welcomeScreen');
-    if(!ws)return;
-    ws.classList.add('hiding');
-    if(window._wcCancelAnim)window._wcCancelAnim();
-    setTimeout(function(){ws.style.display='none';},700);
-    try{window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');}catch(e){}
-}
 
 // ── TRANSLATIONS ──
 const translations = {
@@ -2799,45 +2710,6 @@ function openTgProfile(){
     if(u.username)tg.openLink('https://t.me/'+u.username);
 }
 
-function showWelcomeModal(){
-    const t=translations[currentLang]||translations.en;
-    const user=tg.initDataUnsafe&&tg.initDataUnsafe.user;
-    const name=user?(user.first_name||user.username||''):'';
-    const modal=document.getElementById('welcomeModal');
-    const card=document.getElementById('welcomeModalCard');
-    if(!modal||!card)return;
-    const srcImg=document.querySelector('.wc-logomark-icon img');
-    const logoInner=srcImg
-        ?'<img src="'+srcImg.src+'" style="width:72px;height:72px;object-fit:contain;" />'
-        :'<svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>';
-    card.innerHTML=
-        '<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">'
-        +'<div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#4dd9f5,#3bc4a0,#2edb85);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(77,217,245,0.4);flex-shrink:0;overflow:visible;transform:translateX(-18px);">'+logoInner+'</div>'
-        +'<div class="welcome-logo-name" style="font-size:23px;">CynovaAI</div>'
-        +'</div>'
-        +'<div class="welcome-title">'+(t.welcomeTitle||'Welcome!')+(name?' '+name:'')+'</div>'
-        +'<div class="welcome-sub">'+(t.welcomeSub||'Your AI assistant.')+'</div>'
-        +'<div class="welcome-gems">'
-        +'<div class="welcome-gems-icon">💎</div>'
-        +'<div class="welcome-gems-text">'
-        +'<div class="welcome-gems-amount">+500</div>'
-        +'<div class="welcome-gems-label">'+(t.welcomeGems||'starting diamonds')+'</div>'
-        +'</div></div>'
-        +'<div class="welcome-tips">'
-        +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip1||'Create images with AI')+'</div>'
-        +'<div class="welcome-tip"><div class="welcome-tip-dot"></div>'+(t.welcomeTip2||'Edit photos in one tap')+'</div>'
-        +'</div>'
-        +'<button class="wm-start-btn" onclick="closeWelcomeModal()">Start</button>';
-    modal.style.display='flex';
-    requestAnimationFrame(function(){requestAnimationFrame(function(){modal.classList.add('open');});});
-}
-function closeWelcomeModal(){
-    const modal=document.getElementById('welcomeModal');
-    if(!modal)return;
-    modal.classList.remove('open');
-    setTimeout(function(){modal.style.display='none';},350);
-    try{tg.HapticFeedback.impactOccurred('medium');}catch(e){}
-}
 
 // ── INIT ──
 (function(){
@@ -2859,10 +2731,8 @@ function closeWelcomeModal(){
             }
             saveMemory('welcomed',true);
         }
-        window._showWelcomeAfterSplash=true;
     });
     document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')syncDiamondsFromCloud();});
-    (function(){const srcImg=document.querySelector('.wc-logomark-icon img');if(!srcImg)return;const s=srcImg.src;['cynovaHeaderImg','cynovaDropImg','cyriusDropImg'].forEach(function(id){const el=document.getElementById(id);if(el)el.src=s;});})();
     if(aiMemory.mode)setMode(aiMemory.mode);else setMode('create');
     initDailyBonus();
     updateParticlesVisibility('tab-main');
@@ -3099,13 +2969,11 @@ function closeWelcomeModal(){
             </div>
             <div class="wallet-topup-custom">
                 <input type="hidden" id="wtCustomAmount" value="0">
-                <div class="wt-custom-row">
-                    <div>
-                        <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
-                        <div style="display:flex;align-items:center;gap:4px;margin-top:3px;">
-                            <span class="wt-gem-sm">💎</span>
-                            <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
-                        </div>
+                <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
+                <div class="wt-custom-row" style="margin-top:4px;">
+                    <div style="display:flex;align-items:center;gap:4px;">
+                        <span class="wt-gem-sm">💎</span>
+                        <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
                     </div>
                     <div class="wt-custom-right">
                         <div class="wt-custom-usd" id="wtCustomPrice">$0</div>
@@ -3176,8 +3044,6 @@ function closeWelcomeModal(){
         </div>
     </div>
 </div>
-
-<div id="welcomeModal"><div id="welcomeModalCard"></div></div>
 
 </body>
 </html>

@@ -347,13 +347,13 @@
         .wallet-topup-close { background:none;border:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.35);transition:color .2s;flex-shrink:0; }
         .wallet-topup-close:active { color:rgba(255,255,255,0.7); }
         .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 11px; }
-        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
+        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
         .wallet-topup-btn:active { transform:scale(.93); }
         .wallet-topup-btn:hover { border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.06); }
         .wallet-topup-gem { font-size:15px;flex-shrink:0; }
-        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;white-space:nowrap; }
+        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;flex:1;text-align:left; }
         .wallet-topup-right { display:none; }
-        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0;white-space:nowrap; }
+        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0; }
         .wallet-topup-custom { padding:8px 11px 10px; }
         .wallet-topup-rate { font-size:10px;color:rgba(255,255,255,0.22);text-align:center;margin-top:5px; }
         .wt-custom-row { display:flex;align-items:center;justify-content:space-between;gap:8px; }
@@ -2969,11 +2969,13 @@ function openTgProfile(){
             </div>
             <div class="wallet-topup-custom">
                 <input type="hidden" id="wtCustomAmount" value="0">
-                <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
-                <div class="wt-custom-row" style="margin-top:4px;">
-                    <div style="display:flex;align-items:center;gap:4px;">
-                        <span class="wt-gem-sm">💎</span>
-                        <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
+                <div class="wt-custom-row">
+                    <div>
+                        <div class="wt-custom-lbl" id="wtCustomLbl">Своё количество</div>
+                        <div style="display:flex;align-items:center;gap:4px;margin-top:3px;">
+                            <span class="wt-gem-sm">💎</span>
+                            <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
+                        </div>
                     </div>
                     <div class="wt-custom-right">
                         <div class="wt-custom-usd" id="wtCustomPrice">$0</div>

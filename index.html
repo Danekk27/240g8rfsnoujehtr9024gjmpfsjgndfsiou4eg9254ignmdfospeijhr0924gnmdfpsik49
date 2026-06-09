@@ -2441,9 +2441,11 @@ function updateWalletTopupLang(){
     set('wtCustomLbl',lbl[currentLang]||lbl.en);
     set('wtRateLabel','1 💎 = $0.05');
     set('wtDepositTitle',t.payDepositTitle||'Deposit');
+    set('wtStep2Title',t.payDepositTitle||'Deposit');
     set('wtDonateLabel',t.paySummaryDonate||"You're donating:");
+    const priceConnectorMap={ru:'и их цена',en:'and its price',ja:'価格',zh:'价格',uk:'та їх ціна'};
+    set('wtPriceConnector',priceConnectorMap[currentLang]||priceConnectorMap.en);
     set('wtBackLbl',t.payBack||'Back');
-    set('wtDepositSubtitle',t.payDepositSubtitle||'Select any convenient method');
     const pi=document.getElementById('wtPromoInput');
     if(pi)pi.placeholder=t.payPromo||'Enter promocode...';
     const wb=document.getElementById('walletTopupBtn');
@@ -2488,7 +2490,11 @@ function wtChooseAmount(n){
     _wtAmount=n;
     updateWalletTopupLang();
     var el=document.getElementById('wtAmountLabel');
-    if(el)el.textContent='+'+n.toLocaleString('en')+' 💎';
+    if(el)el.textContent=n.toLocaleString('en')+' 💎';
+    var price=n*0.05;
+    var priceStr='$'+(Number.isInteger(price)?price:price.toFixed(2));
+    var pe=document.getElementById('wtPriceLabel');
+    if(pe)pe.textContent=priceStr;
     const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
     if(s1)s1.style.display='none';
     if(s2){s2.style.display='';s2.style.animation='none';void s2.offsetWidth;s2.style.animation='fadeInUp .22s ease both';}
@@ -2739,6 +2745,7 @@ function openTgProfile(){
     updateParticlesVisibility('tab-main');
     setTimeout(()=>{makeInputSmooth('textPrompt','chatCharIn');},100);
     setTimeout(()=>{makeInputSmooth('promoInput','promoCharIn');},100);
+    setTimeout(()=>{makeInputSmooth('wtPromoInput','chatCharIn');},100);
 // ── ONLINE COUNTER ──
 (function(){
     var MIN=3000, MAX=13000;
@@ -2992,6 +2999,7 @@ function openTgProfile(){
         <div id="wtStep2" style="display:none;animation:fadeInUp .22s ease both;">
             <div class="wallet-topup-head" style="padding-bottom:8px;">
                 <button class="pay-back-btn" style="margin:0;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span id="wtBackLbl">Назад</span></button>
+                <div class="wallet-topup-title" id="wtStep2Title" style="flex:1;text-align:center;">Депозит</div>
                 <button class="wallet-topup-close" onclick="closeWalletTopup()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
@@ -3002,7 +3010,7 @@ function openTgProfile(){
                     <div style="width:42px;height:42px;border-radius:11px;background:var(--accent-tint);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">💎</div>
                     <div style="flex:1;min-width:0;">
                         <div id="wtDepositTitle" style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">Deposit</div>
-                        <div style="font-size:12px;color:var(--text-muted);"><span id="wtDonateLabel">You're donating:</span> <span id="wtAmountLabel" style="color:var(--accent-color);font-weight:700;">—</span></div>
+                        <div style="font-size:12px;color:var(--text-muted);"><span id="wtDonateLabel">You're donating:</span> <span id="wtAmountLabel" style="color:var(--accent-color);font-weight:700;">—</span> <span id="wtPriceConnector">и их цена</span> <span id="wtPriceLabel" style="color:#22c55e;font-weight:700;">$—</span></div>
                     </div>
                 </div>
                 <!-- Promo code -->
@@ -3011,7 +3019,6 @@ function openTgProfile(){
                     <button onclick="wtApplyPromo()" style="background:var(--accent-color);color:white;border:none;padding:10px 18px;border-radius:12px;font-weight:700;cursor:pointer;font-size:14px;transition:transform .15s,opacity .2s;flex-shrink:0;">OK</button>
                 </div>
                 <!-- Method label -->
-                <div id="wtDepositSubtitle" style="font-size:11px;color:var(--text-muted);margin-bottom:9px;text-transform:uppercase;letter-spacing:.6px;font-weight:600;">Select payment method</div>
                 <!-- Payment methods full-width -->
                 <div style="display:flex;flex-direction:column;gap:8px;">
                     <button class="wt-pay-method" onclick="wtChooseMethod('ton')">

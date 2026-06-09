@@ -319,22 +319,26 @@
         .terms-back-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.12); }
 
         /* ── WALLET SCREEN ── */
-        #walletScreen { position:fixed;inset:0;z-index:10000;background:#0d141c;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);overflow:hidden; }
+        #walletScreen { position:fixed;inset:0;z-index:10000;background:linear-gradient(180deg,#0D0D0D 0%,#111114 100%);display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);overflow:hidden; }
         #walletScreen.open { transform:translateY(0); }
-        .wallet-header { position:sticky;top:0;z-index:10;background:rgba(13,20,28,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;padding:14px 20px;flex-shrink:0; }
+        .wallet-header { position:sticky;top:0;z-index:10;background:rgba(13,13,13,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;padding:14px 20px;flex-shrink:0; }
         .wallet-header-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff; }
-        .wallet-body { padding:24px 20px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;flex:1; }
-        .wallet-balance-card { background:var(--card-bg);border-radius:20px;padding:28px 24px;text-align:center;border:1px solid rgba(255,255,255,0.07); }
-        .wallet-balance-label { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px; }
-        .wallet-balance-amount { font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;line-height:1; }
-        .wallet-balance-amount span.gem { font-size:40px;filter:drop-shadow(0 0 12px rgba(93,180,255,0.7)); }
-        .wallet-chart-card { background:var(--card-bg);border-radius:20px;padding:20px 18px;border:1px solid rgba(255,255,255,0.07); }
-        .wallet-chart-title { font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
+        .wallet-body { padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;flex:1; }
+        .wallet-balance-card { background:rgba(255,255,255,0.05);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+        .wallet-balance-top { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px; }
+        .wallet-balance-label { font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:0.5px; }
+        .wallet-balance-badge { font-size:11px;font-weight:600;color:#3DDC84;background:rgba(61,220,132,0.12);border:1px solid rgba(61,220,132,0.25);border-radius:6px;padding:2px 8px; }
+        .wallet-balance-amount { font-family:'Syne',sans-serif;font-size:48px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;line-height:1; }
+        .wallet-balance-amount span.gem { font-size:38px;filter:drop-shadow(0 0 10px rgba(79,142,247,0.6)); }
+        .wallet-chart-card { background:rgba(255,255,255,0.05);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+        .wallet-chart-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+        .wallet-chart-title { font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:0.5px; }
+        .wallet-chart-badge { font-size:11px;font-weight:600;color:#4F8EF7;background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px; }
         #walletChart { width:100%;height:130px;display:block;cursor:crosshair; }
-        .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:4px; }
-        .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.2); }
+        .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
+        .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
         .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
-        .wallet-action-btn { background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:14px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 14px var(--accent-shadow);transition:transform .2s,filter .2s; }
+        .wallet-action-btn { background:linear-gradient(135deg,#4F8EF7,#7B5EF7);color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .avatar-box { cursor:pointer; }
         /* Topup mini-window */
@@ -2417,6 +2421,8 @@ function openWalletScreen(){
     set('walletHeaderTitle',t.walletTitle||'Wallet');
     const bal=aiMemory.diamonds||0;
     set('walletBalanceNum',Number(bal).toLocaleString());
+    const badge=el('walletBalanceBadge');
+    if(badge){const hist=aiMemory.diamondHistory||[];const total=hist.reduce((s,h)=>s+(h.d||0),0);badge.textContent=total>0?`+${total.toLocaleString()} total`:'💎 diamonds';}
     initWalletChartEvents();
     setTimeout(drawWalletChart,50);
 }
@@ -2606,84 +2612,75 @@ function drawWalletChart(hovIdx){
             return padT+gh-((v-scMin)/(scMax-scMin))*gh;
         };
     }
-    const rgb=getGlowRGB();
+    const AC='#4F8EF7';
     // Fill gradient
     const grad=ctx.createLinearGradient(0,padT,0,H);
-    grad.addColorStop(0,`rgba(${rgb},0.38)`);
-    grad.addColorStop(1,`rgba(${rgb},0)`);
+    grad.addColorStop(0,'rgba(79,142,247,0.28)');
+    grad.addColorStop(1,'rgba(79,142,247,0)');
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0].v));
     for(let i=1;i<pts.length;i++){const cx=(sx(i-1)+sx(i))/2;ctx.bezierCurveTo(cx,sy(pts[i-1].v),cx,sy(pts[i].v),sx(i),sy(pts[i].v));}
     ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
     ctx.fillStyle=grad;ctx.fill();
-    // Glow line
-    ctx.shadowColor=`rgba(${rgb},0.55)`;ctx.shadowBlur=7;
+    // Line
+    ctx.shadowColor='rgba(79,142,247,0.45)';ctx.shadowBlur=6;
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0].v));
     for(let i=1;i<pts.length;i++){const cx=(sx(i-1)+sx(i))/2;ctx.bezierCurveTo(cx,sy(pts[i-1].v),cx,sy(pts[i].v),sx(i),sy(pts[i].v));}
-    ctx.strokeStyle=`rgba(${rgb},1)`;ctx.lineWidth=2.5;ctx.stroke();
+    ctx.strokeStyle=AC;ctx.lineWidth=2;ctx.stroke();
     ctx.shadowBlur=0;
-    // Dots
+    // Dots: white fill + blue border
     pts.forEach((p,i)=>{
         const r=i===hovIdx?5.5:3.5;
         ctx.beginPath();ctx.arc(sx(i),sy(p.v),r,0,Math.PI*2);
-        ctx.fillStyle=i===hovIdx?`rgba(${rgb},1)`:`rgba(${rgb},0.85)`;ctx.fill();
-        ctx.strokeStyle='#0d141c';ctx.lineWidth=1.5;ctx.stroke();
+        ctx.fillStyle='#ffffff';ctx.fill();
+        ctx.strokeStyle=AC;ctx.lineWidth=i===hovIdx?2:1.5;ctx.stroke();
     });
     // Tooltip
     if(hovIdx>=0&&hovIdx<pts.length){
         const p=pts[hovIdx];
         const px=sx(hovIdx),py=sy(p.v);
-        // Dashed vertical line
         ctx.setLineDash([3,3]);
         ctx.beginPath();ctx.moveTo(px,padT);ctx.lineTo(px,H-padB);
-        ctx.strokeStyle=`rgba(${rgb},0.25)`;ctx.lineWidth=1;ctx.stroke();
+        ctx.strokeStyle='rgba(79,142,247,0.22)';ctx.lineWidth=1;ctx.stroke();
         ctx.setLineDash([]);
-        // Format
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
-        const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)}.${dt.getFullYear()} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
+        const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
         const line1=hovIdx===0?'0 💎':(p.d>0?`+${p.d} 💎`:`${p.d} 💎`);
-        const line2=dateStr;
-        // Measure box
         ctx.font='bold 11px Inter,sans-serif';
         const tw1=ctx.measureText(line1).width;
         ctx.font='10px Inter,sans-serif';
-        const tw2=ctx.measureText(line2).width;
+        const tw2=ctx.measureText(dateStr).width;
         const bw=Math.max(tw1,tw2)+22,bh=44;
         let bx=px-bw/2;
         if(bx<4)bx=4;
         if(bx+bw>W-4)bx=W-bw-4;
         let by=py-bh-12;
         if(by<4)by=py+14;
-        // Box
-        ctx.fillStyle='rgba(15,22,32,0.96)';
+        ctx.fillStyle='rgba(17,17,20,0.96)';
         ctx.beginPath();
         if(ctx.roundRect)ctx.roundRect(bx,by,bw,bh,8);
         else ctx.rect(bx,by,bw,bh);
         ctx.fill();
-        ctx.strokeStyle=`rgba(${rgb},0.45)`;ctx.lineWidth=1;ctx.stroke();
-        // Text
+        ctx.strokeStyle='rgba(79,142,247,0.35)';ctx.lineWidth=1;ctx.stroke();
         ctx.fillStyle='#ffffff';ctx.font='bold 11px Inter,sans-serif';
         ctx.fillText(line1,bx+11,by+17);
         ctx.fillStyle='rgba(255,255,255,0.45)';ctx.font='10px Inter,sans-serif';
-        ctx.fillText(line2,bx+11,by+33);
+        ctx.fillText(dateStr,bx+11,by+33);
     }
-    // Labels under chart
+    // X labels: last 7 days Mon–Sun
     const labEl=document.getElementById('walletChartLabels');
     if(labEl){
-        if(history.length>=2){
-            const show=[0,Math.floor((pts.length-1)/2),pts.length-1];
-            labEl.innerHTML='';
-            show.forEach(i=>{
-                const sp=document.createElement('span');
-                sp.className='wallet-chart-label';
-                const dt=new Date(pts[i].t);
-                sp.textContent=`${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}`;
-                labEl.appendChild(sp);
-            });
-        } else {
-            labEl.innerHTML='';
+        const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        const today=new Date();
+        labEl.innerHTML='';
+        for(let i=6;i>=0;i--){
+            const d=new Date(today);d.setDate(today.getDate()-i);
+            const sp=document.createElement('span');
+            sp.className='wallet-chart-label';
+            sp.textContent=days[d.getDay()];
+            labEl.appendChild(sp);
         }
     }
 }
@@ -2928,14 +2925,20 @@ function openTgProfile(){
     </div>
     <div class="wallet-body">
         <div class="wallet-balance-card">
-            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance</div>
+            <div class="wallet-balance-top">
+                <div class="wallet-balance-label" id="walletBalanceLabel">Your balance</div>
+                <div class="wallet-balance-badge" id="walletBalanceBadge">💎 diamonds</div>
+            </div>
             <div class="wallet-balance-amount">
                 <span class="gem">💎</span>
                 <span id="walletBalanceNum">0</span>
             </div>
         </div>
         <div class="wallet-chart-card">
-            <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
+            <div class="wallet-chart-head">
+                <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
+                <div class="wallet-chart-badge" id="walletChartBadge">7 days</div>
+            </div>
             <canvas id="walletChart"></canvas>
             <div class="wallet-chart-labels" id="walletChartLabels"></div>
         </div>

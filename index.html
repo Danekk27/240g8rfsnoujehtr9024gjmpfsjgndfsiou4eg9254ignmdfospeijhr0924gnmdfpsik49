@@ -1601,10 +1601,10 @@ const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
 (function(){
-    if(aiMemory.balanceReset!==1){
+    if(aiMemory.balanceReset!==2){
         aiMemory.diamonds=500;
         aiMemory.diamondHistory=[];
-        aiMemory.balanceReset=1;
+        aiMemory.balanceReset=2;
         try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}
     }
 })();
@@ -2685,7 +2685,7 @@ function drawWalletChart(hovIdx){
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
         const typeLabel=p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
-        const line1=hovIdx===0?'Start':(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${p.d} 💎`);
+        const line1=hovIdx===0?`${Number(p.v).toLocaleString()} 💎`:(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${Number(p.d).toLocaleString()} 💎`);
         const line2=typeLabel||dateStr;
         const line3=typeLabel?dateStr:'';
         ctx.font='bold 11px Inter,sans-serif';

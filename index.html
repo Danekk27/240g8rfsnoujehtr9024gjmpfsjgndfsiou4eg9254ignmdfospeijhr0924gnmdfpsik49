@@ -2644,7 +2644,8 @@ function drawWalletChart(hovIdx){
     ctx.scale(dpr,dpr);
     const padL=8,padR=8,padT=18,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
-    const sx=i=>padL+i*(gw/(pts.length-1));
+    const tMin=pts[0].t,tMax=Math.max(pts[pts.length-1].t,tMin+1);
+    const sx=i=>padL+((pts[i].t-tMin)/(tMax-tMin))*gw;
     // Scale: all points in view, tight range so even 25-diamond moves are visible
     const allVals=pts.map(p=>p.v);
     const maxV=Math.max(...allVals,1);
@@ -2658,16 +2659,17 @@ function drawWalletChart(hovIdx){
     const grad=ctx.createLinearGradient(0,padT,0,H);
     grad.addColorStop(0,'rgba(79,142,247,0.28)');
     grad.addColorStop(1,'rgba(79,142,247,0)');
+    const T=0.28;
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0].v));
-    for(let i=1;i<pts.length;i++){const cx=(sx(i-1)+sx(i))/2;ctx.bezierCurveTo(cx,sy(pts[i-1].v),cx,sy(pts[i].v),sx(i),sy(pts[i].v));}
+    for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
     ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
     ctx.fillStyle=grad;ctx.fill();
     // Line
     ctx.shadowColor='rgba(79,142,247,0.45)';ctx.shadowBlur=6;
     ctx.beginPath();
     ctx.moveTo(sx(0),sy(pts[0].v));
-    for(let i=1;i<pts.length;i++){const cx=(sx(i-1)+sx(i))/2;ctx.bezierCurveTo(cx,sy(pts[i-1].v),cx,sy(pts[i].v),sx(i),sy(pts[i].v));}
+    for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
     ctx.strokeStyle=AC;ctx.lineWidth=2;ctx.stroke();
     ctx.shadowBlur=0;
     // Dots
@@ -2713,7 +2715,7 @@ function drawWalletChart(hovIdx){
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
-        const typeLabel=p.type==='initial'?'🎁 Starting balance':p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
+        const typeLabel=p.type==='initial'?'Starting balance':p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
         const line1=hovIdx===0?`${Number(p.v).toLocaleString()} 💎`:(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${Number(p.d).toLocaleString()} 💎`);
         const line2=typeLabel||dateStr;
         const line3=typeLabel?dateStr:'';
@@ -2736,7 +2738,7 @@ function drawWalletChart(hovIdx){
         ctx.fill();
         const tipColor=p.type==='bonus'?'rgba(255,180,0,0.5)':'rgba(79,142,247,0.35)';
         ctx.strokeStyle=tipColor;ctx.lineWidth=1;ctx.stroke();
-        const line1Color=hovIdx===0?'#ffffff':p.d>0?'#7dff8a':'#fc3d3d';
+        const line1Color=p.d>0?'#7dff8a':p.d<0?'#fc3d3d':'#ffffff';
         ctx.fillStyle=p.type==='bonus'?'#FFD700':line1Color;ctx.font='bold 11px Inter,sans-serif';
         ctx.fillText(line1,bx+11,by+17);
         ctx.fillStyle=p.type==='bonus'?'rgba(255,200,80,0.85)':'rgba(255,255,255,0.55)';ctx.font='10px Inter,sans-serif';

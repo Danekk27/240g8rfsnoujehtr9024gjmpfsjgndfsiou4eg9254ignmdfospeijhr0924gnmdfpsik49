@@ -342,6 +342,8 @@
         @keyframes walletBtnWave { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
+        .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
+        .wallet-reset-btn:active { transform:scale(.96);background:rgba(252,61,61,0.2); }
         .avatar-box { cursor:pointer; }
         /* Topup mini-window */
         .wallet-topup-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10001;backdrop-filter:blur(6px); }
@@ -2435,6 +2437,19 @@ function openWalletScreen(){
     initWalletChartEvents();
     setTimeout(drawWalletChart,50);
 }
+function resetWalletBalance(){
+    haptic('rigid');
+    aiMemory.diamonds=500;
+    aiMemory.diamondHistory=[];
+    aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
+    saveMemory('diamonds',500);
+    saveMemory('diamondHistory',[]);
+    saveMemory('balanceReset',aiMemory.balanceReset);
+    if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
+    const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
+    const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
+    drawWalletChart();
+}
 function closeWalletScreen(){
     haptic('light');
     closeWalletTopup();
@@ -2602,7 +2617,7 @@ function drawWalletChart(hovIdx){
     // Build points
     let pts;
     if(history.length===0){
-        pts=[{t:cutoff||nowMs-dayMs,v:0,d:0},{t:nowMs,v:aiMemory.diamonds||0,d:0}];
+        pts=[{t:cutoff||nowMs-period*dayMs,v:0,d:0},{t:nowMs,v:0,d:0}];
     } else {
         const startV=Math.max(0,(history[0].v||0)-(history[0].d||0));
         pts=[{t:cutoff||history[0].t-dayMs,v:startV,d:0},...history];
@@ -3006,6 +3021,7 @@ function openTgProfile(){
         <div class="wallet-actions">
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">System Upgrade</button>
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up balance</button>
+            <button class="wallet-reset-btn" onclick="resetWalletBalance()">Reset balance to 500</button>
         </div>
     </div>
     <!-- Topup overlay -->

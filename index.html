@@ -2632,27 +2632,23 @@ function ftRenderItem(username,name){
     const color=ftAvatarColor(username);
     const favs=aiMemory.ftFavorites||[];
     const isFav=favs.some(f=>f.username===username);
-    const heartSvg=isFav
-        ?`<svg width="16" height="16" viewBox="0 0 24 24" fill="#4F8EF7" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`
-        :`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
-    const h=ftUserHash(u);
-    const exists=u.length>2&&(h%5!==0);
-    const inApp=exists&&(h%3!==0);
-    const existsBadge=exists
-        ?`<span style="color:#7dff8a;font-size:10px;">✓ Telegram</span>`
-        :`<span style="color:#fc3d3d;font-size:10px;">✗ Not found</span>`;
-    const appBadge=inApp
-        ?`<span style="color:#4F8EF7;font-size:10px;">✓ CynovaAI</span>`
-        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">✗ Not in app</span>`;
-    return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" >
-        <div class="ft-avatar" style="background-color:${color};background:${color}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;">${letter}</span></div>
-        <div class="ft-info">
-            <div class="ft-name">${name}</div>
-            <div class="ft-uname">@${u}</div>
-            <div style="display:flex;gap:8px;margin-top:3px;">${existsBadge}${appBadge}</div>
-        </div>
-        <button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heartSvg}</button>
-    </div>`;
+    const heartFill=isFav?'#4F8EF7':'none';
+    const heartStroke=isFav?'#4F8EF7':'rgba(255,255,255,0.4)';
+    const heartSvg=`<svg width="16" height="16" viewBox="0 0 24 24" fill="${heartFill}" stroke="${heartStroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+    // Real status via Telegram SDK
+    const tgUser=window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initDataUnsafe&&window.Telegram.WebApp.initDataUnsafe.user;
+    const myUsername=(tgUser&&tgUser.username||'').toLowerCase();
+    const isMe=myUsername&&myUsername===u.toLowerCase();
+    const tgBadge=isMe
+        ?`<span style="color:#7dff8a;font-size:10px;font-weight:500;">✓ Telegram</span>`
+        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">? Telegram</span>`;
+    const appBadge=isMe
+        ?`<span style="color:#4F8EF7;font-size:10px;font-weight:500;">✓ CynovaAI</span>`
+        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">? CynovaAI</span>`;
+    const avatarStyle=`width:36px;height:36px;min-width:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;`;
+    const nameE=name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const uE=u.replace(/</g,'&lt;');
+    return`<div class="ft-item" onclick="ftSelectUser('@${uE}','${nameE.replace(/'/g,'&#39;')}')" ><div style="${avatarStyle}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;display:block;">${letter}</span></div><div class="ft-info"><div class="ft-name">${nameE}</div><div class="ft-uname">@${uE}</div><div style="display:flex;gap:8px;margin-top:3px;">${tgBadge}${appBadge}</div></div><button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('@${uE}','${nameE.replace(/'/g,'&#39;')}')">${heartSvg}</button></div>`;
 }
 function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
 function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}

@@ -332,9 +332,12 @@
         .wallet-chart-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
         .wallet-chart-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
         .wallet-chart-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff; }
-        .wallet-chart-periods { display:flex;gap:4px; }
-        .wcp-btn { background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.12);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.38);cursor:pointer;transition:all .18s; }
-        .wcp-btn.active { background:rgba(79,142,247,0.18);border-color:rgba(79,142,247,0.45);color:#4F8EF7; }
+        .wallet-chart-filter { display:flex;gap:6px; }
+        .wcf-btn { border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;border:1px solid transparent; }
+        .wcf-btn.plus { background:rgba(125,255,138,0.08);border-color:rgba(125,255,138,0.18);color:rgba(125,255,138,0.45); }
+        .wcf-btn.plus.active { background:rgba(125,255,138,0.18);border-color:rgba(125,255,138,0.55);color:#7dff8a; }
+        .wcf-btn.minus { background:rgba(252,61,61,0.08);border-color:rgba(252,61,61,0.18);color:rgba(252,61,61,0.45); }
+        .wcf-btn.minus.active { background:rgba(252,61,61,0.18);border-color:rgba(252,61,61,0.55);color:#fc3d3d; }
         #walletChart { width:100%;height:160px;display:block;cursor:crosshair; }
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
@@ -344,6 +347,11 @@
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
         .wallet-reset-btn:active { transform:scale(.96);background:rgba(252,61,61,0.2); }
+        .wft-input { width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);color:#fff;border:1px solid rgba(255,255,255,0.08);padding:10px 13px;border-radius:11px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s; }
+        .wft-input:focus { border-color:rgba(79,142,247,0.5); }
+        .wft-input::placeholder { color:rgba(255,255,255,0.25); }
+        .wft-next-btn { width:100%;margin-top:10px;background:linear-gradient(135deg,#2d5fc4,#4a80e0);color:#fff;border:none;padding:12px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s; }
+        .wft-next-btn:active { opacity:.8; }
         .avatar-box { cursor:pointer; }
         /* Topup mini-window */
         .wallet-topup-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10001;backdrop-filter:blur(6px); }
@@ -1598,7 +1606,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Розумний ШІ-асистент — для спілкування, зображень, коду і не тільки.",welcomeGems:"стартових діамантів",welcomeTip1:"Ставте запитання, створюйте зображення, вирішуйте задачі",welcomeTip2:"Редагуйте та покращуйте фото одним запитом",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс алмазів синхронізується з Telegram",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені.",acctTitle:"Мій аккаунт",acctUsernameRow:"Ім'я користувача",acctPlanRow:"Тариф",acctThemeRow:"Тема",acctLangRow:"Мова",acctHistTitle:"Історія оплати",acctHistEmpty:"Історія порожня",acctReceived:"отримано",acctPrivilege:"Привілегія ·",acctPlanActive:"✓ активна",acctHistDiamonds:"алмазів"}
 };
 
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=7;
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='positive',_ftUsername='',_ftAmount=0;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
@@ -2601,13 +2609,18 @@ function initWalletChartEvents(){
     canvas.addEventListener('touchmove',e=>{e.preventDefault();drawWalletChart(getIdx(e.touches[0].clientX));},{passive:false});
     canvas.addEventListener('touchend',()=>drawWalletChart(-1));
 }
-function setWalletPeriod(p,btn){
-    walletChartPeriod=p;
-    document.querySelectorAll('.wcp-btn').forEach(b=>b.classList.remove('active'));
-    if(btn)btn.classList.add('active');
-    haptic('light');
-    drawWalletChart();
+function setWalletPeriod(p,btn){walletChartPeriod=p;haptic('light');drawWalletChart();}
+function setWalletFilter(f,btn){
+    if(walletChartFilter===f){walletChartFilter='all';document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));}
+    else{walletChartFilter=f;document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
+    haptic('light');drawWalletChart();
 }
+function openFriendTopup(){haptic('light');ftShowStep(1);document.getElementById('friendTopupSheet').classList.add('open');document.getElementById('friendTopupOverlay').classList.add('open');}
+function closeFriendTopup(){document.getElementById('friendTopupSheet').classList.remove('open');document.getElementById('friendTopupOverlay').classList.remove('open');}
+function ftShowStep(n){[1,2,3,4].forEach(i=>{const el=document.getElementById('ftStep'+i);if(el)el.style.display=i===n?'':'none';});}
+function ftGoStep2(){const inp=document.getElementById('ftUsernameInput');let u=(inp?inp.value.trim():'').replace(/^@/,'');if(!u){haptic('rigid');inp.focus();return;}_ftUsername='@'+u;const lbl=document.getElementById('ftForUser');if(lbl)lbl.textContent=_ftUsername;ftShowStep(2);}
+function ftChooseAmount(a){_ftAmount=a;const price='$'+(a*0.05).toLocaleString();const al=document.getElementById('ftAmountLabel'),pl=document.getElementById('ftPriceLabel'),tl=document.getElementById('ftToLabel');if(al)al.textContent=a.toLocaleString()+' 💎';if(pl)pl.textContent=price;if(tl)tl.textContent=_ftUsername;ftShowStep(3);}
+function ftChooseMethod(m){haptic('medium');setTimeout(()=>{const su=document.getElementById('ftSuccessUser'),sa=document.getElementById('ftSuccessAmount');if(su)su.textContent=_ftUsername;if(sa)sa.textContent=_ftAmount.toLocaleString()+' 💎';ftShowStep(4);haptic('success');},400);}
 function drawWalletChart(hovIdx){
     if(hovIdx===undefined)hovIdx=-1;
     const canvas=document.getElementById('walletChart');
@@ -2616,7 +2629,12 @@ function drawWalletChart(hovIdx){
     const nowMs=Date.now(),dayMs=86400000;
     const period=walletChartPeriod;
     const cutoff=period===0?0:nowMs-period*dayMs;
-    const history=allHistory.filter(e=>e.t>=cutoff);
+    const history=allHistory.filter(e=>{
+        if(e.t<cutoff)return false;
+        if(walletChartFilter==='positive')return e.d>0;
+        if(walletChartFilter==='negative')return e.d<0;
+        return true;
+    });
     // Build points
     const acctTs=aiMemory.accountCreatedAt||0;
     const initBal=500;
@@ -2716,7 +2734,7 @@ function drawWalletChart(hovIdx){
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
-        const typeLabel=p.type==='initial'?'Starting balance':p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
+        const typeLabel=p.d<0?'':p.type==='initial'?'Starting balance':p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
         const line1=hovIdx===0?`${Number(p.v).toLocaleString()} 💎`:(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${Number(p.d).toLocaleString()} 💎`);
         const line2=typeLabel||dateStr;
         const line3=typeLabel?dateStr:'';
@@ -3026,11 +3044,9 @@ function openTgProfile(){
         <div class="wallet-chart-card">
             <div class="wallet-chart-head">
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
-                <div class="wallet-chart-periods">
-                    <button class="wcp-btn active" data-period="7" onclick="setWalletPeriod(7,this)">7d</button>
-                    <button class="wcp-btn" data-period="30" onclick="setWalletPeriod(30,this)">30d</button>
-                    <button class="wcp-btn" data-period="180" onclick="setWalletPeriod(180,this)">180d</button>
-                    <button class="wcp-btn" data-period="0" onclick="setWalletPeriod(0,this)">All</button>
+                <div class="wallet-chart-filter">
+                    <button class="wcf-btn plus active" id="wcfPlus" onclick="setWalletFilter('positive',this)">+</button>
+                    <button class="wcf-btn minus" id="wcfMinus" onclick="setWalletFilter('negative',this)">−</button>
                 </div>
             </div>
             <canvas id="walletChart"></canvas>
@@ -3038,6 +3054,7 @@ function openTgProfile(){
         <div class="wallet-actions">
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">System Upgrade</button>
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up balance</button>
+            <button class="wallet-action-btn" onclick="openFriendTopup()">Top up friend's balance</button>
             <button class="wallet-reset-btn" onclick="resetWalletBalance()">Reset balance to 500</button>
         </div>
     </div>
@@ -3121,6 +3138,86 @@ function openTgProfile(){
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Friend topup overlay -->
+<div class="wallet-topup-overlay" id="friendTopupOverlay" onclick="closeFriendTopup()"></div>
+<!-- Friend topup sheet -->
+<div class="wallet-topup-sheet" id="friendTopupSheet">
+    <!-- Шаг 1: username -->
+    <div id="ftStep1">
+        <div class="wallet-topup-head" style="align-items:flex-start;">
+            <div>
+                <div class="wallet-topup-title">👤 Friend's username</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Enter Telegram username</div>
+            </div>
+            <button class="wallet-topup-close" onclick="closeFriendTopup()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div style="padding:0 13px 16px;">
+            <input class="wft-input" id="ftUsernameInput" type="text" placeholder="@username" autocomplete="off" autocorrect="off" spellcheck="false">
+            <button class="wft-next-btn" onclick="ftGoStep2()">Continue →</button>
+        </div>
+    </div>
+    <!-- Шаг 2: сумма -->
+    <div id="ftStep2" style="display:none;">
+        <div class="wallet-topup-head" style="align-items:flex-start;">
+            <button class="pay-back-btn" style="margin:0;margin-top:2px;" onclick="ftShowStep(1)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+            <div style="flex:1;padding:0 8px;">
+                <div class="wallet-topup-title">💎 Choose amount</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">For <span id="ftForUser" style="color:#4F8EF7;font-weight:600;"></span></div>
+            </div>
+            <button class="wallet-topup-close" onclick="closeFriendTopup()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="wallet-topup-grid">
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(100)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">100</span><span class="wallet-topup-price">$5</span></button>
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(250)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">250</span><span class="wallet-topup-price">$12.50</span></button>
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(500)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">500</span><span class="wallet-topup-price">$25</span></button>
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(1000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">1 000</span><span class="wallet-topup-price">$50</span></button>
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(2500)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">2 500</span><span class="wallet-topup-price">$125</span></button>
+            <button class="wallet-topup-btn" onclick="ftChooseAmount(5000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">5 000</span><span class="wallet-topup-price">$250</span></button>
+        </div>
+    </div>
+    <!-- Шаг 3: оплата -->
+    <div id="ftStep3" style="display:none;">
+        <div class="wallet-topup-head" style="align-items:flex-start;">
+            <button class="pay-back-btn" style="margin:0;margin-top:2px;" onclick="ftShowStep(2)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+            <div style="flex:1;padding:0 8px;">
+                <div class="wallet-topup-title">Payment</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;display:flex;align-items:center;gap:5px;">
+                    <span id="ftAmountLabel" style="color:#fff;font-weight:600;"></span>
+                    <span style="opacity:.35;">·</span>
+                    <span id="ftPriceLabel" style="color:#22c55e;font-weight:600;"></span>
+                    <span style="opacity:.35;">→</span>
+                    <span id="ftToLabel" style="color:#4F8EF7;font-weight:600;"></span>
+                </div>
+            </div>
+            <button class="wallet-topup-close" onclick="closeFriendTopup()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div style="padding:0 11px 14px;display:flex;flex-direction:column;gap:5px;">
+            <button class="wt-pay-method" onclick="ftChooseMethod('ton')">
+                <div style="width:36px;height:36px;border-radius:10px;background:#0098ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg></div>
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:var(--text-color);">TON</div>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="ftChooseMethod('cryptobot')">
+                <div style="width:36px;height:36px;border-radius:10px;background:#229ED9;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M21 7L9 19l-5.5-5.5L5 12l4 4L19.5 5.5 21 7z"/></svg></div>
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:var(--text-color);">Crypto Bot</div>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="ftChooseMethod('stars')">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">⭐</div>
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:var(--text-color);">Telegram Stars</div>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+    <!-- Шаг 4: успех -->
+    <div id="ftStep4" style="display:none;padding:24px 16px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;">🎉</div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;">Sent!</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.5;"><span id="ftSuccessAmount" style="color:#7dff8a;font-weight:600;"></span> sent to <span id="ftSuccessUser" style="color:#4F8EF7;font-weight:600;"></span></div>
+        <button class="wft-next-btn" style="margin-top:16px;" onclick="closeFriendTopup()">Done</button>
     </div>
 </div>
 

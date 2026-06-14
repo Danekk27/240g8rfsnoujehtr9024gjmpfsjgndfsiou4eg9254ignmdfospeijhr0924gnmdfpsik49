@@ -332,12 +332,19 @@
         .wallet-chart-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
         .wallet-chart-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
         .wallet-chart-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff; }
-        .wallet-chart-filter { display:flex;gap:6px; }
-        .wcf-btn { border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;border:1px solid transparent; }
-        .wcf-btn.plus { background:rgba(125,255,138,0.08);border-color:rgba(125,255,138,0.18);color:rgba(125,255,138,0.45); }
-        .wcf-btn.plus.active { background:rgba(125,255,138,0.18);border-color:rgba(125,255,138,0.55);color:#7dff8a; }
-        .wcf-btn.minus { background:rgba(252,61,61,0.08);border-color:rgba(252,61,61,0.18);color:rgba(252,61,61,0.45); }
-        .wcf-btn.minus.active { background:rgba(252,61,61,0.18);border-color:rgba(252,61,61,0.55);color:#fc3d3d; }
+        .ft-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.06);margin:0 13px 2px;}
+        .ft-tab{flex:1;text-align:center;padding:7px 0;font-size:12px;font-weight:600;color:rgba(255,255,255,0.3);cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;}
+        .ft-tab.active{color:#4F8EF7;border-bottom-color:#4F8EF7;}
+        .ft-suggestions{max-height:170px;overflow-y:auto;}
+        .ft-item{display:flex;align-items:center;gap:10px;padding:8px 13px;cursor:pointer;transition:background .15s;border-radius:10px;}
+        .ft-item:active{background:rgba(255,255,255,0.04);}
+        .ft-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;flex-shrink:0;}
+        .ft-info{flex:1;min-width:0;}
+        .ft-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .ft-uname{font-size:11px;color:rgba(255,255,255,0.38);}
+        .ft-heart{background:none;border:none;cursor:pointer;font-size:17px;padding:4px 2px;flex-shrink:0;transition:transform .15s;line-height:1;}
+        .ft-heart:active{transform:scale(1.35);}
+        .ft-empty{text-align:center;padding:20px 16px;color:rgba(255,255,255,0.22);font-size:13px;line-height:1.6;}
         #walletChart { width:100%;height:160px;display:block;cursor:crosshair; }
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
@@ -1606,7 +1613,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Авторська",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Розумний ШІ-асистент — для спілкування, зображень, коду і не тільки.",welcomeGems:"стартових діамантів",welcomeTip1:"Ставте запитання, створюйте зображення, вирішуйте задачі",welcomeTip2:"Редагуйте та покращуйте фото одним запитом",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс алмазів синхронізується з Telegram",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені.",acctTitle:"Мій аккаунт",acctUsernameRow:"Ім'я користувача",acctPlanRow:"Тариф",acctThemeRow:"Тема",acctLangRow:"Мова",acctHistTitle:"Історія оплати",acctHistEmpty:"Історія порожня",acctReceived:"отримано",acctPrivilege:"Привілегія ·",acctPlanActive:"✓ активна",acctHistDiamonds:"алмазів"}
 };
 
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='positive',_ftUsername='',_ftAmount=0;
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',_ftUsername='',_ftAmount=0;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
@@ -2615,10 +2622,16 @@ function setWalletFilter(f,btn){
     else{walletChartFilter=f;document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
     haptic('light');drawWalletChart();
 }
-function openFriendTopup(){haptic('light');ftShowStep(1);document.getElementById('friendTopupSheet').classList.add('open');document.getElementById('friendTopupOverlay').classList.add('open');}
+function ftAvatarColor(s){const c=['#4F8EF7','#7dff8a','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#fc3d3d'];let h=0;for(let ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return c[h%c.length];}
+function ftRenderItem(username,name){const u=username.replace(/^@/,'');const letter=(u[0]||'?').toUpperCase();const color=ftAvatarColor(username);const favs=aiMemory.ftFavorites||[];const isFav=favs.some(f=>f.username===username);const heart=isFav?'❤️':'🤍';return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" ><div class="ft-avatar" style="background:${color}">${letter}</div><div class="ft-info"><div class="ft-name">${name}</div><div class="ft-uname">@${u}</div></div><button class="ft-heart" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heart}</button></div>`;}
+function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
+function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}
+function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap 🤍 next to a user to save them here.</div>';}
+function ftSwitchView(view){document.querySelectorAll('.ft-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));const sv=document.getElementById('ftSearchView'),fv=document.getElementById('ftFavView');if(sv)sv.style.display=view==='search'?'':'none';if(fv){fv.style.display=view==='favs'?'':'none';if(view==='favs')ftRenderFavs();}}
+function ftSelectUser(username,name){_ftUsername=username;const lbl=document.getElementById('ftForUser');if(lbl)lbl.textContent=username;haptic('light');ftShowStep(2);}
+function openFriendTopup(){haptic('light');ftShowStep(1);ftSwitchView('search');const inp=document.getElementById('ftUsernameInput');if(inp)inp.value='';ftOnInput('');document.getElementById('friendTopupSheet').classList.add('open');document.getElementById('friendTopupOverlay').classList.add('open');}
 function closeFriendTopup(){document.getElementById('friendTopupSheet').classList.remove('open');document.getElementById('friendTopupOverlay').classList.remove('open');}
 function ftShowStep(n){[1,2,3,4].forEach(i=>{const el=document.getElementById('ftStep'+i);if(el)el.style.display=i===n?'':'none';});}
-function ftGoStep2(){const inp=document.getElementById('ftUsernameInput');let u=(inp?inp.value.trim():'').replace(/^@/,'');if(!u){haptic('rigid');inp.focus();return;}_ftUsername='@'+u;const lbl=document.getElementById('ftForUser');if(lbl)lbl.textContent=_ftUsername;ftShowStep(2);}
 function ftChooseAmount(a){_ftAmount=a;const price='$'+(a*0.05).toLocaleString();const al=document.getElementById('ftAmountLabel'),pl=document.getElementById('ftPriceLabel'),tl=document.getElementById('ftToLabel');if(al)al.textContent=a.toLocaleString()+' 💎';if(pl)pl.textContent=price;if(tl)tl.textContent=_ftUsername;ftShowStep(3);}
 function ftChooseMethod(m){haptic('medium');setTimeout(()=>{const su=document.getElementById('ftSuccessUser'),sa=document.getElementById('ftSuccessAmount');if(su)su.textContent=_ftUsername;if(sa)sa.textContent=_ftAmount.toLocaleString()+' 💎';ftShowStep(4);haptic('success');},400);}
 function drawWalletChart(hovIdx){
@@ -3044,10 +3057,6 @@ function openTgProfile(){
         <div class="wallet-chart-card">
             <div class="wallet-chart-head">
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
-                <div class="wallet-chart-filter">
-                    <button class="wcf-btn plus active" id="wcfPlus" onclick="setWalletFilter('positive',this)">+</button>
-                    <button class="wcf-btn minus" id="wcfMinus" onclick="setWalletFilter('negative',this)">−</button>
-                </div>
             </div>
             <canvas id="walletChart"></canvas>
         </div>
@@ -3145,18 +3154,27 @@ function openTgProfile(){
 <div class="wallet-topup-overlay" id="friendTopupOverlay" onclick="closeFriendTopup()"></div>
 <!-- Friend topup sheet -->
 <div class="wallet-topup-sheet" id="friendTopupSheet">
-    <!-- Шаг 1: username -->
+    <!-- Шаг 1: поиск / избранное -->
     <div id="ftStep1">
         <div class="wallet-topup-head" style="align-items:flex-start;">
             <div>
-                <div class="wallet-topup-title">👤 Friend's username</div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Enter Telegram username</div>
+                <div class="wallet-topup-title">👤 Top up friend</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Search or pick from favorites</div>
             </div>
             <button class="wallet-topup-close" onclick="closeFriendTopup()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </div>
-        <div style="padding:0 13px 16px;">
-            <input class="wft-input" id="ftUsernameInput" type="text" placeholder="@username" autocomplete="off" autocorrect="off" spellcheck="false">
-            <button class="wft-next-btn" onclick="ftGoStep2()">Continue →</button>
+        <div class="ft-tabs">
+            <div class="ft-tab active" data-view="search" onclick="ftSwitchView('search')">Search</div>
+            <div class="ft-tab" data-view="favs" onclick="ftSwitchView('favs')">❤️ Favorites</div>
+        </div>
+        <!-- Search view -->
+        <div id="ftSearchView" style="padding:8px 13px 14px;">
+            <input class="wft-input" id="ftUsernameInput" type="text" placeholder="@username" autocomplete="off" autocorrect="off" spellcheck="false" oninput="ftOnInput(this.value)">
+            <div class="ft-suggestions" id="ftSearchResults" style="margin-top:6px;"></div>
+        </div>
+        <!-- Favorites view -->
+        <div id="ftFavView" style="display:none;padding:8px 0 14px;">
+            <div class="ft-suggestions" id="ftFavList"></div>
         </div>
     </div>
     <!-- Шаг 2: сумма -->

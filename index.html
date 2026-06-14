@@ -335,7 +335,7 @@
         .wallet-chart-periods { display:flex;gap:4px; }
         .wcp-btn { background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.12);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.38);cursor:pointer;transition:all .18s; }
         .wcp-btn.active { background:rgba(79,142,247,0.18);border-color:rgba(79,142,247,0.45);color:#4F8EF7; }
-        #walletChart { width:100%;height:130px;display:block;cursor:crosshair; }
+        #walletChart { width:100%;height:160px;display:block;cursor:crosshair; }
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
         .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
@@ -2626,7 +2626,8 @@ function drawWalletChart(hovIdx){
         if(acctInView){
             pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},{t:nowMs,v:initBal,d:0}];
         } else {
-            pts=[{t:cutoff||nowMs-period*dayMs,v:0,d:0},{t:nowMs,v:0,d:0}];
+            const curBal=aiMemory.diamonds||initBal;
+            pts=[{t:cutoff||nowMs-period*dayMs,v:curBal,d:0},{t:nowMs,v:curBal,d:0}];
         }
     } else {
         const startV=Math.max(0,(history[0].v||0)-(history[0].d||0));
@@ -2638,11 +2639,11 @@ function drawWalletChart(hovIdx){
     }
     canvas._wcPts=pts;
     const dpr=window.devicePixelRatio||1;
-    const W=canvas.offsetWidth,H=130;
+    const W=canvas.offsetWidth,H=160;
     canvas.width=W*dpr;canvas.height=H*dpr;
     const ctx=canvas.getContext('2d');
     ctx.scale(dpr,dpr);
-    const padL=8,padR=8,padT=18,padB=8;
+    const padL=8,padR=8,padT=50,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
     const tMin=pts[0].t,tMax=Math.max(pts[pts.length-1].t,tMin+1);
     const sx=i=>padL+((pts[i].t-tMin)/(tMax-tMin))*gw;

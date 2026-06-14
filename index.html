@@ -1599,11 +1599,12 @@ const translations = {
 var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=7;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
-// Default starting balance 500 diamonds
+// One-time balance reset to 500 (balanceReset v1)
 (function(){
-    if(aiMemory.diamonds===undefined||aiMemory.diamonds===null){
+    if(aiMemory.balanceReset!==1){
         aiMemory.diamonds=500;
         aiMemory.diamondHistory=[];
+        aiMemory.balanceReset=1;
         try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}
     }
 })();
@@ -2083,7 +2084,7 @@ function toggleFavoriteImg(src,btn){
 }
 
 function callMockAI(isImg){var delay=isImg?3200:(1200+Math.random()*600);setTimeout(function(){hideTypingBubble();var t=translations[currentLang]||translations.en;if(isImg){appendMessage('ai','🎨 '+(t.creatingImage||'Creating image...')+' — AI не подключён',null);}else{appendMessage('ai','👋 CynovaAI — демо режим',null);}if(_chatSaved&&_currentChatId)_updateChatInLib();},delay);}
-function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}if(isImgTask){const bal=aiMemory.diamonds||0;if(bal<25){haptic('rigid');const t=translations[currentLang]||translations.en;appendMessage('ai','💎 '+(t.notEnoughDiamonds||'Not enough diamonds')+' (need 25, have '+bal+')',null);return;}addDiamonds(-25);}haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
+function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}{const bal=aiMemory.diamonds||0;if(bal<25){haptic('rigid');const t=translations[currentLang]||translations.en;appendMessage('ai','💎 '+(t.notEnoughDiamonds||'Not enough diamonds')+' (need 25, have '+bal+')',null);return;}addDiamonds(-25,isImgTask?'image':'text');}haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
 
 function openVoiceModal(){haptic('medium');const m=document.getElementById('voiceModal');if(m)m.style.display='flex';const t=document.getElementById('voiceTranscript');if(t)t.textContent='';const s=document.getElementById('voiceStatus');if(s)s.textContent='Listening...';const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){if(s)s.textContent='Not supported';return;}recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.lang=currentLang==='ru'?'ru-RU':currentLang==='ja'?'ja-JP':currentLang==='zh'?'zh-CN':currentLang==='uk'?'uk-UA':'en-US';recognition.onresult=e=>{let txt='';for(let i=0;i<e.results.length;i++)txt+=e.results[i][0].transcript;const t=document.getElementById('voiceTranscript');if(t)t.textContent=txt;};recognition.start();}
 function stopVoice(){if(recognition)recognition.stop();const m=document.getElementById('voiceModal');if(m)m.style.display='none';const t=document.getElementById('voiceTranscript');if(t&&t.textContent){const p=document.getElementById('textPrompt');if(p)p.value=t.textContent;}}
@@ -2537,12 +2538,12 @@ function wtApplyPromo(){
     else{const msgs={ru:'Введите промокод',en:'Enter promocode',ja:'プロモコードを入力',zh:'请输入促销码',uk:'Введіть промокод'};alert(msgs[currentLang]||msgs.en);}
     if(input)input.value='';
 }
-function addDiamonds(amount){
+function addDiamonds(amount,type){
     haptic('medium');
     const newBal=(aiMemory.diamonds||0)+amount;
     aiMemory.diamonds=newBal;
     if(!aiMemory.diamondHistory)aiMemory.diamondHistory=[];
-    aiMemory.diamondHistory.push({t:Date.now(),v:newBal,d:amount});
+    aiMemory.diamondHistory.push({t:Date.now(),v:newBal,d:amount,type:type||''});
     if(aiMemory.diamondHistory.length>30)aiMemory.diamondHistory=aiMemory.diamondHistory.slice(-30);
     saveMemory('diamonds',newBal);
     saveMemory('diamondHistory',aiMemory.diamondHistory);
@@ -2615,22 +2616,14 @@ function drawWalletChart(hovIdx){
     const padL=8,padR=8,padT=18,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
     const sx=i=>padL+i*(gw/(pts.length-1));
-    // Smart scale: 0 pinned to bottom, real changes fill the chart
-    const realPts=pts.slice(1);
-    const maxReal=Math.max(...realPts.map(p=>p.v),1);
-    let sy;
-    if(realPts.length<=1){
-        sy=v=>padT+gh-(v/(maxReal*1.1))*gh;
-    } else {
-        const minReal=Math.min(...realPts.map(p=>p.v));
-        const rng=(maxReal-minReal)||maxReal*0.2||1;
-        const scMin=Math.max(0,minReal-rng*0.5);
-        const scMax=maxReal+rng*0.15;
-        sy=v=>{
-            if(v===0)return padT+gh; // 0 always at bottom
-            return padT+gh-((v-scMin)/(scMax-scMin))*gh;
-        };
-    }
+    // Scale: all points in view, tight range so even 25-diamond moves are visible
+    const allVals=pts.map(p=>p.v);
+    const maxV=Math.max(...allVals,1);
+    const minV=Math.min(...allVals);
+    const rng=(maxV-minV)||maxV*0.12||1;
+    const scMin=Math.max(0,minV-rng*0.18);
+    const scMax=maxV+rng*0.18;
+    const sy=v=>padT+gh-((v-scMin)/(scMax-scMin))*gh;
     const AC='#4F8EF7';
     // Fill gradient
     const grad=ctx.createLinearGradient(0,padT,0,H);
@@ -2691,7 +2684,7 @@ function drawWalletChart(hovIdx){
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
-        const typeLabel=p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':'';
+        const typeLabel=p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
         const line1=hovIdx===0?'Start':(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${p.d} 💎`);
         const line2=typeLabel||dateStr;
         const line3=typeLabel?dateStr:'';
@@ -2785,8 +2778,7 @@ function openTgProfile(){
     syncDiamondsFromCloud(function(){
         if(!aiMemory.welcomed){
             aiMemory.welcomed=true;
-            const bal=aiMemory.diamonds||0;
-            if(bal===0){
+            if(!aiMemory.diamonds||aiMemory.diamonds<500){
                 aiMemory.diamonds=500;
                 saveMemory('diamonds',500);
                 if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});

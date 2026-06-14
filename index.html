@@ -338,7 +338,7 @@
         .ft-suggestions{max-height:170px;overflow-y:auto;}
         .ft-item{display:flex;align-items:center;gap:10px;padding:8px 13px;cursor:pointer;transition:background .15s;border-radius:10px;}
         .ft-item:active{background:rgba(255,255,255,0.04);}
-        .ft-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;flex-shrink:0;}
+        .ft-avatar{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff !important;flex-shrink:0;overflow:hidden;}
         .ft-info{flex:1;min-width:0;}
         .ft-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .ft-uname{font-size:11px;color:rgba(255,255,255,0.38);}
@@ -2623,7 +2623,7 @@ function setWalletFilter(f,btn){
     haptic('light');drawWalletChart();
 }
 function ftAvatarColor(s){const c=['#4F8EF7','#7dff8a','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#fc3d3d'];let h=0;for(let ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return c[h%c.length];}
-function ftRenderItem(username,name){const u=username.replace(/^@/,'');const letter=(u[0]||'?').toUpperCase();const color=ftAvatarColor(username);const favs=aiMemory.ftFavorites||[];const isFav=favs.some(f=>f.username===username);const heart=isFav?'❤️':'🤍';return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" ><div class="ft-avatar" style="background:${color}">${letter}</div><div class="ft-info"><div class="ft-name">${name}</div><div class="ft-uname">@${u}</div></div><button class="ft-heart" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heart}</button></div>`;}
+function ftRenderItem(username,name){const u=username.replace(/^@/,'');const letter=(u[0]||'?').toUpperCase();const color=ftAvatarColor(username);const favs=aiMemory.ftFavorites||[];const isFav=favs.some(f=>f.username===username);const heart=isFav?'❤️':'🤍';return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" ><div class="ft-avatar" style="background-color:${color};background:${color}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;">${letter}</span></div><div class="ft-info"><div class="ft-name">${name}</div><div class="ft-uname">@${u}</div></div><button class="ft-heart" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heart}</button></div>`;}
 function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
 function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}
 function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap 🤍 next to a user to save them here.</div>';}
@@ -2655,7 +2655,7 @@ function drawWalletChart(hovIdx){
     let pts;
     if(history.length===0){
         if(acctInView){
-            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},{t:nowMs,v:initBal,d:0}];
+            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'}];
         } else {
             const curBal=aiMemory.diamonds||initBal;
             pts=[{t:cutoff||nowMs-period*dayMs,v:curBal,d:0},{t:nowMs,v:curBal,d:0}];
@@ -2676,8 +2676,8 @@ function drawWalletChart(hovIdx){
     ctx.scale(dpr,dpr);
     const padL=8,padR=8,padT=50,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
-    const tMin=pts[0].t,tMax=Math.max(pts[pts.length-1].t,tMin+1);
-    const sx=i=>padL+((pts[i].t-tMin)/(tMax-tMin))*gw;
+    const tMin=pts[0].t,tMax=pts.length>1?Math.max(pts[pts.length-1].t,tMin+1):tMin;
+    const sx=pts.length===1?()=>padL+gw/2:i=>padL+((pts[i].t-tMin)/(tMax-tMin))*gw;
     // Scale: all points in view, tight range so even 25-diamond moves are visible
     const allVals=pts.map(p=>p.v);
     const maxV=Math.max(...allVals,1);
@@ -2687,23 +2687,25 @@ function drawWalletChart(hovIdx){
     const scMax=maxV+rng*0.18;
     const sy=v=>padT+gh-((v-scMin)/(scMax-scMin))*gh;
     const AC='#4F8EF7';
-    // Fill gradient
-    const grad=ctx.createLinearGradient(0,padT,0,H);
-    grad.addColorStop(0,'rgba(79,142,247,0.28)');
-    grad.addColorStop(1,'rgba(79,142,247,0)');
-    const T=0.28;
-    ctx.beginPath();
-    ctx.moveTo(sx(0),sy(pts[0].v));
-    for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
-    ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
-    ctx.fillStyle=grad;ctx.fill();
-    // Line
-    ctx.shadowColor='rgba(79,142,247,0.45)';ctx.shadowBlur=6;
-    ctx.beginPath();
-    ctx.moveTo(sx(0),sy(pts[0].v));
-    for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
-    ctx.strokeStyle=AC;ctx.lineWidth=2;ctx.stroke();
-    ctx.shadowBlur=0;
+    if(pts.length>1){
+        // Fill gradient
+        const grad=ctx.createLinearGradient(0,padT,0,H);
+        grad.addColorStop(0,'rgba(79,142,247,0.28)');
+        grad.addColorStop(1,'rgba(79,142,247,0)');
+        const T=0.28;
+        ctx.beginPath();
+        ctx.moveTo(sx(0),sy(pts[0].v));
+        for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
+        ctx.lineTo(sx(pts.length-1),H);ctx.lineTo(sx(0),H);ctx.closePath();
+        ctx.fillStyle=grad;ctx.fill();
+        // Line
+        ctx.shadowColor='rgba(79,142,247,0.45)';ctx.shadowBlur=6;
+        ctx.beginPath();
+        ctx.moveTo(sx(0),sy(pts[0].v));
+        for(let i=1;i<pts.length;i++){const cx1=sx(i-1)+(sx(i)-sx(i-1))*T,cx2=sx(i)-(sx(i)-sx(i-1))*T;ctx.bezierCurveTo(cx1,sy(pts[i-1].v),cx2,sy(pts[i].v),sx(i),sy(pts[i].v));}
+        ctx.strokeStyle=AC;ctx.lineWidth=2;ctx.stroke();
+        ctx.shadowBlur=0;
+    }
     // Dots
     pts.forEach((p,i)=>{
         const isBonus=p.type==='bonus';

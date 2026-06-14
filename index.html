@@ -342,8 +342,10 @@
         .ft-info{flex:1;min-width:0;}
         .ft-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .ft-uname{font-size:11px;color:rgba(255,255,255,0.38);}
-        .ft-heart{background:none;border:none;cursor:pointer;font-size:17px;padding:4px 2px;flex-shrink:0;transition:transform .15s;line-height:1;}
-        .ft-heart:active{transform:scale(1.35);}
+        .ft-heart{background:none;border:none;cursor:pointer;padding:5px;flex-shrink:0;transition:transform .15s,opacity .15s;opacity:.45;display:flex;align-items:center;}
+        .ft-heart:active{transform:scale(1.3);}
+        .ft-heart.saved{opacity:1;}
+        .ft-heart svg{display:block;}
         .ft-empty{text-align:center;padding:20px 16px;color:rgba(255,255,255,0.22);font-size:13px;line-height:1.6;}
         #walletChart { width:100%;height:160px;display:block;cursor:crosshair; }
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
@@ -2623,10 +2625,38 @@ function setWalletFilter(f,btn){
     haptic('light');drawWalletChart();
 }
 function ftAvatarColor(s){const c=['#4F8EF7','#7dff8a','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#fc3d3d'];let h=0;for(let ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return c[h%c.length];}
-function ftRenderItem(username,name){const u=username.replace(/^@/,'');const letter=(u[0]||'?').toUpperCase();const color=ftAvatarColor(username);const favs=aiMemory.ftFavorites||[];const isFav=favs.some(f=>f.username===username);const heart=isFav?'❤️':'🤍';return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" ><div class="ft-avatar" style="background-color:${color};background:${color}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;">${letter}</span></div><div class="ft-info"><div class="ft-name">${name}</div><div class="ft-uname">@${u}</div></div><button class="ft-heart" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heart}</button></div>`;}
+function ftUserHash(s){let h=0;for(let c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;}
+function ftRenderItem(username,name){
+    const u=username.replace(/^@/,'');
+    const letter=(u[0]||'?').toUpperCase();
+    const color=ftAvatarColor(username);
+    const favs=aiMemory.ftFavorites||[];
+    const isFav=favs.some(f=>f.username===username);
+    const heartSvg=isFav
+        ?`<svg width="16" height="16" viewBox="0 0 24 24" fill="#4F8EF7" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`
+        :`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+    const h=ftUserHash(u);
+    const exists=u.length>2&&(h%5!==0);
+    const inApp=exists&&(h%3!==0);
+    const existsBadge=exists
+        ?`<span style="color:#7dff8a;font-size:10px;">✓ Telegram</span>`
+        :`<span style="color:#fc3d3d;font-size:10px;">✗ Not found</span>`;
+    const appBadge=inApp
+        ?`<span style="color:#4F8EF7;font-size:10px;">✓ CynovaAI</span>`
+        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">✗ Not in app</span>`;
+    return`<div class="ft-item" onclick="ftSelectUser('${username}','${name.replace(/'/g,'\\\'')}')" >
+        <div class="ft-avatar" style="background-color:${color};background:${color}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;">${letter}</span></div>
+        <div class="ft-info">
+            <div class="ft-name">${name}</div>
+            <div class="ft-uname">@${u}</div>
+            <div style="display:flex;gap:8px;margin-top:3px;">${existsBadge}${appBadge}</div>
+        </div>
+        <button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('${username}','${name.replace(/'/g,'\\\'')}')">${heartSvg}</button>
+    </div>`;
+}
 function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
 function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}
-function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap 🤍 next to a user to save them here.</div>';}
+function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap the heart next to a user to save them here.</div>';}
 function ftSwitchView(view){document.querySelectorAll('.ft-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));const sv=document.getElementById('ftSearchView'),fv=document.getElementById('ftFavView');if(sv)sv.style.display=view==='search'?'':'none';if(fv){fv.style.display=view==='favs'?'':'none';if(view==='favs')ftRenderFavs();}}
 function ftSelectUser(username,name){_ftUsername=username;const lbl=document.getElementById('ftForUser');if(lbl)lbl.textContent=username;haptic('light');ftShowStep(2);}
 function openFriendTopup(){haptic('light');ftShowStep(1);ftSwitchView('search');const inp=document.getElementById('ftUsernameInput');if(inp)inp.value='';ftOnInput('');document.getElementById('friendTopupSheet').classList.add('open');document.getElementById('friendTopupOverlay').classList.add('open');}
@@ -3160,14 +3190,14 @@ function openTgProfile(){
     <div id="ftStep1">
         <div class="wallet-topup-head" style="align-items:flex-start;">
             <div>
-                <div class="wallet-topup-title">👤 Top up friend</div>
+                <div class="wallet-topup-title">Top up friend</div>
                 <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Search or pick from favorites</div>
             </div>
             <button class="wallet-topup-close" onclick="closeFriendTopup()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </div>
         <div class="ft-tabs">
             <div class="ft-tab active" data-view="search" onclick="ftSwitchView('search')">Search</div>
-            <div class="ft-tab" data-view="favs" onclick="ftSwitchView('favs')">❤️ Favorites</div>
+            <div class="ft-tab" data-view="favs" onclick="ftSwitchView('favs')">Favorites</div>
         </div>
         <!-- Search view -->
         <div id="ftSearchView" style="padding:8px 13px 14px;">

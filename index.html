@@ -2626,6 +2626,40 @@ function setWalletFilter(f,btn){
 }
 function ftAvatarColor(s){const c=['#4F8EF7','#7dff8a','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#fc3d3d'];let h=0;for(let ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return c[h%c.length];}
 function ftUserHash(s){let h=0;for(let c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;}
+async function ftCheckStatus(u){
+    const itemId='fti_'+u.replace(/[^a-zA-Z0-9]/g,'_');
+    const tgEl=document.getElementById(itemId+'_tg');
+    const appEl=document.getElementById(itemId+'_app');
+    if(!tgEl||!appEl)return;
+    // Check if this is the current user via SDK
+    const tgUser=window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initDataUnsafe&&window.Telegram.WebApp.initDataUnsafe.user;
+    const myUsername=(tgUser&&tgUser.username||'').toLowerCase();
+    if(myUsername&&myUsername===u.toLowerCase()){
+        tgEl.style.color='#7dff8a';tgEl.style.fontWeight='500';tgEl.textContent='✓ Telegram';
+        appEl.style.color='#4F8EF7';appEl.style.fontWeight='500';appEl.textContent='✓ CynovaAI';
+        return;
+    }
+    // Check Telegram existence via fragment/username lookup API
+    try{
+        const r=await fetch('https://fragment.com/username/'+encodeURIComponent(u),{method:'HEAD',mode:'no-cors'});
+        // no-cors: opaque response, can't read status — fallback to app-only check
+    }catch(e){}
+    // Check CynovaAI registration via backend (replace URL with real endpoint)
+    try{
+        const r=await fetch('https://cynovaai.app/api/check-user?username='+encodeURIComponent(u),{signal:AbortSignal.timeout(4000)});
+        if(r.ok){
+            const d=await r.json();
+            if(d.inTelegram){tgEl.style.color='#7dff8a';tgEl.style.fontWeight='500';tgEl.textContent='✓ Telegram';}
+            else{tgEl.style.color='#fc3d3d';tgEl.textContent='✗ Telegram';}
+            if(d.inApp){appEl.style.color='#4F8EF7';appEl.style.fontWeight='500';appEl.textContent='✓ CynovaAI';}
+            else{appEl.style.color='rgba(255,255,255,0.35)';appEl.textContent='✗ CynovaAI';}
+            return;
+        }
+    }catch(e){}
+    // Backend not reachable — show neutral
+    tgEl.style.color='rgba(255,255,255,0.28)';tgEl.textContent='? Telegram';
+    appEl.style.color='rgba(255,255,255,0.28)';appEl.textContent='? CynovaAI';
+}
 function ftRenderItem(username,name){
     const u=username.replace(/^@/,'');
     const letter=(u[0]||'?').toUpperCase();
@@ -2635,20 +2669,13 @@ function ftRenderItem(username,name){
     const heartFill=isFav?'#4F8EF7':'none';
     const heartStroke=isFav?'#4F8EF7':'rgba(255,255,255,0.4)';
     const heartSvg=`<svg width="16" height="16" viewBox="0 0 24 24" fill="${heartFill}" stroke="${heartStroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
-    // Real status via Telegram SDK
-    const tgUser=window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initDataUnsafe&&window.Telegram.WebApp.initDataUnsafe.user;
-    const myUsername=(tgUser&&tgUser.username||'').toLowerCase();
-    const isMe=myUsername&&myUsername===u.toLowerCase();
-    const tgBadge=isMe
-        ?`<span style="color:#7dff8a;font-size:10px;font-weight:500;">✓ Telegram</span>`
-        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">? Telegram</span>`;
-    const appBadge=isMe
-        ?`<span style="color:#4F8EF7;font-size:10px;font-weight:500;">✓ CynovaAI</span>`
-        :`<span style="color:rgba(255,255,255,0.28);font-size:10px;">? CynovaAI</span>`;
-    const avatarStyle=`width:36px;height:36px;min-width:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;`;
+    // Schedule async real-data status check after render
+    setTimeout(()=>ftCheckStatus(u),0);
+    const avatarSvg=`<svg width="36" height="36" viewBox="0 0 36 36" style="flex-shrink:0;min-width:36px;" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="18" fill="${color}"/><text x="18" y="18" text-anchor="middle" dominant-baseline="central" fill="white" font-size="15" font-weight="bold" font-family="sans-serif">${letter}</text></svg>`;
     const nameE=name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const uE=u.replace(/</g,'&lt;');
-    return`<div class="ft-item" onclick="ftSelectUser('@${uE}','${nameE.replace(/'/g,'&#39;')}')" ><div style="${avatarStyle}"><span style="color:#fff;font-weight:700;font-size:15px;line-height:1;display:block;">${letter}</span></div><div class="ft-info"><div class="ft-name">${nameE}</div><div class="ft-uname">@${uE}</div><div style="display:flex;gap:8px;margin-top:3px;">${tgBadge}${appBadge}</div></div><button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('@${uE}','${nameE.replace(/'/g,'&#39;')}')">${heartSvg}</button></div>`;
+    const itemId='fti_'+u.replace(/[^a-zA-Z0-9]/g,'_');
+    return`<div class="ft-item" id="${itemId}" onclick="ftSelectUser('@${uE}','${nameE.replace(/'/g,'&#39;')}')" >${avatarSvg}<div class="ft-info"><div class="ft-name">${nameE}</div><div class="ft-uname">@${uE}</div><div style="display:flex;gap:8px;margin-top:3px;"><span id="${itemId}_tg" style="color:rgba(255,255,255,0.28);font-size:10px;">... Telegram</span><span id="${itemId}_app" style="color:rgba(255,255,255,0.28);font-size:10px;">... CynovaAI</span></div></div><button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('@${uE}','${nameE.replace(/'/g,'&#39;')}')">${heartSvg}</button></div>`;
 }
 function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
 function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}
@@ -2681,7 +2708,7 @@ function drawWalletChart(hovIdx){
     let pts;
     if(history.length===0){
         if(acctInView){
-            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'}];
+            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},{t:nowMs,v:initBal,d:0}];
         } else {
             const curBal=aiMemory.diamonds||initBal;
             const spanStart=cutoff>0?cutoff:nowMs-30*dayMs;

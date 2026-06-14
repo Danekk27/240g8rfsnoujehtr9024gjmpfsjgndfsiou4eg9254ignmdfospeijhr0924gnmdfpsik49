@@ -2626,6 +2626,25 @@ function setWalletFilter(f,btn){
 }
 function ftAvatarColor(s){const c=['#4F8EF7','#7dff8a','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#fc3d3d'];let h=0;for(let ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return c[h%c.length];}
 function ftUserHash(s){let h=0;for(let c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;}
+function ftDrawAvatars(){
+    document.querySelectorAll('canvas.ft-av-canvas').forEach(c=>{
+        if(c._av)return;c._av=true;
+        const color=c.dataset.color||'#4F8EF7';
+        const letter=c.dataset.letter||'?';
+        const dpr=window.devicePixelRatio||1;
+        const sz=36;
+        c.width=sz*dpr;c.height=sz*dpr;
+        c.style.cssText='width:36px;height:36px;min-width:36px;flex-shrink:0;border-radius:50%;display:block;';
+        const ctx=c.getContext('2d');
+        ctx.scale(dpr,dpr);
+        ctx.beginPath();ctx.arc(sz/2,sz/2,sz/2,0,Math.PI*2);
+        ctx.fillStyle=color;ctx.fill();
+        ctx.fillStyle='#ffffff';
+        ctx.font='bold 15px -apple-system,sans-serif';
+        ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(letter,sz/2,sz/2);
+    });
+}
 async function ftCheckStatus(u){
     const itemId='fti_'+u.replace(/[^a-zA-Z0-9]/g,'_');
     const tgEl=document.getElementById(itemId+'_tg');
@@ -2669,17 +2688,16 @@ function ftRenderItem(username,name){
     const heartFill=isFav?'#4F8EF7':'none';
     const heartStroke=isFav?'#4F8EF7':'rgba(255,255,255,0.4)';
     const heartSvg=`<svg width="16" height="16" viewBox="0 0 24 24" fill="${heartFill}" stroke="${heartStroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
-    // Schedule async real-data status check after render
     setTimeout(()=>ftCheckStatus(u),0);
-    const avatarSvg=`<svg width="36" height="36" viewBox="0 0 36 36" style="flex-shrink:0;min-width:36px;" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="18" fill="${color}"/><text x="18" y="18" text-anchor="middle" dominant-baseline="central" fill="white" font-size="15" font-weight="bold" font-family="sans-serif">${letter}</text></svg>`;
+    const avatarEl=`<canvas class="ft-av-canvas" data-color="${color}" data-letter="${letter}"></canvas>`;
     const nameE=name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const uE=u.replace(/</g,'&lt;');
     const itemId='fti_'+u.replace(/[^a-zA-Z0-9]/g,'_');
-    return`<div class="ft-item" id="${itemId}" onclick="ftSelectUser('@${uE}','${nameE.replace(/'/g,'&#39;')}')" >${avatarSvg}<div class="ft-info"><div class="ft-name">${nameE}</div><div class="ft-uname">@${uE}</div><div style="display:flex;gap:8px;margin-top:3px;"><span id="${itemId}_tg" style="color:rgba(255,255,255,0.28);font-size:10px;">... Telegram</span><span id="${itemId}_app" style="color:rgba(255,255,255,0.28);font-size:10px;">... CynovaAI</span></div></div><button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('@${uE}','${nameE.replace(/'/g,'&#39;')}')">${heartSvg}</button></div>`;
+    return`<div class="ft-item" id="${itemId}" onclick="ftSelectUser('@${uE}','${nameE.replace(/'/g,'&#39;')}')" >${avatarEl}<div class="ft-info"><div class="ft-name">${nameE}</div><div class="ft-uname">@${uE}</div><div style="display:flex;gap:8px;margin-top:3px;"><span id="${itemId}_tg" style="color:rgba(255,255,255,0.28);font-size:10px;">... Telegram</span><span id="${itemId}_app" style="color:rgba(255,255,255,0.28);font-size:10px;">... CynovaAI</span></div></div><button class="ft-heart${isFav?' saved':''}" onclick="event.stopPropagation();ftToggleFav('@${uE}','${nameE.replace(/'/g,'&#39;')}')">${heartSvg}</button></div>`;
 }
 function ftToggleFav(username,name){if(!aiMemory.ftFavorites)aiMemory.ftFavorites=[];const idx=aiMemory.ftFavorites.findIndex(f=>f.username===username);if(idx>=0)aiMemory.ftFavorites.splice(idx,1);else aiMemory.ftFavorites.push({username,name});saveMemory('ftFavorites',aiMemory.ftFavorites);haptic('light');ftOnInput(document.getElementById('ftUsernameInput')?.value||'');const fv=document.getElementById('ftFavList');if(fv&&fv.closest('#ftFavView')&&fv.closest('#ftFavView').style.display!=='none')ftRenderFavs();}
-function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;}
-function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap the heart next to a user to save them here.</div>';}
+function ftOnInput(val){const box=document.getElementById('ftSearchResults');if(!box)return;const favs=aiMemory.ftFavorites||[];const q=val.replace(/^@/,'').toLowerCase().trim();let html='';if(!q){html=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">Type a username to search</div>';}else{const u=val.startsWith('@')?val:'@'+val;const name=u.replace('@','');const matchFavs=favs.filter(f=>f.username.toLowerCase().includes(q)||f.name.toLowerCase().includes(q));const typed=favs.some(f=>f.username===u)?'':ftRenderItem(u,name);html=typed+matchFavs.map(f=>ftRenderItem(f.username,f.name)).join('');}box.innerHTML=html;ftDrawAvatars();}
+function ftRenderFavs(){const box=document.getElementById('ftFavList');if(!box)return;const favs=aiMemory.ftFavorites||[];box.innerHTML=favs.length?favs.map(f=>ftRenderItem(f.username,f.name)).join(''):'<div class="ft-empty">No favorites yet.<br>Tap the heart next to a user to save them here.</div>';ftDrawAvatars();}
 function ftSwitchView(view){document.querySelectorAll('.ft-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));const sv=document.getElementById('ftSearchView'),fv=document.getElementById('ftFavView');if(sv)sv.style.display=view==='search'?'':'none';if(fv){fv.style.display=view==='favs'?'':'none';if(view==='favs')ftRenderFavs();}}
 function ftSelectUser(username,name){_ftUsername=username;const lbl=document.getElementById('ftForUser');if(lbl)lbl.textContent=username;haptic('light');ftShowStep(2);}
 function openFriendTopup(){haptic('light');ftShowStep(1);ftSwitchView('search');const inp=document.getElementById('ftUsernameInput');if(inp)inp.value='';ftOnInput('');document.getElementById('friendTopupSheet').classList.add('open');document.getElementById('friendTopupOverlay').classList.add('open');}

@@ -2759,15 +2759,16 @@ function drawWalletChart(hovIdx){
         } else if(period===180){
             for(let i=5;i>=0;i--){const d=new Date(today);d.setMonth(today.getMonth()-i);labels.push(MONTHS[d.getMonth()]);}
         } else {
-            // All time: show year or months
-            const oldest=allHistory.length?new Date(allHistory[0].t):new Date(today.getFullYear()-1,0,1);
+            // All time: first known point → Now
+            const oldestTs=aiMemory.accountCreatedAt||(allHistory.length?allHistory[0].t:Date.now());
+            const oldest=new Date(oldestTs);
+            const fmtD=d=>`${pad2(d.getDate())}.${pad2(d.getMonth()+1)}`;
             const diffMs=today-oldest;
-            const diffDays=diffMs/86400000;
-            if(diffDays<=365){
-                for(let i=3;i>=0;i--){const d=new Date(today);d.setMonth(today.getMonth()-i*3);labels.push(MONTHS[d.getMonth()]);}
-            } else {
-                const startY=oldest.getFullYear();const endY=today.getFullYear();
-                for(let y=startY;y<=endY;y++)labels.push(String(y));
+            const steps=3;
+            for(let i=0;i<=steps;i++){
+                if(i===0)labels.push(fmtD(oldest));
+                else if(i===steps)labels.push('Now');
+                else{const d=new Date(oldestTs+diffMs*(i/steps));labels.push(fmtD(d));}
             }
         }
         labels.forEach(l=>{const sp=document.createElement('span');sp.className='wallet-chart-label';sp.textContent=l;labEl.appendChild(sp);});

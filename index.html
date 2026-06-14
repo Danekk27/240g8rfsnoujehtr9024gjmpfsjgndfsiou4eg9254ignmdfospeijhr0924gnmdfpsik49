@@ -2707,7 +2707,8 @@ function drawWalletChart(hovIdx){
         ctx.fill();
         const tipColor=p.type==='bonus'?'rgba(255,180,0,0.5)':'rgba(79,142,247,0.35)';
         ctx.strokeStyle=tipColor;ctx.lineWidth=1;ctx.stroke();
-        ctx.fillStyle=p.type==='bonus'?'#FFD700':'#ffffff';ctx.font='bold 11px Inter,sans-serif';
+        const line1Color=hovIdx===0?'#ffffff':p.d>0?'#7dff8a':'#fc3d3d';
+        ctx.fillStyle=p.type==='bonus'?'#FFD700':line1Color;ctx.font='bold 11px Inter,sans-serif';
         ctx.fillText(line1,bx+11,by+17);
         ctx.fillStyle=p.type==='bonus'?'rgba(255,200,80,0.85)':'rgba(255,255,255,0.55)';ctx.font='10px Inter,sans-serif';
         ctx.fillText(line2,bx+11,by+33);

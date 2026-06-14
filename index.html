@@ -2688,14 +2688,15 @@ function drawWalletChart(hovIdx){
             pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'}];
         } else {
             const curBal=aiMemory.diamonds||initBal;
-            pts=[{t:cutoff||nowMs-period*dayMs,v:curBal,d:0},{t:nowMs,v:curBal,d:0}];
+            const spanStart=cutoff>0?cutoff:nowMs-30*dayMs;
+            pts=[{t:spanStart,v:curBal,d:0},{t:nowMs,v:curBal,d:0}];
         }
     } else {
         const startV=Math.max(0,(history[0].v||0)-(history[0].d||0));
         if(acctInView&&acctTs<=history[0].t){
             pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},...history];
         } else {
-            pts=[{t:cutoff||history[0].t-dayMs,v:startV,d:0},...history];
+            pts=[{t:cutoff>0?cutoff:history[0].t-dayMs,v:startV,d:0},...history];
         }
     }
     canvas._wcPts=pts;

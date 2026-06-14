@@ -1607,6 +1607,7 @@ try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
         aiMemory.diamonds=500;
         aiMemory.diamondHistory=[];
         aiMemory.balanceReset=2;
+        aiMemory.accountCreatedAt=Date.now();
         try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}
     }
 })();
@@ -2442,9 +2443,11 @@ function resetWalletBalance(){
     aiMemory.diamonds=500;
     aiMemory.diamondHistory=[];
     aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
+    aiMemory.accountCreatedAt=Date.now();
     saveMemory('diamonds',500);
     saveMemory('diamondHistory',[]);
     saveMemory('balanceReset',aiMemory.balanceReset);
+    saveMemory('accountCreatedAt',aiMemory.accountCreatedAt);
     if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
     const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
     const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
@@ -2615,12 +2618,23 @@ function drawWalletChart(hovIdx){
     const cutoff=period===0?0:nowMs-period*dayMs;
     const history=allHistory.filter(e=>e.t>=cutoff);
     // Build points
+    const acctTs=aiMemory.accountCreatedAt||0;
+    const initBal=500;
+    const acctInView=acctTs>0&&(period===0||acctTs>=cutoff);
     let pts;
     if(history.length===0){
-        pts=[{t:cutoff||nowMs-period*dayMs,v:0,d:0},{t:nowMs,v:0,d:0}];
+        if(acctInView){
+            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},{t:nowMs,v:initBal,d:0}];
+        } else {
+            pts=[{t:cutoff||nowMs-period*dayMs,v:0,d:0},{t:nowMs,v:0,d:0}];
+        }
     } else {
         const startV=Math.max(0,(history[0].v||0)-(history[0].d||0));
-        pts=[{t:cutoff||history[0].t-dayMs,v:startV,d:0},...history];
+        if(acctInView&&acctTs<=history[0].t){
+            pts=[{t:acctTs,v:initBal,d:initBal,type:'initial'},...history];
+        } else {
+            pts=[{t:cutoff||history[0].t-dayMs,v:startV,d:0},...history];
+        }
     }
     canvas._wcPts=pts;
     const dpr=window.devicePixelRatio||1;
@@ -2699,7 +2713,7 @@ function drawWalletChart(hovIdx){
         const dt=new Date(p.t);
         const pad2=n=>String(n).padStart(2,'0');
         const dateStr=`${pad2(dt.getDate())}.${pad2(dt.getMonth()+1)} ${pad2(dt.getHours())}:${pad2(dt.getMinutes())}`;
-        const typeLabel=p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
+        const typeLabel=p.type==='initial'?'🎁 Starting balance':p.type==='bonus'?'★ Daily bonus':p.type==='donation'?'💎 Donation':p.type==='text'?'✦ AI message':p.type==='image'?'🎨 AI image':'';
         const line1=hovIdx===0?`${Number(p.v).toLocaleString()} 💎`:(p.d>0?`+${Number(p.d).toLocaleString()} 💎`:`${Number(p.d).toLocaleString()} 💎`);
         const line2=typeLabel||dateStr;
         const line3=typeLabel?dateStr:'';

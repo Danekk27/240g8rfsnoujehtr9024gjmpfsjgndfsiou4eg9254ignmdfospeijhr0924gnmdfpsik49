@@ -343,50 +343,56 @@
         .wallet-reset-btn:active { transform:scale(.96);background:rgba(252,61,61,0.2); }
         .avatar-box { cursor:pointer; }
         /* Topup mini-window */
-        .wallet-topup-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10001;backdrop-filter:blur(6px); }
+        .wallet-topup-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.72);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10001;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px); }
         .wallet-topup-overlay.open { opacity:1;pointer-events:auto; }
-        .wallet-topup-sheet { position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.88);opacity:0;pointer-events:none;background:#0f1824;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:0 0 12px;width:calc(100% - 48px);max-width:280px;transition:transform .28s cubic-bezier(0.34,1.56,0.64,1),opacity .22s;z-index:10002;box-shadow:0 16px 48px rgba(0,0,0,0.7); }
+        .wallet-topup-sheet { position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);opacity:0;pointer-events:none;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:0 0 16px;width:calc(100% - 40px);max-width:304px;transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),opacity .22s;z-index:10002;box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 0 1px rgba(79,142,247,0.07); }
         .wallet-topup-sheet.open { transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto; }
-        .wallet-topup-head { display:flex;align-items:center;justify-content:space-between;padding:12px 13px 8px; }
-        .wallet-topup-title { font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff; }
-        .wallet-topup-close { background:none;border:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.35);transition:color .2s;flex-shrink:0; }
-        .wallet-topup-close:active { color:rgba(255,255,255,0.7); }
-        .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 11px; }
-        .wallet-topup-btn { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:9px 11px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:5px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
-        .wallet-topup-btn:active { transform:scale(.93); }
-        .wallet-topup-btn:hover { border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.06); }
+        .wallet-topup-head { display:flex;align-items:center;justify-content:space-between;padding:16px 16px 12px; }
+        .wallet-topup-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff; }
+        .wallet-topup-close { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;flex-shrink:0; }
+        .wallet-topup-close:active { background:rgba(255,255,255,0.12);color:#fff; }
+        .wt-divider { height:1px;background:rgba(255,255,255,0.06);margin:0 16px 12px; }
+        .wallet-topup-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 14px; }
+        .wallet-topup-btn { background:rgba(79,142,247,0.05);border:1px solid rgba(79,142,247,0.13);border-radius:14px;padding:10px 10px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;transition:border-color .15s,background .15s,transform .12s;position:relative;overflow:visible;width:100%; }
+        .wallet-topup-btn:hover { border-color:rgba(79,142,247,0.32);background:rgba(79,142,247,0.1); }
+        .wallet-topup-btn:active { transform:scale(.94); }
         .wallet-topup-gem { font-size:15px;flex-shrink:0; }
-        .wallet-topup-amount { font-size:12px;font-weight:700;color:#fff;white-space:nowrap; }
+        .wallet-topup-amount { font-size:13px;font-weight:700;color:#fff;white-space:nowrap; }
         .wallet-topup-right { display:none; }
-        .wallet-topup-price { font-size:10px;color:var(--text-muted);font-weight:400;flex-shrink:0;white-space:nowrap; }
-        .wallet-topup-custom { padding:8px 11px 10px; }
-        .wallet-topup-rate { font-size:10px;color:rgba(255,255,255,0.22);text-align:center;margin-top:5px; }
+        .wallet-topup-price { font-size:10px;color:rgba(255,255,255,0.4);font-weight:400;flex-shrink:0;white-space:nowrap;margin-left:auto; }
+        .wallet-topup-custom { padding:10px 14px 2px; }
+        .wallet-topup-rate { font-size:10px;color:rgba(255,255,255,0.22);text-align:center;margin-top:7px; }
         .wt-custom-row { display:flex;align-items:center;justify-content:space-between;gap:8px; }
-        .wt-custom-lbl { font-size:10px;color:rgba(255,255,255,0.28);margin-bottom:3px; }
-        .wt-custom-usd { font-size:14px;font-weight:700;color:var(--accent-color); }
+        .wt-custom-lbl { font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:5px;letter-spacing:0.4px;text-transform:uppercase; }
+        .wt-custom-usd { font-size:14px;font-weight:700;color:#4F8EF7; }
         .wt-custom-right { display:flex;align-items:center;gap:6px; }
         .wt-gem-sm { font-size:14px;line-height:1; }
-        .wt-step-num { font-size:13px;font-weight:700;color:#fff;width:46px;text-align:center;background:none;border:none;outline:none;font-family:inherit;-moz-appearance:textfield; }
+        .wt-step-num { font-size:14px;font-weight:700;color:#fff;width:52px;text-align:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;outline:none;font-family:inherit;-moz-appearance:textfield;padding:5px 4px; }
         .wt-step-num::-webkit-outer-spin-button,.wt-step-num::-webkit-inner-spin-button { -webkit-appearance:none; }
         .wt-stepper { display:flex;flex-direction:column;gap:2px; }
-        .wt-step-btn { background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:5px;width:22px;height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.55);font-size:8px;transition:background .15s,color .15s;padding:0; }
-        .wt-step-btn:hover { background:rgba(255,255,255,0.13);color:#fff; }
-        .wt-step-btn:active { background:rgba(255,255,255,0.2);transform:scale(.9); }
-        .wallet-topup-custom-go { background:var(--accent-color);color:#fff;border:none;padding:0;width:32px;height:38px;border-radius:9px;font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0;transition:transform .12s,opacity .2s;display:flex;align-items:center;justify-content:center; }
+        .wt-step-btn { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:5px;width:22px;height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.5);font-size:8px;transition:background .15s,color .15s,border-color .15s;padding:0; }
+        .wt-step-btn:hover { background:rgba(79,142,247,0.15);color:#4F8EF7;border-color:rgba(79,142,247,0.3); }
+        .wt-step-btn:active { transform:scale(.9); }
+        .wallet-topup-custom-go { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0);color:#fff;border:none;padding:0;width:34px;height:38px;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;flex-shrink:0;transition:transform .12s,opacity .2s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(79,142,247,0.35); }
         .wallet-topup-custom-go:active { transform:scale(.92); }
-        .wallet-topup-btn.rank-1 { border-color:rgba(247,201,72,0.3);background:rgba(247,201,72,0.05); }
-        .wallet-topup-btn.rank-1:hover { border-color:rgba(247,201,72,0.6);background:rgba(247,201,72,0.09); }
-        .wallet-topup-btn.rank-2 { border-color:rgba(190,200,215,0.22);background:rgba(190,200,215,0.04); }
-        .wallet-topup-btn.rank-2:hover { border-color:rgba(190,200,215,0.5);background:rgba(190,200,215,0.08); }
-        .wallet-topup-btn.rank-3 { border-color:rgba(205,127,50,0.28);background:rgba(205,127,50,0.04); }
-        .wallet-topup-btn.rank-3:hover { border-color:rgba(205,127,50,0.55);background:rgba(205,127,50,0.08); }
+        .wallet-topup-btn.rank-1 { border-color:rgba(247,201,72,0.28);background:rgba(247,201,72,0.05); }
+        .wallet-topup-btn.rank-1:hover { border-color:rgba(247,201,72,0.55);background:rgba(247,201,72,0.09); }
+        .wallet-topup-btn.rank-2 { border-color:rgba(190,200,215,0.2);background:rgba(190,200,215,0.04); }
+        .wallet-topup-btn.rank-2:hover { border-color:rgba(190,200,215,0.45);background:rgba(190,200,215,0.08); }
+        .wallet-topup-btn.rank-3 { border-color:rgba(205,127,50,0.24);background:rgba(205,127,50,0.04); }
+        .wallet-topup-btn.rank-3:hover { border-color:rgba(205,127,50,0.5);background:rgba(205,127,50,0.08); }
         .wt-rank-badge { position:absolute;top:-7px;right:-4px;font-size:7px;font-weight:800;padding:1px 5px;border-radius:5px;white-space:nowrap;letter-spacing:.4px;line-height:1.5; }
         .wallet-topup-btn.rank-1 .wt-rank-badge { background:#f7c948;color:#1a1200; }
         .wallet-topup-btn.rank-2 .wt-rank-badge { background:#b0bac8;color:#1a1e28; }
         .wallet-topup-btn.rank-3 .wt-rank-badge { background:linear-gradient(135deg,#d4945a,#b36e30);color:#1a0a00; }
-        .wt-pay-method { display:flex;align-items:center;gap:12px;width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s; }
-        .wt-pay-method:hover { border-color:var(--accent-color);background:var(--accent-tint); }
+        .wt-pay-method { display:flex;align-items:center;gap:12px;width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s; }
+        .wt-pay-method:hover { border-color:rgba(79,142,247,0.3);background:rgba(79,142,247,0.06); }
         .wt-pay-method:active { transform:scale(.97); }
+        .wt-promo-input { flex:1;background:rgba(255,255,255,0.04);color:#fff;border:1px solid rgba(255,255,255,0.07);padding:9px 12px;border-radius:11px;font-size:13px;outline:none;transition:border-color .25s;font-family:inherit; }
+        .wt-promo-input:focus { border-color:rgba(79,142,247,0.4); }
+        .wt-promo-input::placeholder { color:rgba(255,255,255,0.25); }
+        .wt-promo-ok { background:linear-gradient(135deg,#2d5fc4,#4a80e0);color:#fff;border:none;padding:0 16px;border-radius:11px;font-weight:700;cursor:pointer;font-size:13px;transition:transform .12s,opacity .2s;flex-shrink:0;height:38px; }
+        .wt-promo-ok:active { transform:scale(.95); }
         .terms-header-info { flex: 1; min-width: 0; }
         .terms-header-title {
             font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
@@ -3050,15 +3056,16 @@ function openTgProfile(){
     <div class="wallet-topup-sheet" id="walletTopupSheet">
         <!-- Шаг 1: выбор количества -->
         <div id="wtStep1">
-            <div class="wallet-topup-head" style="align-items:flex-start;">
+            <div class="wallet-topup-head">
                 <div>
-                    <div class="wallet-topup-title" id="walletTopupTitle">💎 Выберите количество</div>
-                    <div id="wtStep1Subtitle" style="font-size:12px;color:var(--text-muted);margin-top:3px;">Сколько вам нужно?</div>
+                    <div class="wallet-topup-title" id="walletTopupTitle">💎 Choose amount</div>
+                    <div id="wtStep1Subtitle" style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px;">How many do you need?</div>
                 </div>
                 <button class="wallet-topup-close" onclick="closeWalletTopup()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
+            <div class="wt-divider"></div>
             <div class="wallet-topup-grid">
                 <button class="wallet-topup-btn" onclick="wtChooseAmount(100)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">100</span><span class="wallet-topup-price">$5</span></button>
                 <button class="wallet-topup-btn" onclick="wtChooseAmount(250)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">250</span><span class="wallet-topup-price">$12.50</span></button>
@@ -3069,11 +3076,12 @@ function openTgProfile(){
                 <button class="wallet-topup-btn" onclick="wtChooseAmount(10000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">10 000</span><span class="wallet-topup-price">$500</span></button>
                 <button class="wallet-topup-btn" onclick="wtChooseAmount(25000)"><span class="wallet-topup-gem">💎</span><span class="wallet-topup-amount">25 000</span><span class="wallet-topup-price">$1 250</span></button>
             </div>
+            <div class="wt-divider" style="margin-top:12px;"></div>
             <div class="wallet-topup-custom">
                 <input type="hidden" id="wtCustomAmount" value="0">
-                <div class="wt-custom-lbl" id="wtCustomLbl" style="margin-bottom:5px;">Своё количество</div>
+                <div class="wt-custom-lbl" id="wtCustomLbl">Custom</div>
                 <div class="wt-custom-row">
-                    <div style="display:flex;align-items:center;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
                         <span class="wt-gem-sm">💎</span>
                         <input class="wt-step-num" id="wtCustomDisplay" type="number" min="0" value="0" oninput="wtTyped(this.value)">
                     </div>
@@ -3091,35 +3099,36 @@ function openTgProfile(){
         </div>
         <!-- Шаг 2: способ оплаты -->
         <div id="wtStep2" style="display:none;animation:fadeInUp .22s ease both;">
-            <div class="wallet-topup-head" style="align-items:flex-start;">
-                <button class="pay-back-btn" style="margin:0;margin-top:2px;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span id="wtBackLbl">Назад</span></button>
-                <div style="flex:1;padding:0 8px;">
-                    <div class="wallet-topup-title" id="wtStep2Title">Депозит</div>
-                    <div style="font-size:12px;color:var(--text-muted);margin-top:3px;display:flex;align-items:center;gap:5px;">
-                        <span id="wtAmountLabel">—</span>
+            <div class="wallet-topup-head" style="align-items:center;">
+                <button class="pay-back-btn" style="margin:0;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span id="wtBackLbl">Back</span></button>
+                <div style="flex:1;text-align:center;">
+                    <div class="wallet-topup-title" id="wtStep2Title">Deposit</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:5px;">
+                        <span id="wtAmountLabel" style="color:#fff;font-weight:600;">—</span>
                         <span style="opacity:0.35;">·</span>
-                        <span id="wtPriceLabel" style="color:#22c55e;font-weight:600;">$—</span>
+                        <span id="wtPriceLabel" style="color:#3DDC84;font-weight:600;">$—</span>
                     </div>
                 </div>
                 <button class="wallet-topup-close" onclick="closeWalletTopup()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
-            <div style="padding:0 11px 14px;">
-                <div style="display:flex;gap:6px;margin-bottom:8px;">
-                    <input type="text" id="wtPromoInput" placeholder="Ввести промокод..." style="flex:1;background:rgba(255,255,255,0.04);color:var(--text-color);border:1px solid rgba(255,255,255,0.07);padding:9px 12px;border-radius:11px;font-size:13px;outline:none;transition:border-color .25s;font-family:inherit;">
-                    <button onclick="wtApplyPromo()" style="background:var(--accent-color);color:#fff;border:none;padding:0 16px;border-radius:11px;font-weight:700;cursor:pointer;font-size:13px;transition:transform .12s,opacity .2s;flex-shrink:0;">OK</button>
+            <div class="wt-divider"></div>
+            <div style="padding:0 14px 2px;">
+                <div style="display:flex;gap:6px;margin-bottom:10px;">
+                    <input type="text" id="wtPromoInput" class="wt-promo-input" placeholder="Promo code...">
+                    <button onclick="wtApplyPromo()" class="wt-promo-ok">OK</button>
                 </div>
-                <div style="display:flex;flex-direction:column;gap:5px;">
+                <div style="display:flex;flex-direction:column;gap:6px;">
                     <button class="wt-pay-method" onclick="wtChooseMethod('ton')">
                         <div style="width:36px;height:36px;border-radius:10px;background:#0098ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg></div>
-                        <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:var(--text-color);">TON</div>
-                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+                        <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:#fff;">TON</div>
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
                     <button class="wt-pay-method" onclick="wtChooseMethod('cryptobot')">
                         <div style="width:36px;height:36px;border-radius:10px;background:#229ED9;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M21 7L9 19l-5.5-5.5L5 12l4 4L19.5 5.5 21 7z"/></svg></div>
-                        <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:var(--text-color);">Crypto Bot</div>
-                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+                        <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:#fff;">Crypto Bot</div>
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
                 </div>
             </div>

@@ -337,6 +337,8 @@
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
         .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
         @keyframes walletBtnWave { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        @keyframes wtShake { 0%{transform:translateX(0)} 15%{transform:translateX(-5px)} 35%{transform:translateX(5px)} 55%{transform:translateX(-4px)} 70%{transform:translateX(4px)} 85%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
+        .wt-shake { animation:wtShake .4s ease !important; }
         .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
@@ -2547,7 +2549,12 @@ function wtUpdateCustomPrice(){
     if(el)el.textContent=str;
 }
 function wtBuyCustom(){
-    if(_wtCustomVal<1)return;
+    if(_wtCustomVal<1){
+        const btn=document.querySelector('.wallet-topup-custom-go');
+        if(btn){btn.classList.remove('wt-shake');void btn.offsetWidth;btn.classList.add('wt-shake');btn.addEventListener('animationend',()=>btn.classList.remove('wt-shake'),{once:true});}
+        haptic('error');
+        return;
+    }
     wtChooseAmount(_wtCustomVal);
 }
 function wtApplyPromo(){
@@ -3103,17 +3110,19 @@ function openTgProfile(){
                 <button class="pay-back-btn" style="margin:0;" onclick="wtBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span id="wtBackLbl">Back</span></button>
                 <div style="flex:1;text-align:center;">
                     <div class="wallet-topup-title" id="wtStep2Title">Deposit</div>
-                    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:5px;">
-                        <span id="wtAmountLabel" style="color:#fff;font-weight:600;">—</span>
-                        <span style="opacity:0.35;">·</span>
-                        <span id="wtPriceLabel" style="color:#3DDC84;font-weight:600;">$—</span>
-                    </div>
                 </div>
                 <button class="wallet-topup-close" onclick="closeWalletTopup()">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <div class="wt-divider"></div>
+            <div style="margin:0 14px 12px;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:20px;line-height:1;">💎</span>
+                    <span id="wtAmountLabel" style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;">—</span>
+                </div>
+                <span id="wtPriceLabel" style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#3DDC84;">$—</span>
+            </div>
             <div style="padding:0 14px 2px;">
                 <div style="display:flex;gap:6px;margin-bottom:10px;">
                     <input type="text" id="wtPromoInput" class="wt-promo-input" placeholder="Promo code...">

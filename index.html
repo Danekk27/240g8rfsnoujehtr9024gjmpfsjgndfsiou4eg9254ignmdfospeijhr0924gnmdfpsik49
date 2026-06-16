@@ -2154,35 +2154,54 @@ function renderPayHistory(){
     if(!list)return;
     var items=[];
     var hist=aiMemory.diamondHistory||[];
-    hist.slice().reverse().forEach(function(h){items.push({type:'diamonds',d:h.d,t:h.t});});
+    hist.slice().reverse().forEach(function(h){if(h.d<0||h.type==='promo')return;items.push({cat:h.type||'',d:h.d,v:h.v,t:h.t});});
     if(aiMemory.plan&&aiMemory.plan!=='default'&&aiMemory.planPurchasedAt){
-        items.push({type:'plan',plan:aiMemory.plan,t:aiMemory.planPurchasedAt});
+        items.push({cat:'plan',plan:aiMemory.plan,t:aiMemory.planPurchasedAt});
         items.sort(function(a,b){return b.t-a.t;});
     }
     function fmtDate(ts){return new Date(ts).toLocaleDateString(currentLang==='ru'?'ru-RU':currentLang==='uk'?'uk-UA':currentLang==='zh'?'zh-CN':currentLang==='ja'?'ja-JP':'en-GB',{day:'numeric',month:'short',year:'numeric'});}
-    function gemIcon(c){return '<div style="width:36px;height:36px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg></div>';}
-    function crownIcon(){return '<div style="width:36px;height:36px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg></div>';}
+    function fmtTime(ts){var d=new Date(ts);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+    function icon(bg,border,svg){return '<div style="width:36px;height:36px;border-radius:10px;background:'+bg+';border:1px solid '+border+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svg+'</div>';}
+    var iconTopup=icon('rgba(79,142,247,0.1)','rgba(79,142,247,0.18)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>');
+    var iconBonus=icon('rgba(61,220,132,0.1)','rgba(61,220,132,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>');
+    var iconPromo=icon('rgba(255,196,80,0.1)','rgba(255,196,80,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffc450" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>');
+    var iconSpend=icon('rgba(255,100,100,0.1)','rgba(255,100,100,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff7a7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>');
+    var iconPlan=icon('rgba(79,142,247,0.1)','rgba(79,142,247,0.18)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>');
     if(items.length===0){
-        list.innerHTML='<div style="padding:22px 18px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);">'+(t.acctHistEmpty||'History is empty')+'</div>';
+        list.innerHTML='<div style="padding:22px 18px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);">'+(t.acctHistEmpty||'История пуста')+'</div>';
         if(countEl)countEl.textContent='';
         return;
     }
     if(countEl)countEl.textContent=items.length;
     list.innerHTML=items.map(function(item,i){
         var border=i<items.length-1?'border-bottom:1px solid rgba(255,255,255,0.06);':'';
-        if(item.type==='diamonds'){
-            return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'
-                +gemIcon('#4F8EF7')
-                +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">+'+item.d+' '+(t.acctHistDiamonds||'diamonds')+'</div>'
-                +'<div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;">'+fmtDate(item.t)+'</div></div>'
-                +'<div style="font-size:10px;color:#3DDC84;background:rgba(61,220,132,0.1);border:1px solid rgba(61,220,132,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">'+(t.acctReceived||'received')+'</div></div>';
+        var ic,label,badge;
+        if(item.cat==='plan'){
+            var isExp=aiMemory.planExpiresAt&&Date.now()>aiMemory.planExpiresAt;
+            ic=iconPlan;
+            label='Тариф · '+item.plan;
+            badge=isExp
+                ?'<div style="font-size:10px;color:#ff7a7a;background:rgba(255,122,122,0.1);border:1px solid rgba(255,122,122,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">истёк</div>'
+                :'<div style="font-size:10px;color:#4F8EF7;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">активен</div>';
+        } else if(item.d<0){
+            ic=iconSpend;
+            label='Потрачено';
+            badge='<div style="font-size:10px;color:#ff7a7a;background:rgba(255,122,122,0.1);border:1px solid rgba(255,122,122,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">−'+(Math.abs(item.d))+' 💎</div>';
+        } else if(item.cat==='bonus'){
+            ic=iconBonus;
+            label='Ежедневный бонус';
+            badge='<div style="font-size:10px;color:#3DDC84;background:rgba(61,220,132,0.1);border:1px solid rgba(61,220,132,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
+        } else if(item.cat==='promo'){
+            ic=iconPromo;
+            label='Промокод';
+            badge='<div style="font-size:10px;color:#ffc450;background:rgba(255,196,80,0.1);border:1px solid rgba(255,196,80,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
         } else {
-            return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'
-                +crownIcon()
-                +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">'+(t.acctPrivilege||'Plan ·')+' '+item.plan+'</div>'
-                +'<div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;">'+fmtDate(item.t)+'</div></div>'
-                +'<div style="font-size:10px;color:#4F8EF7;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">'+(t.acctPlanActive||'✓ active')+'</div></div>';
+            ic=iconTopup;
+            label='Пополнение баланса';
+            badge='<div style="font-size:10px;color:#4F8EF7;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
         }
+        var sub=fmtDate(item.t)+' · '+fmtTime(item.t)+(item.v!=null?' · баланс: '+Number(item.v).toLocaleString():'');
+        return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'+ic+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">'+label+'</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+sub+'</div></div>'+badge+'</div>';
     }).join('');
 }
 function openAccount(){
@@ -2413,7 +2432,7 @@ function claimDailyBonus(){
     aiMemory.dailyBonusAt=now;
     saveMemory('dailyBonusAt',now);
     if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('dailyBonusAt',String(now),function(){});
-    addDiamonds(DB_AMOUNT);
+    addDiamonds(DB_AMOUNT,'bonus');
     const t=translations[currentLang]||translations.en;
     btn.style.opacity='0';btn.style.transform='scale(0.92)';
     setTimeout(()=>{
@@ -2588,7 +2607,7 @@ function wtBackCrypto(){
 }
 function wtChooseMethod(method){
     haptic('success');
-    addDiamonds(_wtAmount);
+    addDiamonds(_wtAmount,'topup');
 }
 function wtUpdateCustomPrice(){
     var n=parseInt(document.getElementById('wtCustomAmount')?.value)||0;

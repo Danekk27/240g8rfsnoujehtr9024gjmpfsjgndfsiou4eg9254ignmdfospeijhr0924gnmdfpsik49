@@ -589,20 +589,20 @@
 
         /* Library items */
         .library-list { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
-        .library-chat-item { background:var(--card-bg); border-radius:18px; padding:14px 16px; border:1px solid var(--glow-shadow); display:flex; align-items:center; gap:13px; position:relative; overflow:hidden; transition:border-color .2s,box-shadow .2s; }
-        .library-chat-item:active { border-color:var(--glow-color-1); box-shadow:0 0 14px var(--glow-shadow); }
-        .library-chat-icon { width:40px; height:40px; border-radius:12px; background:var(--accent-tint); border:1px solid var(--glow-shadow); display:flex; align-items:center; justify-content:center; flex-shrink:0; filter:drop-shadow(0 0 6px var(--glow-shadow)); }
+        .library-chat-item { background:linear-gradient(225deg,#21242f 0%,#181b25 100%); border-radius:20px; padding:14px 16px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 4px 16px rgba(0,0,0,0.35); display:flex; align-items:center; gap:13px; position:relative; overflow:hidden; transition:border-color .2s,box-shadow .2s,transform .15s; }
+        .library-chat-item:active { border-color:rgba(79,142,247,0.35); box-shadow:0 4px 20px rgba(79,142,247,0.15); transform:scale(.98); }
+        .library-chat-icon { width:40px; height:40px; border-radius:12px; background:rgba(79,142,247,0.1); border:1px solid rgba(79,142,247,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
         .library-chat-info { flex:1; min-width:0; }
         .library-chat-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
         .library-chat-date { font-size:11px; color:rgba(255,255,255,0.38); }
-        .library-chat-del { width:34px; height:34px; border-radius:9px; border:1px solid rgba(255,80,80,0.22); background:rgba(255,80,80,0.07); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; transition:background .2s; }
+        .library-chat-del { width:34px; height:34px; border-radius:10px; border:1px solid rgba(255,80,80,0.22); background:rgba(255,80,80,0.07); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; transition:background .2s; }
         .library-chat-del:active { background:rgba(255,80,80,0.2); }
         .library-empty { text-align:center; padding:40px 20px; }
-        .library-empty-icon { filter:drop-shadow(0 0 10px var(--glow-color-1)); margin-bottom:14px; }
+        .library-empty-icon { margin-bottom:14px; }
         .library-empty-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:#fff; margin-bottom:6px; }
         .library-empty-sub { font-size:13px; color:rgba(255,255,255,0.35); }
-        .library-clear-btn { width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,80,80,0.28); background:rgba(255,80,80,0.07); color:rgba(255,110,110,0.85); font-family:'Syne',sans-serif; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px; transition:background .2s; display:none; }
-        .library-clear-btn:active { background:rgba(255,80,80,0.17); }
+        .library-clear-btn { width:100%; padding:14px; border-radius:16px; border:1px solid rgba(255,80,80,0.25); background:rgba(255,80,80,0.06); color:rgba(255,110,110,0.8); font-family:'Syne',sans-serif; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px; transition:background .2s; display:none; }
+        .library-clear-btn:active { background:rgba(255,80,80,0.15); }
 
         /* Confirm modal */
         .confirm-overlay { position:fixed; inset:0; z-index:9500; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; pointer-events:none; transition:opacity .2s; }
@@ -1024,8 +1024,15 @@ function dismissWelcome(){
         <!-- SITE -->
         <div id="tab-site" class="tab-content">
             <div class="section-title" data-i18n="navSite">Our Site</div>
-            <div class="main-card" style="text-align:center;">
-                <p data-i18n="siteDesc">Official web resource.</p>
+            <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:24px 20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);text-align:center;">
+                <div style="width:52px;height:52px;border-radius:16px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#4F8EF7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;" data-i18n="navSite">Our Site</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:20px;" data-i18n="siteDesc">Official web resource.</div>
+                <button onclick="tg.openLink&&tg.openLink('https://t.me/CynovaAI_bot')" style="width:100%;background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s;" ontouchstart="this.style.transform='scale(.96)'" ontouchend="this.style.transform=''">
+                    <span data-i18n="siteBtn">Open website</span>
+                </button>
             </div>
         </div>
 
@@ -1239,9 +1246,8 @@ function dismissWelcome(){
             <div id="libraryList" class="library-list"></div>
             <div id="libraryEmpty" class="library-empty">
                 <div class="library-empty-icon">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <defs><linearGradient id="libGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--glow-color-1)"/><stop offset="100%" stop-color="var(--glow-color-2)"/></linearGradient></defs>
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="url(#libGrad)"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="url(#libGrad)"/>
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#4F8EF7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 10px rgba(79,142,247,0.4))">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                     </svg>
                 </div>
                 <div class="library-empty-title" data-i18n="libraryEmptyTitle">No chats yet</div>

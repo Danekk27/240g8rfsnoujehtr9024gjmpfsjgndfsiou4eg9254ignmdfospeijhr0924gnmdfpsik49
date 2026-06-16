@@ -689,8 +689,8 @@
         .accordion-item:last-child { border-bottom:none; }
         .accordion-row { display:flex; justify-content:space-between; align-items:center; padding:16px 0; cursor:pointer; user-select:none; -webkit-user-select:none; }
         .accordion-arrow { font-size:11px; color:var(--text-muted); transition:transform .28s ease; flex-shrink:0; margin-left:8px; display:inline-block; }
-        .accordion-body { overflow:hidden; max-height:0; opacity:0; transition:max-height .75s cubic-bezier(0.4,0,0.2,1), opacity .55s ease; }
-        .accordion-body.open { max-height:400px; opacity:1; }
+        .accordion-body { overflow:hidden; max-height:0; opacity:0; transition:max-height .45s cubic-bezier(0.4,0,0.2,1), opacity .35s ease; }
+        .accordion-body.open { max-height:400px; opacity:1; transition:max-height .75s cubic-bezier(0.4,0,0.2,1), opacity .5s ease; }
 
         .memory-tag { display:inline-block; background:rgba(0,136,204,.12); color:var(--accent-color); border:1px solid rgba(0,136,204,.25); border-radius:20px; padding:4px 10px; font-size:12px; cursor:pointer; margin:3px; transition:background .2s; }
 
@@ -1738,7 +1738,7 @@ function setAccentTheme(color){
     document.querySelectorAll('.accent-btn').forEach(b=>b.classList.remove('active'));
     const btn=document.querySelector(`.accent-btn[data-accent="${color}"]`);
     if(btn)btn.classList.add('active');
-    const glowMap={auto:'blue',green:'green',pink:'pink',blue:'blue',red:'red',yellow:'yellow',purple:'purple',author:'author'};
+    const glowMap={auto:'auto',green:'green',pink:'pink',blue:'auto',red:'red',yellow:'yellow',purple:'purple',author:'author'};
     changeGlow(glowMap[color]||'blue');
     saveMemory('accentTheme',color);
 }
@@ -2970,7 +2970,7 @@ function openTgProfile(){
 (function(){
     if(aiMemory.lang && aiMemory.lang !== 'auto') changeLang(aiMemory.lang);
     else changeLang('auto');
-    if(aiMemory.accentTheme)setAccentTheme(aiMemory.accentTheme);else if(aiMemory.glow)changeGlow(aiMemory.glow);
+    if(aiMemory.accentTheme)setAccentTheme(aiMemory.accentTheme);else setAccentTheme('auto');
     if(aiMemory.plan)showPlanGlow(aiMemory.plan);else updateCurrentPlanBlock();
     if(aiMemory.diamonds){const sc=document.getElementById('starCount');if(sc)sc.textContent=Number(aiMemory.diamonds).toLocaleString();}
     syncDiamondsFromCloud(function(){

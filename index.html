@@ -964,6 +964,7 @@
 ══════════════════════════════════════════ -->
 <script>
 function dismissWelcome(){
+    localStorage.setItem('cynovaWelcomeSeen','1');
     var ws=document.getElementById("welcomeScreen");
     if(ws){ws.style.transition="opacity .5s";ws.style.opacity="0";setTimeout(function(){ws.style.display="none";ws.style.opacity="";ws.style.transition="";},520);}
     try{if(window._wcCancelAnim)window._wcCancelAnim();}catch(e){}
@@ -1005,6 +1006,7 @@ function dismissWelcome(){
         </div>
     </div>
 </div>
+<script>(function(){if(localStorage.getItem('cynovaWelcomeSeen')){var w=document.getElementById('welcomeScreen');if(w)w.style.display='none';}})()</script>
 
 <!-- ══════════════════════════════════════════
      MAIN APP

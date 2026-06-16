@@ -903,22 +903,23 @@
         /* ── SPLASH SCREEN ── */
         #splashScreen { position:fixed;inset:0;z-index:99999;background:#13151e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .65s ease,transform .65s ease; }
         #splashScreen.hiding { opacity:0;transform:scale(1.05);pointer-events:none; }
-        .splash-icon-wrap { position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
-        .splash-icon-bg { position:absolute;inset:0;border-radius:28px;background:linear-gradient(145deg,#1e2236,#141720);border:1px solid rgba(79,142,247,0.35);animation:splashPulse 2.2s ease-in-out infinite;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06); }
-        .splash-logo { position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1; }
-        .splash-logo-c { font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#fff;text-shadow:0 0 22px rgba(79,142,247,0.65),0 0 8px rgba(79,142,247,0.3);letter-spacing:-1px;line-height:1; }
-        .splash-logo-sub { font-family:'Syne',sans-serif;font-size:9px;font-weight:700;color:#4F8EF7;letter-spacing:2.5px;text-transform:uppercase;margin-top:-2px;opacity:0.85; }
-        .splash-name { font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;letter-spacing:0.5px;white-space:nowrap;overflow:hidden;animation:splashNameReveal .85s cubic-bezier(0.4,0,0.2,1) .65s both; }
-        .splash-name b { color:#4F8EF7;font-weight:800; }
-        .splash-tagline { font-size:13px;color:rgba(255,255,255,0.32);margin-top:7px;letter-spacing:0.4px;animation:splashTextIn .55s ease 1.38s both; }
-        .splash-dots { display:flex;gap:7px;margin-top:44px;animation:splashTextIn .5s ease 1.6s both; }
+        .splash-icon-wrap { position:relative;width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .splash-icon-bg { position:absolute;inset:0;border-radius:28px;background:linear-gradient(145deg,#3461c0,#4f8ef7,#6aa3f8);box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset;animation:splashPulse 2.2s ease-in-out infinite; }
+        .splash-logo { position:relative;z-index:1;display:flex;align-items:center;justify-content:center; }
+        .splash-logo-a { font-family:'Syne',sans-serif;font-size:62px;font-weight:800;color:#0a0d18;line-height:1;letter-spacing:-2px; }
+        .splash-name { font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;letter-spacing:0.5px;white-space:nowrap;display:flex;align-items:baseline; }
+        .sl { display:inline-block;animation:splashLetterIn .42s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .sl-blue { color:#4F8EF7; }
+        .sl:nth-child(1){animation-delay:.68s}.sl:nth-child(2){animation-delay:.76s}.sl:nth-child(3){animation-delay:.84s}.sl:nth-child(4){animation-delay:.92s}.sl:nth-child(5){animation-delay:1.00s}.sl:nth-child(6){animation-delay:1.08s}.sl:nth-child(7){animation-delay:1.16s}.sl:nth-child(8){animation-delay:1.24s}
+        .splash-tagline { font-size:13px;color:rgba(255,255,255,0.32);margin-top:7px;letter-spacing:0.4px;animation:splashTextIn .55s ease 1.55s both; }
+        .splash-dots { display:flex;gap:7px;margin-top:44px;animation:splashTextIn .5s ease 1.75s both; }
         .splash-dots span { width:5px;height:5px;border-radius:50%;background:rgba(79,142,247,0.45);animation:splashDot 1.3s ease-in-out infinite; }
         .splash-dots span:nth-child(2) { animation-delay:.22s; }
         .splash-dots span:nth-child(3) { animation-delay:.44s; }
-        @keyframes splashIconIn { from{opacity:0;transform:scale(0.65)} to{opacity:1;transform:scale(1)} }
-        @keyframes splashNameReveal { from{clip-path:inset(0 100% 0 0);opacity:1} to{clip-path:inset(0 0% 0 0);opacity:1} }
+        @keyframes splashIconIn { from{opacity:0;transform:scale(0.55)} to{opacity:1;transform:scale(1)} }
+        @keyframes splashLetterIn { from{opacity:0;transform:translateY(16px) scale(0.75)} to{opacity:1;transform:translateY(0) scale(1)} }
         @keyframes splashTextIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes splashPulse { 0%,100%{box-shadow:0 0 30px rgba(79,142,247,0.18),0 0 60px rgba(79,142,247,0.07)} 50%{box-shadow:0 0 55px rgba(79,142,247,0.38),0 0 110px rgba(79,142,247,0.16)} }
+        @keyframes splashPulse { 0%,100%{box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset} 50%{box-shadow:0 8px 52px rgba(79,142,247,0.7),0 0 0 1px rgba(255,255,255,0.15) inset} }
         @keyframes splashDot { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1.25);background:rgba(79,142,247,0.9)} }
     </style>
 </head>
@@ -929,11 +930,12 @@
     <div class="splash-icon-wrap">
         <div class="splash-icon-bg"></div>
         <div class="splash-logo">
-            <div class="splash-logo-c">C</div>
-            <div class="splash-logo-sub">CYNOVA</div>
+            <span class="splash-logo-a">A</span>
         </div>
     </div>
-    <div class="splash-name">Cynova<b>AI</b></div>
+    <div class="splash-name">
+        <span class="sl">C</span><span class="sl">y</span><span class="sl">n</span><span class="sl">o</span><span class="sl">v</span><span class="sl">a</span><span class="sl sl-blue">A</span><span class="sl sl-blue">I</span>
+    </div>
     <div class="splash-tagline">Your personal AI assistant</div>
     <div class="splash-dots"><span></span><span></span><span></span></div>
 </div>

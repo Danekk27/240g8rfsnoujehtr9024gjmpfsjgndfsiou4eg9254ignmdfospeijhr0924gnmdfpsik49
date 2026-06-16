@@ -1111,41 +1111,41 @@ function dismissWelcome(){
             <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;padding-right:4px;"><span data-i18n="navSettings">Settings</span><div class="online-counter" id="onlineCounter"><span class="online-dot"></span><div class="online-num-wrap" id="onlineNumWrap"><span class="online-num" id="onlineNum">—</span></div><span class="online-lbl">online</span></div></div>
 
             <!-- ── MY ACCOUNT BUTTON ── -->
-            <div onclick="openAccount()" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--accent-tint),rgba(255,255,255,0.02));border:1px solid var(--glow-shadow);border-radius:16px;padding:16px 18px;margin-bottom:16px;cursor:pointer;transition:transform .2s,background .2s;" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.98)'" ontouchend="this.style.transform=''">
-                <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px var(--accent-shadow);">
+            <div onclick="openAccount()" style="display:flex;align-items:center;gap:14px;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:transform .2s,border-color .2s;box-shadow:0 8px 32px rgba(0,0,0,0.4);" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.98)'" ontouchend="this.style.transform=''">
+                <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2d5fc4,#4a80e0);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(79,142,247,0.35);">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
                 <div style="flex:1;min-width:0;">
-                    <div id="acctBtnTitle" style="font-size:14px;font-weight:600;color:var(--text-color);">Мой аккаунт</div>
-                    <div id="acctBtnSubtitle" style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span id="acctBtnDiamonds">—</span> алмазов · <span id="acctBtnTg">Telegram</span></div>
+                    <div id="acctBtnTitle" style="font-size:14px;font-weight:600;color:#fff;">Мой аккаунт</div>
+                    <div id="acctBtnSubtitle" style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;"><span id="acctBtnDiamonds">—</span> алмазов · <span id="acctBtnTg">Telegram</span></div>
                 </div>
-                <span style="font-size:18px;color:var(--text-muted);">›</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
 
-            <!-- Terms button — top, standalone card -->
-            <div onclick="openTerms()" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(37,99,235,0.08));border:1px solid rgba(99,102,241,0.25);border-radius:16px;padding:16px 18px;margin-bottom:16px;cursor:pointer;transition:transform .2s,background .2s;" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.98)'" ontouchend="this.style.transform=''">
-                <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2563eb,#6366f1);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(99,102,241,0.35);">
+            <!-- Terms button -->
+            <div onclick="openTerms()" style="display:flex;align-items:center;gap:14px;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 18px;margin-bottom:16px;cursor:pointer;transition:transform .2s,border-color .2s;box-shadow:0 8px 32px rgba(0,0,0,0.4);" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.98)'" ontouchend="this.style.transform=''">
+                <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2d5fc4,#4a80e0);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(79,142,247,0.35);">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                 </div>
                 <div style="flex:1;min-width:0;">
                     <div style="font-size:14px;font-weight:600;color:#fff;" data-i18n="termsTitle">Пользовательское соглашение</div>
-                    <div style="font-size:11px;color:rgba(165,180,252,0.7);margin-top:2px;">CynovaAI · Cyrius Neural Technologies</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;">CynovaAI · Cyrius Neural Technologies</div>
                 </div>
-                <span style="font-size:18px;color:rgba(99,102,241,0.6);">›</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
 
             <!-- Settings items -->
-            <div class="main-card" style="padding:0;">
+            <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);overflow:hidden;">
 
                 <div>
-                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;" onclick="toggleMenu('theme')">
-                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMenu('theme')">
+                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                         </div>
-                        <span style="flex:1;font-size:14px;font-weight:500;" data-i18n="themeTitle">Theme</span>
-                        <span class="accordion-arrow" id="arrow-theme">▼</span>
+                        <span style="flex:1;font-size:14px;font-weight:500;color:#fff;" data-i18n="themeTitle">Theme</span>
+                        <span class="accordion-arrow" id="arrow-theme" style="color:rgba(255,255,255,0.3);">▼</span>
                     </div>
-                    <div class="accordion-body" id="dropdown-theme" style="padding:12px 18px 14px 66px;border-bottom:1px solid var(--border-color);">
+                    <div class="accordion-body" id="dropdown-theme" style="padding:12px 18px 14px 66px;border-bottom:1px solid rgba(255,255,255,0.06);">
                         <div class="options-grid">
                             <button class="option-btn accent-btn active" data-accent="auto"   onclick="setAccentTheme('auto')"   data-i18n="glowAuto">Авто</button>
                             <button class="option-btn accent-btn" data-accent="green"  onclick="setAccentTheme('green')"  data-i18n="glowGreen">Зеленая</button>
@@ -1160,16 +1160,16 @@ function dismissWelcome(){
                 </div>
 
                 <div>
-                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;" onclick="toggleMenu('lang')">
-                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMenu('lang')">
+                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                         </div>
-                        <span style="flex:1;font-size:14px;font-weight:500;" data-i18n="langTitle">Language / Язык</span>
-                        <span class="accordion-arrow" id="arrow-lang">▼</span>
+                        <span style="flex:1;font-size:14px;font-weight:500;color:#fff;" data-i18n="langTitle">Language / Язык</span>
+                        <span class="accordion-arrow" id="arrow-lang" style="color:rgba(255,255,255,0.3);">▼</span>
                     </div>
-                    <div class="accordion-body" id="dropdown-lang" style="padding:12px 18px 14px 66px;border-bottom:1px solid var(--border-color);">
+                    <div class="accordion-body" id="dropdown-lang" style="padding:12px 18px 14px 66px;border-bottom:1px solid rgba(255,255,255,0.06);">
                         <div class="options-grid">
-                            <button class="option-btn lang-btn" data-lang="auto" onclick="changeLang('auto')" style="border-color:rgba(99,102,241,0.4);background:rgba(99,102,241,0.08);">Auto</button>
+                            <button class="option-btn lang-btn" data-lang="auto" onclick="changeLang('auto')" style="border-color:rgba(79,142,247,0.4);background:rgba(79,142,247,0.08);">Auto</button>
                             <button class="option-btn lang-btn" data-lang="ru" onclick="changeLang('ru')">Русский</button>
                             <button class="option-btn lang-btn active" data-lang="en" onclick="changeLang('en')">English</button>
                             <button class="option-btn lang-btn" data-lang="ja" onclick="changeLang('ja')">日本語</button>
@@ -1180,16 +1180,16 @@ function dismissWelcome(){
                 </div>
 
                 <div>
-                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;" onclick="toggleMenu('sound')">
-                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMenu('sound')">
+                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                         </div>
-                        <span style="flex:1;font-size:14px;font-weight:500;" data-i18n="soundTitle">Interface Sounds</span>
-                        <span class="accordion-arrow" id="arrow-sound">▼</span>
+                        <span style="flex:1;font-size:14px;font-weight:500;color:#fff;" data-i18n="soundTitle">Interface Sounds</span>
+                        <span class="accordion-arrow" id="arrow-sound" style="color:rgba(255,255,255,0.3);">▼</span>
                     </div>
-                    <div class="accordion-body" id="dropdown-sound" style="padding:12px 18px 14px 66px;border-bottom:1px solid var(--border-color);">
+                    <div class="accordion-body" id="dropdown-sound" style="padding:12px 18px 14px 66px;border-bottom:1px solid rgba(255,255,255,0.06);">
                         <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:14px;color:var(--text-muted);" id="soundStateLabel">On</span>
+                            <span style="font-size:14px;color:rgba(255,255,255,0.45);" id="soundStateLabel">On</span>
                             <label class="switch"><input type="checkbox" id="soundToggle" checked onchange="toggleSound(this)"><span class="slider"></span></label>
                         </div>
                     </div>
@@ -1197,11 +1197,11 @@ function dismissWelcome(){
 
                 <div>
                     <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;" onclick="toggleMenu('glow')">
-                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M20.188 10.934a8.5 8.5 0 1 1-16.376 0"/><line x1="12" y1="2" x2="12" y2="6"/></svg>
+                        <div style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M20.188 10.934a8.5 8.5 0 1 1-16.376 0"/><line x1="12" y1="2" x2="12" y2="6"/></svg>
                         </div>
-                        <span style="flex:1;font-size:14px;font-weight:500;" data-i18n="glowTitle">Neon Glow</span>
-                        <span class="accordion-arrow" id="arrow-glow">▼</span>
+                        <span style="flex:1;font-size:14px;font-weight:500;color:#fff;" data-i18n="glowTitle">Neon Glow</span>
+                        <span class="accordion-arrow" id="arrow-glow" style="color:rgba(255,255,255,0.3);">▼</span>
                     </div>
                     <div class="accordion-body" id="dropdown-glow" style="padding:12px 18px 14px 66px;">
                         <div class="options-grid">

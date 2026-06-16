@@ -2513,9 +2513,10 @@ function openWalletTopup(){
     _wtCustomVal=0;
     var _d=document.getElementById('wtCustomDisplay');if(_d)_d.value=0;
     var pe=document.getElementById('wtCustomPrice');if(pe)pe.textContent='$0';
-    const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2');
+    const s1=document.getElementById('wtStep1'),s2=document.getElementById('wtStep2'),sc=document.getElementById('wtStepCrypto');
     if(s1)s1.style.display='';
     if(s2)s2.style.display='none';
+    if(sc)sc.style.display='none';
     document.getElementById('walletTopupSheet').classList.add('open');
     document.getElementById('walletTopupOverlay').classList.add('open');
 }

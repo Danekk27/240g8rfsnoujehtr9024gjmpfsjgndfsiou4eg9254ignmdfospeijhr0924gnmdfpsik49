@@ -187,8 +187,8 @@
             margin-bottom: 22px;
         }
         .wc-chip {
-            background: rgba(79,142,247,0.1);
-            border: 1px solid rgba(79,142,247,0.22);
+            background: linear-gradient(225deg, #21242f 0%, #181b25 100%);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 20px;
             padding: 5px 12px;
             font-size: 12px;
@@ -239,13 +239,7 @@
             transition: transform 0.15s, opacity 0.15s;
             box-shadow: 0 4px 20px rgba(79,142,247,0.35);
         }
-        .wc-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
-            pointer-events: none;
-        }
+        .wc-btn:hover { transform: scale(1.03); }
         .wc-btn:active { transform: scale(0.97); opacity: 0.9; }
         .wc-legal {
             margin-top: 12px;
@@ -928,7 +922,7 @@ function dismissWelcome(){
             <span style="font-size:15px;">💎</span>
             <span id="starCount">0</span>
             <div class="wallet-icon-circle">
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-3"/><path d="M20 12h-5a2 2 0 0 0 0 4h5"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-3"/><path d="M20 12h-5a2 2 0 0 0 0 4h5"/></svg>
             </div>
         </div>
         </div>

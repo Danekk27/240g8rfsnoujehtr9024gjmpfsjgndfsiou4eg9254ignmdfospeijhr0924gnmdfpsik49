@@ -738,28 +738,27 @@
         .plus-card { border:1px solid rgba(93,240,201,0.3) !important; }
         .plus-card .upgrade-title { color:var(--plus-glow-2);text-shadow:0 0 6px rgba(93,240,201,0.35); }
 
-        .shop-neon-card { background:var(--card-bg);border-radius:20px;padding:24px;margin-bottom:16px;text-align:center;border:1px solid var(--glow-shadow); }
-        .shop-diamond-icon { font-size:48px;margin-bottom:12px;filter:drop-shadow(0 0 15px var(--glow-color-1)); }
-        .shop-title { font-size:18px;font-weight:700;margin-bottom:12px;font-family:'Syne',sans-serif; }
-        .shop-desc { font-size:13px;color:#707b86;line-height:1.5;margin-bottom:20px; }
+        .shop-neon-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;margin-bottom:16px;text-align:center;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+        .shop-diamond-icon { font-size:44px;margin-bottom:10px;filter:drop-shadow(0 0 10px rgba(79,142,247,0.5)); }
+        .shop-title { font-size:16px;font-weight:700;margin-bottom:8px;font-family:'Syne',sans-serif;color:#fff; }
+        .shop-desc { font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:18px; }
         .shop-buttons { display:flex;flex-direction:column;gap:10px; }
-        .shop-btn-primary { background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:white;border:none;padding:12px;border-radius:12px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 14px var(--accent-shadow);transition:transform .2s,filter .2s; }
-        .shop-btn-primary:active { transform:scale(.96); }
+        .shop-btn-primary { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
+        .shop-btn-primary:active { transform:scale(.96);filter:brightness(.88); }
         /* ── DAILY BONUS ── */
-        .daily-bonus-card{background:var(--card-bg);border-radius:20px;padding:20px 20px 16px;border:1px solid var(--glow-shadow);position:relative;overflow:hidden;margin-bottom:12px;}
-        
+        .daily-bonus-card{background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px 20px 16px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);position:relative;overflow:hidden;margin-bottom:12px;}
         .daily-bonus-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-        .daily-bonus-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--glow-shadow);flex-shrink:0;filter:drop-shadow(0 0 8px var(--glow-shadow));}
+        .daily-bonus-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);flex-shrink:0;}
         .daily-bonus-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;}
         .daily-bonus-subtitle{font-size:12px;color:rgba(255,255,255,0.38);margin-top:2px;}
         .daily-bonus-reward{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px;}
-        .daily-bonus-gem{font-size:34px;filter:drop-shadow(0 0 12px var(--glow-color-1));}
+        .daily-bonus-gem{font-size:34px;filter:drop-shadow(0 0 10px rgba(79,142,247,0.5));}
         .daily-bonus-amount{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:#fff;}
-        .daily-bonus-btn{width:100%;background:linear-gradient(135deg,var(--accent-color),var(--glow-color-1),var(--glow-color-2),var(--glow-color-1),var(--accent-color));background-size:400% 400%;animation:neonFlow 20s ease-in-out infinite;color:white;border:none;padding:13px;border-radius:13px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 14px var(--accent-shadow);transition:opacity .3s,transform .2s,background .4s,color .3s,box-shadow .3s;}
-        .daily-bonus-btn:active{transform:scale(.96);}
-        .daily-bonus-btn.claimed{background:rgba(255,255,255,0.07)!important;animation:none!important;box-shadow:none!important;cursor:default;color:rgba(255,255,255,0.35)!important;-webkit-text-fill-color:rgba(255,255,255,0.35)!important;}
+        .daily-bonus-btn{width:100%;background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:opacity .3s,transform .2s,filter .2s;}
+        .daily-bonus-btn:active{transform:scale(.96);filter:brightness(.88);}
+        .daily-bonus-btn.claimed{background:rgba(255,255,255,0.06)!important;animation:none!important;box-shadow:none!important;cursor:default;color:rgba(255,255,255,0.3)!important;-webkit-text-fill-color:rgba(255,255,255,0.3)!important;}
         .daily-bonus-next{border:1px solid transparent;border-radius:14px;background:transparent;display:flex;flex-direction:column;align-items:center;gap:5px;overflow:hidden;max-height:0;padding:0 16px;margin-top:0;transition:max-height .5s cubic-bezier(.22,1,.36,1),padding .5s cubic-bezier(.22,1,.36,1),margin-top .5s cubic-bezier(.22,1,.36,1),border-color .4s ease,background .4s ease;}
-        .daily-bonus-next.visible{max-height:90px;padding:11px 16px;margin-top:14px;border-color:var(--glow-shadow);background:rgba(255,255,255,0.03);}
+        .daily-bonus-next.visible{max-height:90px;padding:11px 16px;margin-top:14px;border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);}
         .daily-bonus-next-label{font-size:11px;color:rgba(255,255,255,0.32);text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
         .daily-bonus-timer{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;font-variant-numeric:tabular-nums;opacity:0;transform:translateY(8px);transition:opacity .35s ease .18s,transform .35s ease .18s;}
         .daily-bonus-next.visible .daily-bonus-timer{opacity:1;transform:translateY(0);}
@@ -995,7 +994,7 @@ function dismissWelcome(){
             <!-- DAILY BONUS -->
             <div class="daily-bonus-card" id="dailyBonusCard">
                 <div class="daily-bonus-header">
-                    <div class="daily-bonus-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--glow-color-1)"/><stop offset="100%" stop-color="var(--glow-color-2)"/></linearGradient></defs><polyline points="20 12 20 22 4 22 4 12" stroke="url(#dbGrad)"/><rect x="2" y="7" width="20" height="5" stroke="url(#dbGrad)"/><line x1="12" y1="22" x2="12" y2="7" stroke="url(#dbGrad)"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" stroke="url(#dbGrad)"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" stroke="url(#dbGrad)"/></svg></div>
+                    <div class="daily-bonus-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4F8EF7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
                     <div>
                         <div class="daily-bonus-title" id="dbTitle">Daily Bonus</div>
                         <div class="daily-bonus-subtitle" id="dbSubtitle">Come back every day!</div>

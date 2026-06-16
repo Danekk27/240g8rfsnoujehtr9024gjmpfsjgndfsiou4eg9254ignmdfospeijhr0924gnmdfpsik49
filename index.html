@@ -333,9 +333,11 @@
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
         .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
-        .wallet-info-btn { width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);font-size:12px;font-style:italic;font-weight:700;font-family:'Syne',sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s,color .15s;user-select:none; }
+        .wallet-info-btn { width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);font-size:12px;font-style:normal;font-weight:700;font-family:'Syne',sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s,color .15s;user-select:none; }
         .wallet-info-btn:active { background:rgba(255,255,255,0.12);color:#fff; }
-        .wallet-info-tip { position:fixed;z-index:99999;background:rgba(17,19,28,0.97);border:1px solid rgba(79,142,247,0.3);border-radius:10px;padding:9px 13px;font-size:12px;color:rgba(255,255,255,0.85);max-width:220px;box-shadow:0 4px 20px rgba(0,0,0,0.5);pointer-events:none;opacity:0;transition:opacity .18s; }
+        .wallet-info-tip { position:fixed;z-index:99999;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 16px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.5);pointer-events:none;opacity:0;transition:opacity .2s; }
+        .wallet-info-tip-title { font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:6px; }
+        .wallet-info-tip-body { font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5; }
         @keyframes walletBtnWave { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         @keyframes wtShake { 0%{transform:translateX(0)} 15%{transform:translateX(-5px)} 35%{transform:translateX(5px)} 55%{transform:translateX(-4px)} 70%{transform:translateX(4px)} 85%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
         .wt-shake { animation:wtShake .4s ease !important; }
@@ -2484,17 +2486,18 @@ function openWalletAndTopup(){
     setTimeout(openWalletTopup, 420);
 }
 var _wTipTimer=null;
-function showWalletTip(msg,btn){
+function showWalletTip(title,body,btn){
     var old=document.getElementById('walletInfoTip');if(old)old.remove();
     if(_wTipTimer)clearTimeout(_wTipTimer);
     var tip=document.createElement('div');
-    tip.id='walletInfoTip';tip.className='wallet-info-tip';tip.textContent=msg;
+    tip.id='walletInfoTip';tip.className='wallet-info-tip';
+    tip.innerHTML='<div class="wallet-info-tip-title">'+title+'</div><div class="wallet-info-tip-body">'+body+'</div>';
     document.body.appendChild(tip);
     var r=btn.getBoundingClientRect();
-    var left=Math.min(r.left,window.innerWidth-230);
-    tip.style.top=(r.bottom+6)+'px';tip.style.left=Math.max(12,left)+'px';
+    tip.style.top=(r.bottom+8)+'px';
+    tip.style.left=Math.max(12,Math.min(r.left,window.innerWidth-252))+'px';
     requestAnimationFrame(function(){tip.style.opacity='1';});
-    _wTipTimer=setTimeout(function(){tip.style.opacity='0';setTimeout(function(){tip.remove();},200);},3000);
+    _wTipTimer=setTimeout(function(){tip.style.opacity='0';setTimeout(function(){tip.remove();},200);},4000);
 }
 function openWalletScreen(){
     haptic('light');
@@ -3171,7 +3174,7 @@ function openTgProfile(){
     </div>
     <div class="wallet-body">
         <div class="wallet-balance-card">
-            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance<div class="wallet-info-btn" onclick="showWalletTip('Алмазы — внутренняя валюта приложения. Используются для генерации и других функций.',this)">i</div></div>
+            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance<div class="wallet-info-btn" onclick="showWalletTip('Ваш баланс','💎 Алмазы — внутренняя валюта CynovaAI. Тратятся на генерацию и общение с AI. Пополняйте баланс через кнопку ниже.',this)">i</div></div>
             <div class="wallet-balance-amount">
                 <span class="gem">💎</span>
                 <span id="walletBalanceNum">0</span>
@@ -3180,7 +3183,7 @@ function openTgProfile(){
         <div class="wallet-chart-card">
             <div class="wallet-chart-head">
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
-                <div class="wallet-info-btn" onclick="showWalletTip('График отображает изменения баланса алмазов. Каждая точка — операция за день.',this)">i</div>
+                <div class="wallet-info-btn" onclick="showWalletTip('Активность','График показывает изменения баланса алмазов. Каждая точка — операция пополнения или списания за день.',this)">i</div>
             </div>
             <canvas id="walletChart"></canvas>
         </div>

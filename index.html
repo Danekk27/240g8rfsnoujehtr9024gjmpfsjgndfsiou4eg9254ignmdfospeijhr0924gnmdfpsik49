@@ -1632,7 +1632,7 @@ try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
 (function(){
     if(aiMemory.balanceReset!==2){
-        aiMemory.diamonds=500;
+        aiMemory.diamonds=250;
         aiMemory.diamondHistory=[];
         aiMemory.balanceReset=2;
         aiMemory.accountCreatedAt=Date.now();
@@ -2513,11 +2513,11 @@ function showInfoModal(type){
     var contents={
         balance:{
             title:'Ваш баланс',
-            body:'💎 <span style="color:#fff;font-weight:600;">Алмазы</span> — внутренняя валюта CynovaAI.<br>Тратятся на генерацию изображений и общение с AI.<br><br><span style="color:rgba(255,255,255,0.4);">Пополняйте баланс через кнопку ниже или получайте ежедневный бонус.</span>'
+            body:'<span style="color:#fff;font-weight:600;">Алмазы</span> — внутренняя валюта CynovaAI.<br>Тратятся на генерацию изображений.<br><br><span style="color:rgba(255,255,255,0.4);">Пополняйте баланс через кнопку ниже или получайте ежедневный бонус.</span>'
         },
         chart:{
             title:'Активность',
-            body:'📈 <span style="color:#fff;font-weight:600;">График активности</span> — изменения баланса алмазов.<br>Каждая точка — операция пополнения за день.<br><br><span style="color:rgba(255,255,255,0.4);">Линия показывает баланс после каждой операции.</span>'
+            body:'<span style="color:#fff;font-weight:600;">График активности</span> — изменения баланса алмазов.<br>Каждая точка — операция пополнения за день.<br><br><span style="color:rgba(255,255,255,0.4);">Линия показывает баланс после каждой операции.</span>'
         }
     };
     var btnId=type+'InfoBtn';
@@ -2560,7 +2560,7 @@ function openWalletScreen(){
 }
 function resetWalletBalance(){
     haptic('rigid');
-    aiMemory.diamonds=500;
+    aiMemory.diamonds=250;
     aiMemory.diamondHistory=[];
     aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
     saveMemory('diamonds',500);
@@ -2984,12 +2984,12 @@ function openTgProfile(){
     syncDiamondsFromCloud(function(){
         if(!aiMemory.welcomed){
             aiMemory.welcomed=true;
-            if(!aiMemory.diamonds||aiMemory.diamonds<500){
-                aiMemory.diamonds=500;
-                saveMemory('diamonds',500);
-                if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
-                const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
-                const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
+            if(!aiMemory.diamonds||aiMemory.diamonds<250){
+                aiMemory.diamonds=250;
+                saveMemory('diamonds',250);
+                if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','250',function(){});
+                const sc=document.getElementById('starCount');if(sc)sc.textContent='250';
+                const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='250';
             }
             saveMemory('welcomed',true);
         }

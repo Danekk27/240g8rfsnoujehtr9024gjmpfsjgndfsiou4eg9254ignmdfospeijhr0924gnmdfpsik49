@@ -337,6 +337,7 @@
         @keyframes wtShake { 0%{transform:translateX(0)} 15%{transform:translateX(-5px)} 35%{transform:translateX(5px)} 55%{transform:translateX(-4px)} 70%{transform:translateX(4px)} 85%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
         .wt-shake { animation:wtShake .4s ease !important; }
         .settings-icon-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#5a90e8,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 8s ease-in-out infinite; }
+        .acct-plan-bar-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 4s ease-in-out infinite; }
         .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
@@ -1620,6 +1621,11 @@ try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
         aiMemory.accountCreatedAt=Date.now();
         try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}
     }
+    if(!aiMemory.accountCreatedAt){
+        var hist=aiMemory.diamondHistory||[];
+        aiMemory.accountCreatedAt=hist.length?hist.reduce(function(m,h){return h.t<m?h.t:m;},hist[0].t):Date.now();
+        try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}
+    }
 })();
 
 const tg=window.Telegram?.WebApp||{ready:()=>{},expand:()=>{},initDataUnsafe:{},HapticFeedback:{impactOccurred:()=>{}}};
@@ -2227,17 +2233,6 @@ function openAccount(){
         }
     }
 
-    // Level badge
-    var totalSpent=(aiMemory.diamondHistory||[]).reduce(function(s,h){return s+(h.d>0?h.d:0);},0);
-    var lvl,lvlLabel,lvlColor;
-    if(totalSpent>=15000){lvl=5;lvlLabel='Мастер';lvlColor='#3DDC84';}
-    else if(totalSpent>=5000){lvl=4;lvlLabel='Эксперт';lvlColor='#4F8EF7';}
-    else if(totalSpent>=2000){lvl=3;lvlLabel='Продвинутый';lvlColor='#4F8EF7';}
-    else if(totalSpent>=500){lvl=2;lvlLabel='Опытный';lvlColor='rgba(255,255,255,0.6)';}
-    else{lvl=1;lvlLabel='Новичок';lvlColor='rgba(255,255,255,0.35)';}
-    var lb=document.getElementById('acctLevelBadge');
-    if(lb){var lbSpan=lb.querySelector('span');if(lbSpan){lbSpan.textContent='Ур. '+lvl+' · '+lvlLabel;lbSpan.style.color=lvlColor;}lb.style.borderColor=lvl>=3?'rgba(79,142,247,0.25)':lvl===5?'rgba(61,220,132,0.25)':'rgba(255,255,255,0.1)';}
-
     // Registration date
     var regEl=document.getElementById('acctRegVal');
     if(regEl){if(aiMemory.accountCreatedAt){var rd=new Date(aiMemory.accountCreatedAt);regEl.textContent=rd.toLocaleDateString(currentLang==='ru'?'ru-RU':currentLang==='uk'?'uk-UA':'en-GB',{day:'numeric',month:'short',year:'numeric'});}else{regEl.textContent='—';}}
@@ -2253,9 +2248,8 @@ function openAccount(){
             var dLeft=Math.max(0,Math.ceil((pe-pnow)/86400000));
             var pad2=function(n){return String(n).padStart(2,'0');};
             var fmtD2=function(ts){var d=new Date(ts);return pad2(d.getDate())+'.'+pad2(d.getMonth()+1)+'.'+d.getFullYear();};
-            var barColor=pct<30?'#3DDC84':pct<70?'#4F8EF7':'#ff7a7a';
             var bar=document.getElementById('acctPlanBar');
-            if(bar)setTimeout(function(){bar.style.width=pct+'%';bar.style.background=barColor;},80);
+            if(bar)setTimeout(function(){bar.style.width=pct+'%';if(pct>=100){bar.className='';bar.style.background='#ff7a7a';}},80);
             var daysEl2=document.getElementById('acctPlanDays');
             if(daysEl2)daysEl2.textContent=dLeft>0?dLeft+' дн. осталось':'Истёк';
             var startEl=document.getElementById('acctPlanStart');
@@ -2492,11 +2486,9 @@ function resetWalletBalance(){
     aiMemory.diamonds=500;
     aiMemory.diamondHistory=[];
     aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
-    aiMemory.accountCreatedAt=Date.now();
     saveMemory('diamonds',500);
     saveMemory('diamondHistory',[]);
     saveMemory('balanceReset',aiMemory.balanceReset);
-    saveMemory('accountCreatedAt',aiMemory.accountCreatedAt);
     if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
     const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
     const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
@@ -3029,11 +3021,24 @@ function openTgProfile(){
             <div style="flex:1;min-width:0;">
                 <div id="acctHeroName" style="font-size:18px;font-weight:700;color:#fff;font-family:'Syne',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
                 <div id="acctHeroId" style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px;">ID: —</div>
-                <div id="acctLevelBadge" style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:6px;padding:2px 8px;"><span style="font-size:11px;font-weight:600;color:#4F8EF7;">Ур. 1 · Новичок</span></div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:14px;padding:12px 16px;flex-shrink:0;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
                 <span id="acctDiamonds" style="font-size:18px;font-weight:800;color:#4F8EF7;font-variant-numeric:tabular-nums;line-height:1.1;">—</span>
+            </div>
+        </div>
+        <!-- Plan progress -->
+        <div id="acctPlanProgress" style="display:none;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 20px;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <span style="font-size:13px;font-weight:600;color:#fff;font-family:'Syne',sans-serif;">Срок тарифа</span>
+                <span id="acctPlanDays" style="font-size:11px;color:rgba(255,255,255,0.45);"></span>
+            </div>
+            <div style="height:6px;border-radius:3px;background:rgba(255,255,255,0.08);overflow:hidden;">
+                <div id="acctPlanBar" class="acct-plan-bar-shimmer" style="height:100%;border-radius:3px;width:0%;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                <span id="acctPlanStart" style="font-size:10px;color:rgba(255,255,255,0.35);"></span>
+                <span id="acctPlanEnd" style="font-size:10px;color:rgba(255,255,255,0.35);"></span>
             </div>
         </div>
         <!-- Info rows -->
@@ -3075,20 +3080,6 @@ function openTgProfile(){
                 </div>
                 <span style="flex:1;font-size:14px;font-weight:500;color:#fff;">Регистрация</span>
                 <span id="acctRegVal" style="font-size:13px;color:rgba(255,255,255,0.45);">—</span>
-            </div>
-        </div>
-        <!-- Plan progress -->
-        <div id="acctPlanProgress" style="display:none;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 20px;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <span style="font-size:13px;font-weight:600;color:#fff;font-family:'Syne',sans-serif;">Срок тарифа</span>
-                <span id="acctPlanDays" style="font-size:11px;color:rgba(255,255,255,0.45);"></span>
-            </div>
-            <div style="height:6px;border-radius:3px;background:rgba(255,255,255,0.08);overflow:hidden;">
-                <div id="acctPlanBar" style="height:100%;border-radius:3px;background:#3DDC84;width:0%;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;margin-top:6px;">
-                <span id="acctPlanStart" style="font-size:10px;color:rgba(255,255,255,0.35);"></span>
-                <span id="acctPlanEnd" style="font-size:10px;color:rgba(255,255,255,0.35);"></span>
             </div>
         </div>
         <!-- Support button -->

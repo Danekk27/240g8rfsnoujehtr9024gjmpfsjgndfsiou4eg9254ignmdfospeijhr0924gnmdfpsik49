@@ -327,6 +327,10 @@
         .wallet-chart-labels { display:flex;justify-content:space-between;margin-top:8px;padding:0 8px; }
         .wallet-chart-label { font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px; }
         .wallet-actions { display:flex;flex-direction:column;gap:10px;padding-bottom:8px; }
+        .wcp-btn { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);cursor:pointer;transition:background .15s,color .15s,border-color .15s;flex:1; }
+        .wcp-btn.active { background:rgba(79,142,247,0.12);border-color:rgba(79,142,247,0.3);color:#4F8EF7; }
+        .wcf-btn { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:5px 14px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);cursor:pointer;transition:background .15s,color .15s,border-color .15s; }
+        .wcf-btn.active { background:rgba(79,142,247,0.1);border-color:rgba(79,142,247,0.25);color:#4F8EF7; }
         .wallet-info-btn { width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);font-size:12px;font-style:normal;font-weight:700;font-family:'Syne',sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s,color .15s;user-select:none; }
         .wallet-info-btn:active { background:rgba(255,255,255,0.12);color:#fff; }
         .wallet-info-tip { position:fixed;z-index:99999;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 16px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.5);pointer-events:none;opacity:0;transition:opacity .2s; }
@@ -2824,13 +2828,33 @@ function initWalletChartEvents(){
         });
         return idx;
     };
-    canvas.addEventListener('mousemove',e=>drawWalletChart(getIdx(e.clientX)));
+    canvas.addEventListener('mousemove',e=>{
+        const idx=getIdx(e.clientX);
+        if(idx<0){drawWalletChart(-1);return;}
+        const dots=canvas._wcDotPositions;
+        if(!dots||!dots[idx]){drawWalletChart(-1);return;}
+        const rect=canvas.getBoundingClientRect();
+        const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+        const d=dots[idx];
+        drawWalletChart(Math.hypot(mx-d.x,my-d.y)<=22?idx:-1);
+    });
     canvas.addEventListener('mouseleave',()=>drawWalletChart(-1));
     canvas.addEventListener('touchstart',e=>{e.preventDefault();drawWalletChart(getIdx(e.touches[0].clientX));},{passive:false});
     canvas.addEventListener('touchmove',e=>{e.preventDefault();drawWalletChart(getIdx(e.touches[0].clientX));},{passive:false});
-    canvas.addEventListener('touchend',()=>drawWalletChart(-1));
+    canvas.addEventListener('touchend',e=>{e.preventDefault();
+        const idx=getIdx(e.changedTouches[0].clientX);
+        if(idx<0){drawWalletChart(-1);return;}
+        const dots=canvas._wcDotPositions;
+        if(!dots||!dots[idx]){drawWalletChart(-1);return;}
+        const rect=canvas.getBoundingClientRect();
+        const tx=e.changedTouches[0].clientX-rect.left,ty=e.changedTouches[0].clientY-rect.top;
+        const d=dots[idx];
+        if(Math.hypot(tx-d.x,ty-d.y)<=28)drawWalletChart(idx);
+        else drawWalletChart(-1);
+        setTimeout(()=>drawWalletChart(-1),2200);
+    },{passive:false});
 }
-function setWalletPeriod(p,btn){walletChartPeriod=p;haptic('light');drawWalletChart();}
+function setWalletPeriod(p,btn){walletChartPeriod=p;haptic('light');document.querySelectorAll('.wcp-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');drawWalletChart();}
 function setWalletFilter(f,btn){
     if(walletChartFilter===f){walletChartFilter='all';document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));}
     else{walletChartFilter=f;document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
@@ -2885,6 +2909,7 @@ function drawWalletChart(hovIdx){
     const scMin=Math.max(0,minV-rng*0.18);
     const scMax=maxV+rng*0.18;
     const sy=v=>padT+gh-((v-scMin)/(scMax-scMin))*gh;
+    canvas._wcDotPositions=pts.map((p,i)=>({x:sx(i),y:sy(p.v)}));
     const AC='#4F8EF7';
     if(pts.length===1){
         const x=sx(0),y=sy(pts[0].v);
@@ -3295,21 +3320,46 @@ function openTgProfile(){
         <div class="wallet-header-title" id="walletHeaderTitle">Wallet</div>
     </div>
     <div class="wallet-body">
+
+        <!-- ── Balance card with quick actions ── -->
         <div class="wallet-balance-card">
-            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance<div class="wallet-info-btn" id="walletBalanceInfoBtn" onclick="showInfoModal('balance')">i</div></div>
+            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <div class="wallet-balance-badge" id="walletBalanceBadge">7 days</div>
+                    <div class="wallet-info-btn" id="walletBalanceInfoBtn" onclick="showInfoModal('balance')">i</div>
+                </div>
+            </div>
             <div class="wallet-balance-amount">
                 <span class="gem">💎</span>
                 <span id="walletBalanceNum">0</span>
             </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;">
+                <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up</button>
+                <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Upgrade</button>
+            </div>
         </div>
+
+        <!-- ── Chart card ── -->
         <div class="wallet-chart-card">
             <div class="wallet-chart-head">
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
                 <div class="wallet-info-btn" id="walletChartInfoBtn" onclick="showInfoModal('chart')">i</div>
             </div>
+            <div style="display:flex;gap:6px;margin-bottom:14px;">
+                <button class="wcp-btn active" onclick="setWalletPeriod(7,this)">7D</button>
+                <button class="wcp-btn" onclick="setWalletPeriod(30,this)">30D</button>
+                <button class="wcp-btn" onclick="setWalletPeriod(180,this)">6M</button>
+                <button class="wcp-btn" onclick="setWalletPeriod(0,this)">All</button>
+            </div>
             <canvas id="walletChart"></canvas>
+            <div class="wallet-chart-labels" id="walletChartLabels"></div>
+            <div style="display:flex;gap:6px;margin-top:12px;">
+                <button class="wcf-btn" id="wcfPositiveBtn" onclick="setWalletFilter('positive',this)">+ Income</button>
+                <button class="wcf-btn" id="wcfNegativeBtn" onclick="setWalletFilter('negative',this)">− Expense</button>
+            </div>
         </div>
-        <!-- Payment history -->
+
+        <!-- ── Payment history ── -->
         <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
                 <span id="acctHistTitle" style="font-size:14px;font-weight:700;color:#fff;font-family:'Syne',sans-serif;">История оплаты</span>
@@ -3317,11 +3367,12 @@ function openTgProfile(){
             </div>
             <div id="acctPayList"></div>
         </div>
-        <div class="wallet-actions">
-            <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">System Upgrade</button>
-            <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up balance</button>
-            <button class="wallet-reset-btn" onclick="resetWalletBalance()">Reset balance to 500</button>
+
+        <!-- ── Destructive action ── -->
+        <div style="padding-bottom:8px;">
+            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Reset balance to 500</button>
         </div>
+
     </div>
     <!-- Topup overlay -->
     <div class="wallet-topup-overlay" id="walletTopupOverlay" onclick="closeWalletTopup()"></div>

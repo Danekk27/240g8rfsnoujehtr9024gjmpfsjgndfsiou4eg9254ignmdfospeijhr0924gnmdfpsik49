@@ -892,17 +892,17 @@
         /* ── SPLASH SCREEN ── */
         #splashScreen { position:fixed;inset:0;z-index:99999;background:#13151e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .65s ease,transform .65s ease; }
         #splashScreen.hiding { opacity:0;transform:scale(1.05);pointer-events:none; }
-        .splash-icon-wrap { position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
-        .splash-icon-bg { position:absolute;inset:0;border-radius:28px;background:linear-gradient(145deg,#3461c0,#4f8ef7,#6aa3f8);box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset;animation:splashPulse 2.2s ease-in-out infinite; }
-        .splash-logo-img { position:relative;z-index:1;width:72px;height:72px;object-fit:cover;border-radius:16px;display:block; }
+        .splash-icon-wrap { position:relative;width:144px;height:144px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .splash-icon-bg { position:absolute;inset:0;border-radius:32px;background:linear-gradient(145deg,#3461c0,#4f8ef7,#6aa3f8);box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset;animation:splashPulse 2.2s ease-in-out infinite; }
+        .splash-logo-img { position:relative;z-index:1;width:128px;height:128px;object-fit:cover;border-radius:26px;display:block; }
         .splash-typewriter { font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:0.3px;white-space:nowrap;min-height:36px; }
-        .splash-typewriter .splash-cursor { display:inline-block;width:2px;height:1.1em;background:#4F8EF7;margin-left:2px;vertical-align:middle;border-radius:1px;animation:splashBlink .75s step-end infinite; }
+        .splash-char { display:inline-block;opacity:0;animation:splashCharIn .4s ease forwards; }
+        @keyframes splashCharIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
         .splash-tagline { font-size:13px;color:rgba(255,255,255,0.32);margin-top:8px;letter-spacing:0.4px;opacity:0;transition:opacity .5s ease; }
         .splash-tagline.visible { opacity:1; }
         @keyframes splashIconIn { from{opacity:0;transform:scale(0.55)} to{opacity:1;transform:scale(1)} }
         @keyframes splashTextIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes splashPulse { 0%,100%{box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset} 50%{box-shadow:0 8px 52px rgba(79,142,247,0.7),0 0 0 1px rgba(255,255,255,0.15) inset} }
-        @keyframes splashBlink { 0%,100%{opacity:1} 50%{opacity:0} }
     </style>
 </head>
 <body>
@@ -914,7 +914,7 @@
         <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" class="splash-logo-img" alt="">
     </div>
     <div class="splash-typewriter">
-        <span id="splashTypingText"></span><span class="splash-cursor"></span>
+        <span id="splashTypingText"></span>
     </div>
     <div class="splash-tagline" id="splashTagline">Your personal AI assistant</div>
 </div>
@@ -925,12 +925,18 @@
     var text='CynovaAI';
     var el=document.getElementById('splashTypingText');
     var tagline=document.getElementById('splashTagline');
-    var i=0;
     function type(){
-        if(i<text.length){ el.textContent+=text[i++]; setTimeout(type,70); }
-        else { setTimeout(function(){ if(tagline)tagline.classList.add('visible'); },200); }
+        for(var i=0;i<text.length;i++){
+            var span=document.createElement('span');
+            span.className='splash-char';
+            span.textContent=text[i]==' '?' ':text[i];
+            span.style.animationDelay=(600+i*80)+'ms';
+            el.appendChild(span);
+        }
+        var totalDelay=600+text.length*80+400;
+        setTimeout(function(){ if(tagline)tagline.classList.add('visible'); },totalDelay);
     }
-    setTimeout(type,600);
+    type();
     setTimeout(function(){
         s.classList.add('hiding');
         setTimeout(function(){s.style.display='none';},680);
@@ -985,7 +991,6 @@ function dismissWelcome(){
         </div>
     </div>
 </div>
-<script>(function(){if(localStorage.getItem('cynovaWelcomeSeen')){var w=document.getElementById('welcomeScreen');if(w)w.style.display='none';}})()</script>
 
 <!-- ══════════════════════════════════════════
      MAIN APP

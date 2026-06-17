@@ -1922,7 +1922,7 @@ function updateCurrentPlanBlock(){
 function showPlanGlow(plan){const name=document.getElementById('userName'),avatar=document.getElementById('userAvatar');if(name){name.className='user-name';if(plan==='premium')name.classList.add('plan-premium');else if(plan==='pro')name.classList.add('plan-pro');else if(plan==='lite')name.classList.add('plan-lite');else if(plan==='plus')name.classList.add('plan-plus');else if(plan==='default')name.classList.add('plan-default');}if(avatar){avatar.classList.remove('plan-premium','plan-pro','plan-lite','plan-plus','plan-default');if(plan==='premium')avatar.classList.add('plan-premium');else if(plan==='pro')avatar.classList.add('plan-pro');else if(plan==='lite')avatar.classList.add('plan-lite');else if(plan==='plus')avatar.classList.add('plan-plus');else if(plan==='default')avatar.classList.add('plan-default');}updateCurrentPlanBlock();}
 
 function toggleMenu(key){menuStates[key]=!menuStates[key];const body=document.getElementById('dropdown-'+key),arrow=document.getElementById('arrow-'+key);if(!body||!arrow)return;body.classList.toggle('open',menuStates[key]);arrow.style.transform=menuStates[key]?'rotate(180deg)':'rotate(0deg)';}
-var _projectsOpen=false;function toggleProjectsList(){_projectsOpen=!_projectsOpen;var panel=document.getElementById('projectsCyrPanel'),ch=document.getElementById('projectsChevron');if(panel)panel.classList.toggle('open',_projectsOpen);if(ch)ch.style.transform=_projectsOpen?'rotate(90deg)':'rotate(0deg)';}
+var _projectsOpen=false;function toggleProjectsList(){_projectsOpen=!_projectsOpen;var panel=document.getElementById('projectsCyrPanel'),ch=document.getElementById('projectsChevron');if(panel)panel.classList.toggle('open',_projectsOpen);if(ch)ch.style.transform=_projectsOpen?'rotate(180deg)':'rotate(0deg)';}
 function toggleCompare(){const b=document.getElementById('compareBody'),btn=document.getElementById('compareToggleBtn');if(!b)return;const open=b.classList.toggle('open');btn.classList.toggle('open',open);}
 
 function saveMemory(k,v){aiMemory[k]=v;try{localStorage.setItem('aiMemory',JSON.stringify(aiMemory));}catch(e){}}
@@ -2250,54 +2250,72 @@ function renderPayHistory(){
     if(!list)return;
     var items=[];
     var hist=aiMemory.diamondHistory||[];
-    hist.slice().reverse().forEach(function(h){if(h.d<0||h.type==='promo')return;items.push({cat:h.type||'',d:h.d,v:h.v,t:h.t});});
+    hist.slice().reverse().forEach(function(h){items.push({cat:h.type||'spend',d:h.d,v:h.v,ts:h.t});});
     if(aiMemory.plan&&aiMemory.plan!=='default'&&aiMemory.planPurchasedAt){
-        items.push({cat:'plan',plan:aiMemory.plan,t:aiMemory.planPurchasedAt});
-        items.sort(function(a,b){return b.t-a.t;});
+        items.push({cat:'plan',plan:aiMemory.plan,d:0,ts:aiMemory.planPurchasedAt});
+        items.sort(function(a,b){return b.ts-a.ts;});
     }
-    function fmtDate(ts){return new Date(ts).toLocaleDateString(currentLang==='ru'?'ru-RU':currentLang==='uk'?'uk-UA':currentLang==='zh'?'zh-CN':currentLang==='ja'?'ja-JP':'en-GB',{day:'numeric',month:'short',year:'numeric'});}
+    var locale=currentLang==='ru'?'ru-RU':currentLang==='uk'?'uk-UA':currentLang==='zh'?'zh-CN':currentLang==='ja'?'ja-JP':'en-GB';
+    function fmtDate(ts){return new Date(ts).toLocaleDateString(locale,{day:'numeric',month:'short'});}
     function fmtTime(ts){var d=new Date(ts);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
-    function icon(bg,border,svg){return '<div style="width:36px;height:36px;border-radius:10px;background:'+bg+';border:1px solid '+border+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svg+'</div>';}
-    var iconTopup=icon('rgba(79,142,247,0.1)','rgba(79,142,247,0.18)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>');
-    var iconBonus=icon('rgba(61,220,132,0.1)','rgba(61,220,132,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>');
-    var iconPromo=icon('rgba(255,196,80,0.1)','rgba(255,196,80,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffc450" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>');
-    var iconSpend=icon('rgba(255,100,100,0.1)','rgba(255,100,100,0.2)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff7a7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>');
-    var iconPlan=icon('rgba(79,142,247,0.1)','rgba(79,142,247,0.18)','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>');
+    var lbls={
+        topup:{ru:'Пополнение',uk:'Поповнення',ja:'チャージ',zh:'充值',en:'Top up'},
+        bonus:{ru:'Ежедневный бонус',uk:'Щоденний бонус',ja:'デイリーボーナス',zh:'每日奖励',en:'Daily bonus'},
+        promo:{ru:'Промокод',uk:'Промокод',ja:'プロモコード',zh:'促销码',en:'Promo code'},
+        spend:{ru:'Списание',uk:'Списання',ja:'消費',zh:'消费',en:'Spent'},
+        plan:{ru:'Тариф',uk:'Тариф',ja:'プラン',zh:'套餐',en:'Plan'}
+    };
+    function lbl(cat){var m=lbls[cat]||lbls.spend;return m[currentLang]||m.en;}
+    function balLabel(){return currentLang==='ru'||currentLang==='uk'?'баланс':currentLang==='ja'?'残高':currentLang==='zh'?'余额':'balance';}
     if(items.length===0){
-        list.innerHTML='<div style="padding:22px 18px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);">'+(t.acctHistEmpty||'История пуста')+'</div>';
+        list.innerHTML='<div style="padding:28px 18px;text-align:center;"><div style="width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><div style="font-size:13px;color:rgba(255,255,255,0.35);">'+(t.acctHistEmpty||'History is empty')+'</div></div>';
         if(countEl)countEl.textContent='';
         return;
     }
     if(countEl)countEl.textContent=items.length;
     list.innerHTML=items.map(function(item,i){
-        var border=i<items.length-1?'border-bottom:1px solid rgba(255,255,255,0.06);':'';
-        var ic,label,badge;
-        if(item.cat==='plan'){
-            var isExp=aiMemory.planExpiresAt&&Date.now()>aiMemory.planExpiresAt;
-            ic=iconPlan;
-            label='Тариф · '+item.plan;
-            badge=isExp
-                ?'<div style="font-size:10px;color:#ff7a7a;background:rgba(255,122,122,0.1);border:1px solid rgba(255,122,122,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">истёк</div>'
-                :'<div style="font-size:10px;color:#4F8EF7;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">активен</div>';
-        } else if(item.d<0){
-            ic=iconSpend;
-            label='Потрачено';
-            badge='<div style="font-size:10px;color:#ff7a7a;background:rgba(255,122,122,0.1);border:1px solid rgba(255,122,122,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">−'+(Math.abs(item.d))+' 💎</div>';
-        } else if(item.cat==='bonus'){
-            ic=iconBonus;
-            label='Ежедневный бонус';
-            badge='<div style="font-size:10px;color:#3DDC84;background:rgba(61,220,132,0.1);border:1px solid rgba(61,220,132,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
-        } else if(item.cat==='promo'){
-            ic=iconPromo;
-            label='Промокод';
-            badge='<div style="font-size:10px;color:#ffc450;background:rgba(255,196,80,0.1);border:1px solid rgba(255,196,80,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
+        var isLast=i===items.length-1;
+        var sep=isLast?'':'border-bottom:1px solid rgba(255,255,255,0.05);';
+        var cat=item.cat;
+        var positive=item.d>0||(cat==='plan');
+        var negative=item.d<0;
+        // Icon config
+        var iconBg,iconBorder,iconSvg;
+        if(cat==='bonus'){
+            iconBg='rgba(61,220,132,0.08)';iconBorder='rgba(61,220,132,0.2)';
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+        } else if(cat==='promo'){
+            iconBg='rgba(255,196,80,0.08)';iconBorder='rgba(255,196,80,0.2)';
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffc450" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>';
+        } else if(cat==='plan'){
+            iconBg='rgba(79,142,247,0.08)';iconBorder='rgba(79,142,247,0.2)';
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>';
+        } else if(negative){
+            iconBg='rgba(255,100,100,0.08)';iconBorder='rgba(255,100,100,0.18)';
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7a7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>';
         } else {
-            ic=iconTopup;
-            label='Пополнение баланса';
-            badge='<div style="font-size:10px;color:#4F8EF7;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-weight:600;flex-shrink:0;">+'+item.d+' 💎</div>';
+            iconBg='rgba(79,142,247,0.08)';iconBorder='rgba(79,142,247,0.2)';
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>';
         }
-        var sub=fmtDate(item.t)+' · '+fmtTime(item.t)+(item.v!=null?' · баланс: '+Number(item.v).toLocaleString():'');
-        return '<div style="display:flex;align-items:center;gap:13px;padding:13px 18px;'+border+'">'+ic+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">'+label+'</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+sub+'</div></div>'+badge+'</div>';
+        var icon='<div style="width:40px;height:40px;border-radius:12px;background:'+iconBg+';border:1px solid '+iconBorder+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+iconSvg+'</div>';
+        // Label
+        var labelName=cat==='plan'?lbl('plan')+' · '+item.plan.charAt(0).toUpperCase()+item.plan.slice(1):lbl(cat);
+        // Sub
+        var isExp=cat==='plan'&&aiMemory.planExpiresAt&&Date.now()>aiMemory.planExpiresAt;
+        var sub=fmtDate(item.ts)+' · '+fmtTime(item.ts);
+        if(item.v!=null&&cat!=='plan')sub+=' · '+balLabel()+': '+Number(item.v).toLocaleString();
+        // Amount / badge (right side)
+        var right;
+        if(cat==='plan'){
+            var bClr=isExp?'#ff7a7a':'#3DDC84';var bBg=isExp?'rgba(255,122,122,0.08)':'rgba(61,220,132,0.08)';var bBrd=isExp?'rgba(255,122,122,0.22)':'rgba(61,220,132,0.22)';
+            var bTxt=isExp?(t.planExpired||'Expired'):(t.planActive||'Active');
+            right='<div style="font-size:11px;font-weight:600;color:'+bClr+';background:'+bBg+';border:1px solid '+bBrd+';border-radius:8px;padding:4px 10px;flex-shrink:0;">'+bTxt+'</div>';
+        } else {
+            var amtClr=negative?'#ff7a7a':cat==='bonus'?'#3DDC84':cat==='promo'?'#ffc450':'#4F8EF7';
+            var amtTxt=(negative?'−'+Math.abs(item.d):(item.d>0?'+'+item.d:'0'))+' 💎';
+            right='<div style="font-size:14px;font-weight:700;color:'+amtClr+';flex-shrink:0;text-align:right;min-width:60px;">'+amtTxt+'</div>';
+        }
+        return '<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;'+sep+'">'+icon+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:3px;">'+labelName+'</div><div style="font-size:11px;color:rgba(255,255,255,0.38);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+sub+'</div></div>'+right+'</div>';
     }).join('');
 }
 function openAccount(){
@@ -2631,12 +2649,10 @@ function openWalletScreen(){
     set('walletUpgradeBtn',t.navUpgradeShort||'Upgrade');
     set('walletTopupBtn',t.walletTopupShort||'Top up');
     set('walletHeaderTitle',t.walletTitle||'Wallet');
-    set('walletBalanceBadge',t.wallet7days||'7 days');
-    set('wcfPositiveBtn',t.walletIncome||'+ Income');
-    set('wcfNegativeBtn',t.walletExpense||'− Expense');
     const wreset=document.querySelector('.wallet-reset-btn');if(wreset)wreset.textContent=t.walletResetBtn||'Reset balance to 500';
     const bal=aiMemory.diamonds||0;
     set('walletBalanceNum',Number(bal).toLocaleString());
+    walletChartPeriod=0;walletChartFilter='all';
     initWalletChartEvents();
     setTimeout(drawWalletChart,50);
     renderPayHistory();
@@ -3268,19 +3284,19 @@ function openTgProfile(){
             <div id="ourProjectsLabel" style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center;">Наши проекты</div>
             <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
                 <div onclick="toggleProjectsList()" style="display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;transition:background .15s;" ontouchstart="this.style.background='rgba(255,255,255,0.04)'" ontouchend="this.style.background=''">
-                    <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
-                        <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:28px;height:28px;object-fit:cover;border-radius:6px;display:block;">
+                    <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+                        <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:40px;height:40px;object-fit:cover;border-radius:10px;display:block;">
                     </div>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:14px;font-weight:600;color:#fff;">CynovaAI</div>
                         <div id="cynovaSubtitle" style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;">AI бот · текущее приложение</div>
                     </div>
-                    <svg id="projectsChevron" viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .25s;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+                    <span id="projectsChevron" class="accordion-arrow" style="color:rgba(255,255,255,0.3);">▼</span>
                 </div>
                 <div class="accordion-body" id="projectsCyrPanel">
                     <div id="projectsCyrius" onclick="tg.openLink('https://t.me/CyriusNT')" style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:background .15s;" ontouchstart="this.style.background='rgba(255,255,255,0.04)'" ontouchend="this.style.background=''">
-                        <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
-                            <img src="https://i.postimg.cc/44vCkH6x/CyriusNT.png" style="width:40px;height:40px;object-fit:cover;border-radius:10px;display:block;">
+                        <div style="width:48px;height:48px;border-radius:13px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+                            <img src="https://i.postimg.cc/44vCkH6x/CyriusNT.png" style="width:48px;height:48px;object-fit:cover;border-radius:13px;display:block;">
                         </div>
                         <div style="flex:1;min-width:0;">
                             <div style="font-size:14px;font-weight:600;color:#fff;">CyriusNT</div>
@@ -3334,19 +3350,17 @@ function openTgProfile(){
     </div>
     <div class="wallet-body">
 
-        <!-- ── Balance card with quick actions ── -->
+        <!-- ── Balance card ── -->
         <div class="wallet-balance-card">
-            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <div class="wallet-balance-badge" id="walletBalanceBadge">7 days</div>
-                    <div class="wallet-info-btn" id="walletBalanceInfoBtn" onclick="showInfoModal('balance')">i</div>
+            <div class="wallet-balance-label" id="walletBalanceLabel">Your balance</div>
+            <div class="wallet-balance-amount" style="justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="gem">💎</span>
+                    <span id="walletBalanceNum">0</span>
                 </div>
+                <div class="wallet-info-btn" id="walletBalanceInfoBtn" onclick="showInfoModal('balance')">i</div>
             </div>
-            <div class="wallet-balance-amount">
-                <span class="gem">💎</span>
-                <span id="walletBalanceNum">0</span>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;">
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px;">
                 <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up</button>
                 <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Upgrade</button>
             </div>
@@ -3358,18 +3372,8 @@ function openTgProfile(){
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
                 <div class="wallet-info-btn" id="walletChartInfoBtn" onclick="showInfoModal('chart')">i</div>
             </div>
-            <div style="display:flex;gap:6px;margin-bottom:14px;">
-                <button class="wcp-btn active" onclick="setWalletPeriod(7,this)">7D</button>
-                <button class="wcp-btn" onclick="setWalletPeriod(30,this)">30D</button>
-                <button class="wcp-btn" onclick="setWalletPeriod(180,this)">6M</button>
-                <button class="wcp-btn" onclick="setWalletPeriod(0,this)">All</button>
-            </div>
             <canvas id="walletChart"></canvas>
             <div class="wallet-chart-labels" id="walletChartLabels"></div>
-            <div style="display:flex;gap:6px;margin-top:12px;">
-                <button class="wcf-btn" id="wcfPositiveBtn" onclick="setWalletFilter('positive',this)">+ Income</button>
-                <button class="wcf-btn" id="wcfNegativeBtn" onclick="setWalletFilter('negative',this)">− Expense</button>
-            </div>
         </div>
 
         <!-- ── Payment history ── -->

@@ -86,7 +86,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
             overflow: hidden;
         }
         #welcomeCanvas {
@@ -273,6 +273,58 @@
             0% { opacity: 1; transform: scale(1); }
             40% { opacity: 1; transform: scale(1.02); }
             100% { opacity: 0; transform: scale(1.06); }
+        }
+
+        .wc-center {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            animation: wc-fadein 0.5s 0.1s both;
+        }
+        .wc-logo-square {
+            width: 110px;
+            height: 110px;
+            border-radius: 26px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #1a1d28;
+            box-shadow: 0 8px 40px rgba(79,142,247,0.25), 0 0 0 1px rgba(79,142,247,0.1);
+        }
+        .wc-typewriter {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            min-height: 36px;
+            letter-spacing: -0.3px;
+        }
+        .wc-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.15em;
+            background: #4F8EF7;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-radius: 1px;
+            animation: wc-blink 0.75s step-end infinite;
+        }
+        @keyframes wc-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .wc-bottom {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 5;
+            padding: 0 24px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: wc-slideup 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         /* ── TERMS SCREEN ── */
@@ -964,37 +1016,36 @@ function dismissWelcome(){
     <div class="wc-fade-top"></div>
     <div class="wc-fade-bottom"></div>
 
-    <div class="wc-content">
-        <div class="wc-logomark">
-            <div class="wc-logomark-icon">
-                <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:36px;height:36px;object-fit:cover;border-radius:10px;display:block;">
-            </div>
-            <div class="wc-logomark-text">Cynova<span>AI</span></div>
+    <div class="wc-center">
+        <div class="wc-logo-square">
+            <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:100%;height:100%;object-fit:cover;display:block;">
         </div>
-
-        <div class="wc-title">Welcome<br>to <em>CynovaAI</em></div>
-
-        <div class="wc-chips" id="wcChips">
-            <div class="wc-chip"><div class="wc-chip-dot"></div>Photo generation</div>
-            <div class="wc-chip"><div class="wc-chip-dot"></div>Editing</div>
-            <div class="wc-chip"><div class="wc-chip-dot"></div>Data analysis</div>
-            <div class="wc-chip"><div class="wc-chip-dot"></div>Translation</div>
-            <div class="wc-chip"><div class="wc-chip-dot"></div>And much more</div>
+        <div class="wc-typewriter">
+            <span id="wcTypingText"></span><span class="wc-cursor" id="wcCursor"></span>
         </div>
+    </div>
 
-        <div class="wc-desc">
-            Personal AI assistant that does it all: creates and edits photos, answers questions, helps with tasks.
-        </div>
-
+    <div class="wc-bottom">
         <button class="wc-btn" id="welcomeBtn" onclick="dismissWelcome()" ontouchend="dismissWelcome()">Start</button>
-
         <div class="wc-legal">
             By clicking «Start», you accept the<br>
             <a onclick="openTerms();return false;" style="cursor:pointer;">Terms of Service</a>, confirm you are 18+.<br>For personal use only.
         </div>
     </div>
 </div>
-<script>(function(){if(localStorage.getItem('cynovaWelcomeSeen')){var w=document.getElementById('welcomeScreen');if(w)w.style.display='none';}})()</script>
+<script>
+(function(){
+    var text = 'Welcome to CynovaAI';
+    var el = document.getElementById('wcTypingText');
+    var i = 0;
+    function type() {
+        if (!el || i >= text.length) return;
+        el.textContent += text[i++];
+        setTimeout(type, 65);
+    }
+    setTimeout(type, 500);
+})();
+</script>
 
 <!-- ══════════════════════════════════════════
      MAIN APP

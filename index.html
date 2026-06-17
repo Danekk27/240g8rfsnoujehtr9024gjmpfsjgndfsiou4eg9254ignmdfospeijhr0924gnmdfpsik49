@@ -86,7 +86,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             overflow: hidden;
         }
         #welcomeCanvas {
@@ -273,58 +273,6 @@
             0% { opacity: 1; transform: scale(1); }
             40% { opacity: 1; transform: scale(1.02); }
             100% { opacity: 0; transform: scale(1.06); }
-        }
-
-        .wc-center {
-            position: relative;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 28px;
-            animation: wc-fadein 0.5s 0.1s both;
-        }
-        .wc-logo-square {
-            width: 110px;
-            height: 110px;
-            border-radius: 26px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #1a1d28;
-            box-shadow: 0 8px 40px rgba(79,142,247,0.25), 0 0 0 1px rgba(79,142,247,0.1);
-        }
-        .wc-typewriter {
-            font-family: 'Syne', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: #ffffff;
-            text-align: center;
-            min-height: 36px;
-            letter-spacing: -0.3px;
-        }
-        .wc-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.15em;
-            background: #4F8EF7;
-            margin-left: 2px;
-            vertical-align: middle;
-            border-radius: 1px;
-            animation: wc-blink 0.75s step-end infinite;
-        }
-        @keyframes wc-blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .wc-bottom {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            z-index: 5;
-            padding: 0 24px 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: wc-slideup 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         /* ── TERMS SCREEN ── */
@@ -944,24 +892,17 @@
         /* ── SPLASH SCREEN ── */
         #splashScreen { position:fixed;inset:0;z-index:99999;background:#13151e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .65s ease,transform .65s ease; }
         #splashScreen.hiding { opacity:0;transform:scale(1.05);pointer-events:none; }
-        .splash-icon-wrap { position:relative;width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .splash-icon-wrap { position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:splashIconIn .7s cubic-bezier(0.34,1.56,0.64,1) both; }
         .splash-icon-bg { position:absolute;inset:0;border-radius:28px;background:linear-gradient(145deg,#3461c0,#4f8ef7,#6aa3f8);box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset;animation:splashPulse 2.2s ease-in-out infinite; }
-        .splash-logo { position:relative;z-index:1;display:flex;align-items:center;justify-content:center; }
-        .splash-logo-a { font-family:'Syne',sans-serif;font-size:62px;font-weight:800;color:#0a0d18;line-height:1;letter-spacing:-2px; }
-        .splash-name { font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;letter-spacing:0.5px;white-space:nowrap;display:flex;align-items:baseline; }
-        .sl { display:inline-block;animation:splashLetterIn .42s cubic-bezier(0.34,1.56,0.64,1) both; }
-        .sl-blue { color:#4F8EF7; }
-        .sl:nth-child(1){animation-delay:.68s}.sl:nth-child(2){animation-delay:.76s}.sl:nth-child(3){animation-delay:.84s}.sl:nth-child(4){animation-delay:.92s}.sl:nth-child(5){animation-delay:1.00s}.sl:nth-child(6){animation-delay:1.08s}.sl:nth-child(7){animation-delay:1.16s}.sl:nth-child(8){animation-delay:1.24s}
-        .splash-tagline { font-size:13px;color:rgba(255,255,255,0.32);margin-top:7px;letter-spacing:0.4px;animation:splashTextIn .55s ease 1.55s both; }
-        .splash-dots { display:flex;gap:7px;margin-top:44px;animation:splashTextIn .5s ease 1.75s both; }
-        .splash-dots span { width:5px;height:5px;border-radius:50%;background:rgba(79,142,247,0.45);animation:splashDot 1.3s ease-in-out infinite; }
-        .splash-dots span:nth-child(2) { animation-delay:.22s; }
-        .splash-dots span:nth-child(3) { animation-delay:.44s; }
+        .splash-logo-img { position:relative;z-index:1;width:72px;height:72px;object-fit:cover;border-radius:16px;display:block; }
+        .splash-typewriter { font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:0.3px;white-space:nowrap;min-height:36px; }
+        .splash-typewriter .splash-cursor { display:inline-block;width:2px;height:1.1em;background:#4F8EF7;margin-left:2px;vertical-align:middle;border-radius:1px;animation:splashBlink .75s step-end infinite; }
+        .splash-tagline { font-size:13px;color:rgba(255,255,255,0.32);margin-top:8px;letter-spacing:0.4px;opacity:0;transition:opacity .5s ease; }
+        .splash-tagline.visible { opacity:1; }
         @keyframes splashIconIn { from{opacity:0;transform:scale(0.55)} to{opacity:1;transform:scale(1)} }
-        @keyframes splashLetterIn { from{opacity:0;transform:translateY(16px) scale(0.75)} to{opacity:1;transform:translateY(0) scale(1)} }
         @keyframes splashTextIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes splashPulse { 0%,100%{box-shadow:0 8px 32px rgba(79,142,247,0.45),0 0 0 1px rgba(255,255,255,0.1) inset} 50%{box-shadow:0 8px 52px rgba(79,142,247,0.7),0 0 0 1px rgba(255,255,255,0.15) inset} }
-        @keyframes splashDot { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1.25);background:rgba(79,142,247,0.9)} }
+        @keyframes splashBlink { 0%,100%{opacity:1} 50%{opacity:0} }
     </style>
 </head>
 <body>
@@ -969,33 +910,31 @@
 <!-- SPLASH SCREEN -->
 <div id="splashScreen">
     <div class="splash-icon-wrap">
+        <div class="splash-icon-bg"></div>
         <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" class="splash-logo-img" alt="">
     </div>
-    <div class="splash-name">
-        <span class="sl">C</span><span class="sl">y</span><span class="sl">n</span><span class="sl">o</span><span class="sl">v</span><span class="sl">a</span><span class="sl sl-blue">A</span><span class="sl sl-blue">I</span>
+    <div class="splash-typewriter">
+        <span id="splashTypingText"></span><span class="splash-cursor"></span>
     </div>
-    <div class="splash-tagline">Your personal AI assistant</div>
-    <div class="splash-dots"><span></span><span></span><span></span></div>
+    <div class="splash-tagline" id="splashTagline">Your personal AI assistant</div>
 </div>
 <script>
 (function(){
     var s=document.getElementById('splashScreen');
     if(!s)return;
-    if(localStorage.getItem('cynovaSplash')){
-        // Повторный визит: только иконка с анимацией, текст скрыт
-        var txt=s.querySelectorAll('.splash-name,.splash-tagline,.splash-dots');
-        txt.forEach(function(el){el.style.display='none';});
-        setTimeout(function(){
-            s.classList.add('hiding');
-            setTimeout(function(){s.style.display='none';},680);
-        },2200);
-    } else {
-        localStorage.setItem('cynovaSplash','1');
-        setTimeout(function(){
-            s.classList.add('hiding');
-            setTimeout(function(){s.style.display='none';},680);
-        },4200);
+    var text='CynovaAI';
+    var el=document.getElementById('splashTypingText');
+    var tagline=document.getElementById('splashTagline');
+    var i=0;
+    function type(){
+        if(i<text.length){ el.textContent+=text[i++]; setTimeout(type,70); }
+        else { setTimeout(function(){ if(tagline)tagline.classList.add('visible'); },200); }
     }
+    setTimeout(type,600);
+    setTimeout(function(){
+        s.classList.add('hiding');
+        setTimeout(function(){s.style.display='none';},680);
+    },3500);
 })();
 </script>
 
@@ -1016,36 +955,37 @@ function dismissWelcome(){
     <div class="wc-fade-top"></div>
     <div class="wc-fade-bottom"></div>
 
-    <div class="wc-center">
-        <div class="wc-logo-square">
-            <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div class="wc-content">
+        <div class="wc-logomark">
+            <div class="wc-logomark-icon">
+                <img src="https://i.postimg.cc/6pPwbYyq/Cynova-AI.png" style="width:36px;height:36px;object-fit:cover;border-radius:10px;display:block;">
+            </div>
+            <div class="wc-logomark-text">Cynova<span>AI</span></div>
         </div>
-        <div class="wc-typewriter">
-            <span id="wcTypingText"></span><span class="wc-cursor" id="wcCursor"></span>
-        </div>
-    </div>
 
-    <div class="wc-bottom">
+        <div class="wc-title">Welcome<br>to <em>CynovaAI</em></div>
+
+        <div class="wc-chips" id="wcChips">
+            <div class="wc-chip"><div class="wc-chip-dot"></div>Photo generation</div>
+            <div class="wc-chip"><div class="wc-chip-dot"></div>Editing</div>
+            <div class="wc-chip"><div class="wc-chip-dot"></div>Data analysis</div>
+            <div class="wc-chip"><div class="wc-chip-dot"></div>Translation</div>
+            <div class="wc-chip"><div class="wc-chip-dot"></div>And much more</div>
+        </div>
+
+        <div class="wc-desc">
+            Personal AI assistant that does it all: creates and edits photos, answers questions, helps with tasks.
+        </div>
+
         <button class="wc-btn" id="welcomeBtn" onclick="dismissWelcome()" ontouchend="dismissWelcome()">Start</button>
+
         <div class="wc-legal">
             By clicking «Start», you accept the<br>
             <a onclick="openTerms();return false;" style="cursor:pointer;">Terms of Service</a>, confirm you are 18+.<br>For personal use only.
         </div>
     </div>
 </div>
-<script>
-(function(){
-    var text = 'Welcome to CynovaAI';
-    var el = document.getElementById('wcTypingText');
-    var i = 0;
-    function type() {
-        if (!el || i >= text.length) return;
-        el.textContent += text[i++];
-        setTimeout(type, 65);
-    }
-    setTimeout(type, 500);
-})();
-</script>
+<script>(function(){if(localStorage.getItem('cynovaWelcomeSeen')){var w=document.getElementById('welcomeScreen');if(w)w.style.display='none';}})()</script>
 
 <!-- ══════════════════════════════════════════
      MAIN APP

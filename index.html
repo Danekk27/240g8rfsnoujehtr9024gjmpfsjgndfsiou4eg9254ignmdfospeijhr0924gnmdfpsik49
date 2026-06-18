@@ -751,7 +751,7 @@
         .plus-card .upgrade-title { color:#5df0c9;text-shadow:0 0 12px rgba(93,240,201,0.3); }
         .plus-card .upgrade-price { color:rgba(93,240,201,0.55); }
         .plus-card .upgrade-btn { background:linear-gradient(135deg,#0a7a5a,#1eb890,#5df0c9,#1eb890,#0a7a5a);background-size:300% 300%;animation:walletBtnWave 10s ease-in-out infinite;color:#001a10;box-shadow:0 4px 16px rgba(93,240,201,0.35); }
-        .upgrade-popular-badge { display:inline-flex;align-items:center;color:#4F8EF7;background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.25);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:0.3px;margin-left:8px;vertical-align:middle; }
+        .upgrade-popular-badge { display:inline-flex;align-items:center;color:rgba(255,255,255,0.7);background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:0.3px;margin-left:8px;vertical-align:middle;box-shadow:0 2px 8px rgba(0,0,0,0.3); }
         .compare-toggle-btn { width:100%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 18px;margin-bottom:14px;cursor:pointer;transition:border-color .2s;box-shadow:0 4px 16px rgba(0,0,0,0.3); }
         .compare-toggle-btn:active { border-color:rgba(79,142,247,0.3); }
         .compare-toggle-label { font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;gap:10px; }
@@ -797,7 +797,7 @@
         .daily-bonus-next.visible .daily-bonus-timer{opacity:1;transform:translateY(0);}
 
         .bottom-nav { height:70px;background:rgba(19,21,30,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);flex-shrink:0; }
-        .nav-item { background:none;border:none;color:rgba(255,255,255,0.35);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
+        .nav-item { background:none;border:none;color:rgba(255,255,255,0.6);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
         .nav-item:active { transform:scale(.92); }
         .nav-item.active { color:#4F8EF7; }
         .nav-item svg { width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
@@ -1371,7 +1371,7 @@ function dismissWelcome(){
             <div data-i18n="navShop">Shop</div>
         </button>
         <button class="nav-item" id="nav-site" onclick="switchTab('tab-site',this)">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 2C8.5 5.5 7 9 7 12s1.5 6.5 5 10"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <div data-i18n="navSite">Site</div>
         </button>
         <button class="nav-item" id="nav-library" onclick="switchTab('tab-library',this)">
@@ -1380,7 +1380,7 @@ function dismissWelcome(){
         </button>
         <button class="nav-item active" id="nav-main" onclick="switchTab('tab-main',this)">
             <div class="nav-icon-main">
-                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </div>
             <div style="margin-top:2px;" data-i18n="navMain">Main</div>
         </button>
@@ -1450,22 +1450,23 @@ function dismissWelcome(){
         <div id="payStep2" class="pay-step" style="display:none;">
             <button class="pay-back-btn" onclick="payBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span data-i18n="payBack">Back</span></button>
             <div class="pay-title" data-i18n="payDepositTitle">Deposit</div>
-            <div class="pay-subtitle" data-i18n="payDepositSubtitle">Select any convenient method</div>
+            <div class="pay-subtitle" data-i18n="payDepositSubtitle">Select payment method</div>
             <div class="pay-summary" id="paySummary" style="display:none;">
                 <div class="pay-summary-text"><div class="pay-summary-label" id="paySummaryLabel" data-i18n="paySummaryDonate">You're donating:</div><div class="pay-summary-value" id="paySummaryValue">—</div></div>
             </div>
-            <div class="pay-wallet-block">
-                <div class="pay-wallet-label" data-i18n="payWallet">Wallet:</div>
-                <div class="pay-wallet-row"><span class="pay-wallet-addr" id="payWalletAddr">UQB...x7a9</span><button class="pay-wallet-disconnect" onclick="payDisconnectWallet()" data-i18n="payDisconnect">Disconnect</button></div>
-            </div>
-            <div style="display:flex;gap:8px;margin-bottom:12px;">
-                <input type="text" id="promoInput" placeholder="Enter promocode..." data-i18n="payPromo" style="flex:1;background:var(--input-bg);color:var(--text-color);border:1px solid var(--border-color);padding:14px;border-radius:14px;font-size:14px;outline:none;transition:border-color 0.3s;font-family:inherit;">
-                <button onclick="applyPromo()" style="background:var(--accent-color);color:white;border:none;padding:10px 20px;border-radius:14px;font-weight:600;cursor:pointer;transition:transform 0.2s,background 0.2s;">OK</button>
-            </div>
-            <style>#promoInput:focus{border-color:var(--accent-color);}body,input,button,textarea{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;caret-color:var(--accent-color);}input,textarea{transition:color 0.1s ease-out,background-color 0.1s ease-out;}</style>
-            <div class="pay-methods-grid">
-                <button class="pay-method-card" onclick="payMethod('ton')"><div class="pay-method-icon" style="background:#0098ea;"><svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg></div><div class="pay-method-name">TON</div></button>
-                <button class="pay-method-card" onclick="payMethod('cryptobot')"><div class="pay-method-icon" style="background:#3b9eed;"><svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M21 7L9 19l-5.5-5.5L5 12l4 4L19.5 5.5 21 7z"/></svg></div><div class="pay-method-name">Crypto Bot</div></button>
+            <div class="pay-diamonds-grid" style="margin-top:4px;">
+                <button class="pay-diamond-btn pay-method-btn-ton" onclick="payMethod('ton')" style="flex-direction:column;gap:10px;padding:18px 10px;border-color:rgba(0,152,234,0.4);background:linear-gradient(135deg,rgba(0,152,234,0.13),rgba(0,152,234,0.04));">
+                    <div style="width:44px;height:44px;border-radius:14px;background:#0098ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg>
+                    </div>
+                    <b style="font-size:14px;">TON</b>
+                </button>
+                <button class="pay-diamond-btn pay-method-btn-cb" onclick="payMethod('cryptobot')" style="flex-direction:column;gap:10px;padding:18px 10px;border-color:rgba(59,158,237,0.4);background:linear-gradient(135deg,rgba(59,158,237,0.13),rgba(59,158,237,0.04));">
+                    <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#3b9eed,#5ab8ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M21 7L9 19l-5.5-5.5L5 12l4 4L19.5 5.5 21 7z"/></svg>
+                    </div>
+                    <b style="font-size:14px;">Crypto Bot</b>
+                </button>
             </div>
         </div>
     </div>
@@ -1881,6 +1882,8 @@ function togglePlanDetails(plan,btn){
     }
     body.classList.toggle('open',!isOpen);
     if(btn)btn.classList.toggle('open',!isOpen);
+    const card=body.closest('.upgrade-card');
+    if(card)card.style.overflow=isOpen?'hidden':'visible';
     haptic('light');
 }
 function updateCurrentPlanBlock(){

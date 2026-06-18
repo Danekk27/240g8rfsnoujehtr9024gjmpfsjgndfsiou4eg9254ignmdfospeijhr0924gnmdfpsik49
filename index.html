@@ -351,7 +351,8 @@
         .wt-shake { animation:wtShake .4s ease !important; }
         .settings-icon-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#5a90e8,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 8s ease-in-out infinite; }
         .acct-plan-bar-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 4s ease-in-out infinite; }
-        .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s; }
+        .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:12px 14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s;display:flex;flex-direction:column;align-items:center;gap:2px;flex:1; }
+        .wallet-action-btn-sub { font-size:11px;font-weight:400;opacity:0.7;letter-spacing:0.2px; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
         .wallet-reset-btn:active { transform:scale(.96);background:rgba(252,61,61,0.2); }
@@ -3360,10 +3361,6 @@ function openTgProfile(){
                 </div>
                 <div class="wallet-info-btn" id="walletBalanceInfoBtn" onclick="showInfoModal('balance')">i</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px;">
-                <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Top up</button>
-                <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Upgrade</button>
-            </div>
         </div>
 
         <!-- ── Chart card ── -->
@@ -3385,9 +3382,10 @@ function openTgProfile(){
             <div id="acctPayList"></div>
         </div>
 
-        <!-- ── Destructive action ── -->
-        <div style="padding-bottom:8px;">
-            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Reset balance to 500</button>
+        <!-- ── Action buttons ── -->
+        <div style="display:flex;flex-direction:row;gap:10px;padding-bottom:8px;">
+            <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Пополнить баланс</button>
+            <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Апгрейд системы</button>
         </div>
 
     </div>

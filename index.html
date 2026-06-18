@@ -2304,7 +2304,7 @@ function renderPayHistory(){
                 '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>'+
                 '</div>';
         } else {
-            countEl.textContent=activeItems.length||'';
+            countEl.textContent='';
         }
     }
     function buildItemHtml(item,i,arr,isDel){
@@ -3038,7 +3038,7 @@ function drawWalletChart(hovIdx){
     ctx.scale(dpr,dpr);
     const padL=8,padR=8,padT=50,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
-    const sx=pts.length===1?()=>padL+gw*0.5:i=>padL+(i/(pts.length-1))*gw;
+    const sx=pts.length===1?()=>padL+gw*0.06:i=>padL+(i/(pts.length-1))*gw;
     // Scale: all points in view, tight range so even 25-diamond moves are visible
     const allVals=pts.map(p=>p.v);
     const maxV=Math.max(...allVals,1);

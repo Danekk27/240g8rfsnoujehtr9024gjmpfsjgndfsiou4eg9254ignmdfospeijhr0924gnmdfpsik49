@@ -2225,7 +2225,7 @@ function payChooseDiamonds(amount){haptic('medium');window._payDiamonds=amount;p
 function payChoosePlan(plan){const current=aiMemory.plan||'default',currentRank=PLAN_RANK[current]||0,targetRank=PLAN_RANK[plan]||0;if(plan===current){haptic('rigid');return;}if(targetRank<currentRank){haptic('rigid');const msgs={ru:'Нельзя перейти на менее выгодный тариф',en:'Downgrading to a lower plan is not allowed',ja:'下位プランへのダウングレードはできません',zh:'不允许降级到较低套餐',uk:'Не можна перейти на менш вигідний тариф'};alert(msgs[currentLang]||msgs.en);return;}haptic('medium');window._payPlan=plan;if(plan==='default'){saveMemory('plan','default');showPlanGlow('default');closePaymentModal();return;}payShowStep(2);}
 function payDisconnectWallet(){haptic('rigid');const msgs={ru:'Кошелёк отключён',en:'Wallet disconnected',ja:'ウォレット切断',zh:'钱包已断开',uk:'Гаманець відключено'};alert(msgs[currentLang]||msgs.en);}
 function applyPromo(){haptic('light');const input=document.getElementById('promoInput'),code=input?input.value:'';if(code&&code.trim())alert('Promocode submitted: '+code.trim());else{const msgs={ru:'Введите промокод',en:'Enter promocode',ja:'プロモコードを入力',zh:'请输入促销码',uk:'Введіть промокод'};alert(msgs[currentLang]||msgs.en);}if(input)input.value='';}
-function payMethod(method){haptic('medium');const action=window._payAction||'topup';let info='';if(action==='topup'&&window._payDiamonds){info=`TOPUP via ${method.toUpperCase()} — ${window._payDiamonds} 💎`;}else if(action==='upgrade'&&window._payPlan){const names={premium:'Premium',pro:'Pro',lite:'Lite',plus:'Plus',default:'Default'};info=`UPGRADE to ${names[window._payPlan]} via ${method.toUpperCase()}`;const now=Date.now();saveMemory('plan',window._payPlan);saveMemory('planPurchasedAt',now);saveMemory('planExpiresAt',now+30*24*60*60*1000);showPlanGlow(window._payPlan);}else{info=`${action.toUpperCase()} via ${method.toUpperCase()}`;}alert(info);closePaymentModal();}
+function payMethod(method){haptic('medium');const action=window._payAction||'topup';let info='';if(action==='topup'&&window._payDiamonds){info=`TOPUP via ${method.toUpperCase()} — ${window._payDiamonds} 💎`;}else if(action==='upgrade'&&window._payPlan){const names={premium:'Premium',pro:'Pro',lite:'Lite',plus:'Plus',default:'Default'};info=`UPGRADE to ${names[window._payPlan]} via ${method.toUpperCase()}`;const now=Date.now();saveMemory('plan',window._payPlan);saveMemory('planPurchasedAt',now);saveMemory('planExpiresAt',now+30*24*60*60*1000);showPlanGlow(window._payPlan);}else{info=`${action.toUpperCase()} via ${method.toUpperCase()}`;}alert(info);closePaymentModal();setTimeout(renderPayHistory,60);}
 
 function triggerPhotoUpload(){const f=document.getElementById('fileInput');if(f)f.click();}
 function setMode(mode){currentMode=mode;haptic('light');const cBtn=document.getElementById('modeCreate'),eBtn=document.getElementById('modeEdit');if(cBtn)cBtn.classList.toggle('active',mode==='create');if(eBtn)eBtn.classList.toggle('active',mode==='edit');if(mode==='create')clearPreview();saveMemory('mode',mode);}
@@ -2668,8 +2668,8 @@ function openWalletScreen(){
     const set=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
     set('walletBalanceLabel',t.walletBalance||'Your balance');
     set('walletActivityLabel',t.walletActivity||'Diamond activity');
-    set('walletUpgradeBtn',t.navUpgradeShort||'Upgrade');
-    set('walletTopupBtn',t.walletTopupShort||'Top up');
+    set('walletUpgradeBtn',t.walletUpgrade||'System Upgrade');
+    set('walletTopupBtn',t.walletTopup||'Top up balance');
     set('walletHeaderTitle',t.walletTitle||'Wallet');
     const wreset=document.querySelector('.wallet-reset-btn');if(wreset)wreset.textContent=t.walletResetBtn||'Reset balance to 500';
     const bal=aiMemory.diamonds||0;
@@ -2852,7 +2852,7 @@ function addDiamonds(amount,type){
     const wb=document.getElementById('walletBalanceNum');
     if(wb)wb.textContent=Number(newBal).toLocaleString();
     closeWalletTopup();
-    setTimeout(drawWalletChart,60);
+    setTimeout(()=>{drawWalletChart();renderPayHistory();},60);
     haptic('success');
 }
 var _wcEventsInited=false;
@@ -2948,8 +2948,7 @@ function drawWalletChart(hovIdx){
     ctx.scale(dpr,dpr);
     const padL=8,padR=8,padT=50,padB=8;
     const gw=W-padL-padR,gh=H-padT-padB;
-    const tMin=pts[0].t,tMax=pts.length>1?Math.max(pts[pts.length-1].t,tMin+1):tMin;
-    const sx=pts.length===1?()=>padL+gw*0.06:i=>padL+((pts[i].t-tMin)/(tMax-tMin))*gw;
+    const sx=pts.length===1?()=>padL+gw*0.5:i=>padL+(i/(pts.length-1))*gw;
     // Scale: all points in view, tight range so even 25-diamond moves are visible
     const allVals=pts.map(p=>p.v);
     const maxV=Math.max(...allVals,1);

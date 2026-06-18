@@ -510,6 +510,16 @@
         @keyframes neonBorderGlow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
         @keyframes neonPulse { 0%,100%{box-shadow:0 0 6px var(--glow-shadow)} 50%{box-shadow:0 0 16px var(--glow-shadow),0 0 30px var(--glow-shadow)} }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes bannerSlideUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes bannerShake { 0%{transform:translateX(0)} 15%{transform:translateX(-5px)} 35%{transform:translateX(5px)} 55%{transform:translateX(-4px)} 70%{transform:translateX(4px)} 85%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
+        .no-diamonds-banner { display:none;align-items:center;gap:10px;background:linear-gradient(225deg,#1e2130 0%,#181b24 100%);border:1px solid rgba(79,142,247,0.28);border-radius:16px;padding:11px 14px 11px 12px;margin:0 8px 6px;box-shadow:0 6px 24px rgba(0,0,0,0.45),0 0 0 1px rgba(79,142,247,0.08);animation:bannerSlideUp .32s cubic-bezier(0.34,1.4,0.64,1) both; }
+        .no-diamonds-banner.visible { display:flex; }
+        .no-diamonds-banner.shake { animation:bannerShake .38s ease !important; }
+        .ndb-topup-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0);color:#fff;border:none;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;white-space:nowrap;transition:transform .15s,filter .15s;flex-shrink:0; }
+        .ndb-topup-btn:active { transform:scale(.95); }
+        .ndb-close-btn { width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s,color .15s;padding:0; }
+        .ndb-close-btn:hover { background:rgba(255,255,255,0.1);color:#fff; }
+        .ndb-close-btn:active { background:rgba(255,255,255,0.15); }
         @keyframes bounce-dot { 0%,60%,100%{transform:translateY(0);opacity:.5} 30%{transform:translateY(-6px);opacity:1} }
         @keyframes badgePulse { 0%,100%{opacity:.85} 50%{opacity:1} }
         @keyframes nameGlow { 0%,100%{opacity:.85} 50%{opacity:1;filter:brightness(1.2)} }
@@ -1388,6 +1398,17 @@ function dismissWelcome(){
 
     <div class="bottom-controls-container" id="bottomControls">
         <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleFileChange()">
+        <div class="no-diamonds-banner" id="noDiamondsBanner">
+            <div style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;filter:drop-shadow(0 0 6px rgba(79,142,247,0.4));">💎</div>
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:13px;font-weight:700;color:#fff;font-family:'Syne',sans-serif;line-height:1.3;" id="ndbTitle">Not enough diamonds</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;" id="ndbSub">Top up to continue chatting</div>
+            </div>
+            <button class="ndb-topup-btn" onclick="closeNoDiamondsBanner();openWalletAndTopup();" id="ndbBtn">Top up</button>
+            <button class="ndb-close-btn" onclick="closeNoDiamondsBanner()">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
+            </button>
+        </div>
         <div class="chat-input-panel" id="chatInputPanel">
             <div class="chat-preview-container" id="previewSlot">
                 <div class="chat-clear-btn" onclick="clearPreview(event)"><svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
@@ -2384,7 +2405,40 @@ function toggleFavoriteImg(src,btn){
 }
 
 function callMockAI(isImg){var delay=isImg?3200:(1200+Math.random()*600);setTimeout(function(){hideTypingBubble();var t=translations[currentLang]||translations.en;if(isImg){appendMessage('ai','🎨 '+(t.creatingImage||'Creating image...')+' — AI не подключён',null);}else{appendMessage('ai','👋 CynovaAI — демо режим',null);}if(_chatSaved&&_currentChatId)_updateChatInLib();},delay);}
-function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}{const bal=aiMemory.diamonds||0;if(bal<25){haptic('rigid');const t=translations[currentLang]||translations.en;appendMessage('ai','💎 '+(t.notEnoughDiamonds||'Not enough diamonds')+' (need 25, have '+bal+')',null);return;}addDiamonds(-25,isImgTask?'image':'text');}haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
+function showNoDiamondsBanner(){
+    var banner=document.getElementById('noDiamondsBanner');
+    if(!banner)return;
+    var bal=aiMemory.diamonds||0;
+    var t=translations[currentLang]||translations.en;
+    var title=document.getElementById('ndbTitle'),sub=document.getElementById('ndbSub'),btn=document.getElementById('ndbBtn');
+    if(title)title.textContent=t.notEnoughDiamonds||'Not enough diamonds';
+    if(sub)sub.textContent={ru:'Пополни баланс чтобы продолжить',en:'Top up to continue chatting',ja:'続けるにはチャージが必要です',zh:'充值以继续聊天',uk:'Поповни баланс для продовження'}[currentLang]||'Top up to continue chatting';
+    if(btn)btn.textContent={ru:'Пополнить',en:'Top up',ja:'チャージ',zh:'充值',uk:'Поповнити'}[currentLang]||'Top up';
+    banner.classList.add('visible');
+    banner.style.animation='none';
+    requestAnimationFrame(function(){banner.style.animation='';banner.classList.add('visible');});
+}
+function closeNoDiamondsBanner(){
+    var banner=document.getElementById('noDiamondsBanner');
+    if(!banner)return;
+    banner.style.transition='opacity .2s,transform .2s';
+    banner.style.opacity='0';
+    banner.style.transform='translateY(6px)';
+    setTimeout(function(){
+        banner.classList.remove('visible');
+        banner.style.opacity='';banner.style.transform='';banner.style.transition='';
+    },200);
+}
+function _shakeBanner(){
+    var banner=document.getElementById('noDiamondsBanner');
+    if(!banner)return;
+    haptic('rigid');
+    banner.classList.remove('shake');
+    void banner.offsetWidth;
+    banner.classList.add('shake');
+    setTimeout(function(){banner.classList.remove('shake');},400);
+}
+function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}{const bal=aiMemory.diamonds||0;if(bal<25){var bnr=document.getElementById('noDiamondsBanner');if(bnr&&bnr.classList.contains('visible')){_shakeBanner();}else{showNoDiamondsBanner();}return;}addDiamonds(-25,isImgTask?'image':'text');}closeNoDiamondsBanner();haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
 
 function openVoiceModal(){haptic('medium');const m=document.getElementById('voiceModal');if(m)m.style.display='flex';const t=document.getElementById('voiceTranscript');if(t)t.textContent='';const s=document.getElementById('voiceStatus');if(s)s.textContent='Listening...';const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){if(s)s.textContent='Not supported';return;}recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.lang=currentLang==='ru'?'ru-RU':currentLang==='ja'?'ja-JP':currentLang==='zh'?'zh-CN':currentLang==='uk'?'uk-UA':'en-US';recognition.onresult=e=>{let txt='';for(let i=0;i<e.results.length;i++)txt+=e.results[i][0].transcript;const t=document.getElementById('voiceTranscript');if(t)t.textContent=txt;};recognition.start();}
 function stopVoice(){if(recognition)recognition.stop();const m=document.getElementById('voiceModal');if(m)m.style.display='none';const t=document.getElementById('voiceTranscript');if(t&&t.textContent){const p=document.getElementById('textPrompt');if(p)p.value=t.textContent;}}

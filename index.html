@@ -2314,7 +2314,7 @@ function renderPayHistory(){
         var negative=item.d<0;
         var iconBg,iconBorder,iconSvg;
         if(cat==='plan'){
-            var _pc={premium:{g:'135deg,#b8860a,#f0c040,#ffe57a,#f0c040,#b8860a',s:'#f7d84a',br:'rgba(247,216,74,0.5)'},pro:{g:'135deg,#a82020,#e04040,#f07070,#e04040,#a82020',s:'#f75a5a',br:'rgba(247,90,90,0.5)'},lite:{g:'135deg,#2d3aa8,#4c5df5,#7a8ff5,#4c5df5,#2d3aa8',s:'#7a8ff5',br:'rgba(122,143,245,0.5)'},plus:{g:'135deg,#0a7a5a,#1eb890,#5df0c9,#1eb890,#0a7a5a',s:'#5df0c9',br:'rgba(93,240,201,0.5)'},default:{g:'135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4',s:'#4F8EF7',br:'rgba(79,142,247,0.5)'}};
+            var _pc={premium:{g:'135deg,rgba(120,80,5,0.7),rgba(180,140,30,0.6),rgba(200,160,50,0.55),rgba(180,140,30,0.6),rgba(120,80,5,0.7)',s:'rgba(240,200,80,0.75)',br:'rgba(247,216,74,0.2)'},pro:{g:'135deg,rgba(100,15,15,0.7),rgba(180,40,40,0.6),rgba(210,80,80,0.55),rgba(180,40,40,0.6),rgba(100,15,15,0.7)',s:'rgba(240,100,100,0.75)',br:'rgba(247,90,90,0.2)'},lite:{g:'135deg,rgba(25,30,120,0.7),rgba(60,75,200,0.6),rgba(100,120,230,0.55),rgba(60,75,200,0.6),rgba(25,30,120,0.7)',s:'rgba(140,160,240,0.75)',br:'rgba(122,143,245,0.2)'},plus:{g:'135deg,rgba(5,80,55,0.7),rgba(20,140,100,0.6),rgba(60,200,160,0.55),rgba(20,140,100,0.6),rgba(5,80,55,0.7)',s:'rgba(80,210,170,0.75)',br:'rgba(93,240,201,0.2)'},default:{g:'135deg,rgba(25,55,140,0.7),rgba(40,80,180,0.6),rgba(60,110,210,0.55),rgba(40,80,180,0.6),rgba(25,55,140,0.7)',s:'rgba(100,160,240,0.75)',br:'rgba(79,142,247,0.2)'}};
             var _c=_pc[item.plan]||_pc.default;
             iconBg='linear-gradient('+_c.g+')';iconBorder=_c.br;
             iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+_c.s+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>';
@@ -2344,7 +2344,7 @@ function renderPayHistory(){
         var right='<div style="font-size:11px;font-weight:600;color:'+bClr+';background:'+bBg+';border:1px solid '+bBrd+';border-radius:8px;padding:4px 10px;flex-shrink:0;">'+bTxt+'</div>';
         var rowContent='<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;'+sep+'">'+icon+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:3px;">'+labelName+'</div><div style="font-size:11px;color:rgba(255,255,255,0.38);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+sub+'</div></div>'+right+'</div>';
         var actionIcon=isDel
-            ?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>'
+            ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><polyline points="3 3 3 8 8 8"/></svg>'
             :'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>';
         var actionColor=isDel?'rgba(79,142,247,0.85)':'rgba(255,80,80,0.85)';
         var actionClass=isDel?'pay-swipe-restore':'pay-swipe-delete';
@@ -2366,40 +2366,109 @@ function renderPayHistory(){
         requestAnimationFrame(function(){list.style.cssText+='transition:transform .22s ease,opacity .18s ease;transform:translateX(0);opacity:1;';});
     }
 }
-function softDeletePayItem(ts){haptic('light');if(!aiMemory.deletedPayTs)aiMemory.deletedPayTs=[];if(aiMemory.deletedPayTs.indexOf(ts)===-1)aiMemory.deletedPayTs.push(ts);saveMemory('deletedPayTs',aiMemory.deletedPayTs);payHistoryPage=0;renderPayHistory();}
-function restorePayItem(ts){haptic('light');if(!aiMemory.deletedPayTs)return;aiMemory.deletedPayTs=aiMemory.deletedPayTs.filter(function(x){return x!==ts;});saveMemory('deletedPayTs',aiMemory.deletedPayTs);renderPayHistory();}
+function softDeletePayItem(ts){
+    haptic('light');
+    var wrap=document.querySelector('.pay-item-wrap[data-ts="'+ts+'"]');
+    function commit(){
+        if(!aiMemory.deletedPayTs)aiMemory.deletedPayTs=[];
+        if(aiMemory.deletedPayTs.indexOf(ts)===-1)aiMemory.deletedPayTs.push(ts);
+        saveMemory('deletedPayTs',aiMemory.deletedPayTs);
+        payHistoryPage=0;renderPayHistory();
+    }
+    if(!wrap){commit();return;}
+    var inner=wrap.querySelector('.pay-item-inner');
+    var h=wrap.offsetHeight;
+    // slide inner fully left + fade
+    inner.style.transition='transform .28s ease,opacity .22s ease';
+    inner.style.transform='translateX(-110%)';
+    inner.style.opacity='0';
+    setTimeout(function(){
+        // collapse height
+        wrap.style.overflow='hidden';
+        wrap.style.maxHeight=h+'px';
+        wrap.style.transition='max-height .22s ease,opacity .18s ease';
+        requestAnimationFrame(function(){wrap.style.maxHeight='0';wrap.style.opacity='0';});
+        setTimeout(commit,220);
+    },260);
+}
+function restorePayItem(ts){
+    haptic('light');
+    var wrap=document.querySelector('.pay-item-wrap[data-ts="'+ts+'"]');
+    function commit(){
+        if(!aiMemory.deletedPayTs)return;
+        aiMemory.deletedPayTs=aiMemory.deletedPayTs.filter(function(x){return x!==ts;});
+        saveMemory('deletedPayTs',aiMemory.deletedPayTs);
+        renderPayHistory();
+    }
+    if(!wrap){commit();return;}
+    var inner=wrap.querySelector('.pay-item-inner');
+    var h=wrap.offsetHeight;
+    // slide inner right + fade
+    inner.style.transition='transform .28s ease,opacity .22s ease';
+    inner.style.transform='translateX(110%)';
+    inner.style.opacity='0';
+    setTimeout(function(){
+        wrap.style.overflow='hidden';
+        wrap.style.maxHeight=h+'px';
+        wrap.style.transition='max-height .22s ease,opacity .18s ease';
+        requestAnimationFrame(function(){wrap.style.maxHeight='0';wrap.style.opacity='0';});
+        setTimeout(commit,220);
+    },260);
+}
 function initPaySwipes(){
     var ACT_W=68,THRESH=40;
+    var _active=null; // currently dragging item state
+    if(initPaySwipes._docBound){
+        document.removeEventListener('mousemove',initPaySwipes._mm);
+        document.removeEventListener('mouseup',initPaySwipes._mu);
+    }
+    initPaySwipes._mm=function(e){
+        if(!_active)return;
+        var dx=e.clientX-_active.startX,dy=e.clientY-_active.startY;
+        if(!_active.revealed&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dx)<10){_active.locked=true;return;}
+        if(_active.locked)return;
+        var base=_active.revealed?-ACT_W:0;
+        _active.curX=Math.min(0,Math.max(-ACT_W,base+dx));
+        _active.inner.style.transform='translateX('+_active.curX+'px)';
+    };
+    initPaySwipes._mu=function(){
+        if(!_active)return;
+        var a=_active;_active=null;
+        a.inner.style.userSelect='';
+        if(a.locked)return;
+        a.inner.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';
+        if(!a.revealed&&a.curX<-THRESH){a.inner.style.transform='translateX(-'+ACT_W+'px)';a.setRevealed(true);closeOtherSwipes(a.wrap);}
+        else if(a.revealed&&a.curX>-ACT_W+THRESH){a.inner.style.transform='translateX(0)';a.setRevealed(false);}
+        else if(a.revealed){a.inner.style.transform='translateX(-'+ACT_W+'px)';}
+        else{a.inner.style.transform='translateX(0)';}
+    };
+    document.addEventListener('mousemove',initPaySwipes._mm);
+    document.addEventListener('mouseup',initPaySwipes._mu);
+    initPaySwipes._docBound=true;
+
     document.querySelectorAll('.pay-item-wrap').forEach(function(wrap){
         var inner=wrap.querySelector('.pay-item-inner');
         var actionBtn=wrap.querySelector('.pay-item-action-btn');
         if(!inner)return;
-        var startX=0,startY=0,curX=0,revealed=false,locked=false;
-        function setRevealed(val){
-            revealed=val;
-            if(actionBtn){if(val)actionBtn.classList.add('revealed');else actionBtn.classList.remove('revealed');}
-        }
-        inner.addEventListener('touchstart',function(e){
-            startX=e.touches[0].clientX;startY=e.touches[0].clientY;curX=revealed?-ACT_W:0;locked=false;
+        var revealed=false;
+        function setRevealed(val){revealed=val;if(actionBtn){if(val)actionBtn.classList.add('revealed');else actionBtn.classList.remove('revealed');}}
+        function startDrag(clientX,clientY){
+            closeOtherSwipes(wrap);
+            _active={wrap:wrap,inner:inner,startX:clientX,startY:clientY,curX:revealed?-ACT_W:0,revealed:revealed,locked:false,setRevealed:setRevealed};
             inner.style.transition='none';
-        },{passive:true});
+        }
+        inner.addEventListener('touchstart',function(e){startDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
         inner.addEventListener('touchmove',function(e){
-            if(locked)return;
-            var dx=e.touches[0].clientX-startX;
-            var dy=e.touches[0].clientY-startY;
-            if(!revealed&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dx)<10){locked=true;return;}
-            var base=revealed?-ACT_W:0;
-            curX=Math.min(0,Math.max(-ACT_W,base+dx));
-            inner.style.transform='translateX('+curX+'px)';
+            if(!_active||_active.inner!==inner)return;
+            var dx=e.touches[0].clientX-_active.startX,dy=e.touches[0].clientY-_active.startY;
+            if(!_active.revealed&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dx)<10){_active.locked=true;return;}
+            if(_active.locked)return;
+            var base=_active.revealed?-ACT_W:0;
+            _active.curX=Math.min(0,Math.max(-ACT_W,base+dx));
+            inner.style.transform='translateX('+_active.curX+'px)';
         },{passive:true});
-        inner.addEventListener('touchend',function(){
-            if(locked)return;
-            inner.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';
-            if(!revealed&&curX<-THRESH){inner.style.transform='translateX(-'+ACT_W+'px)';setRevealed(true);closeOtherSwipes(wrap);}
-            else if(revealed&&curX>-ACT_W+THRESH){inner.style.transform='translateX(0)';setRevealed(false);}
-            else if(revealed){inner.style.transform='translateX(-'+ACT_W+'px)';}
-            else{inner.style.transform='translateX(0)';}
-        },{passive:true});
+        inner.addEventListener('touchend',function(){if(_active&&_active.inner===inner)initPaySwipes._mu();},{passive:true});
+        inner.addEventListener('mousedown',function(e){startDrag(e.clientX,e.clientY);inner.style.userSelect='none';});
     });
 }
 function closeOtherSwipes(except){document.querySelectorAll('.pay-item-wrap').forEach(function(w){if(w===except)return;var inn=w.querySelector('.pay-item-inner');var btn=w.querySelector('.pay-item-action-btn');if(inn){inn.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';inn.style.transform='translateX(0)';}if(btn)btn.classList.remove('revealed');});}
@@ -2745,16 +2814,27 @@ function openWalletScreen(){
 }
 function resetWalletBalance(){
     haptic('rigid');
-    aiMemory.diamonds=250;
+    aiMemory.diamonds=500;
     aiMemory.diamondHistory=[];
+    aiMemory.deletedPayTs=[];
+    aiMemory.plan='default';
+    aiMemory.planPurchasedAt=null;
+    aiMemory.planExpiresAt=null;
     aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
     saveMemory('diamonds',500);
     saveMemory('diamondHistory',[]);
+    saveMemory('deletedPayTs',[]);
+    saveMemory('plan','default');
+    saveMemory('planPurchasedAt',null);
+    saveMemory('planExpiresAt',null);
     saveMemory('balanceReset',aiMemory.balanceReset);
     if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
     const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
     const wb=document.getElementById('walletBalanceNum');if(wb)wb.textContent='500';
+    showPlanGlow('default');
+    walletChartPage=0;payHistoryPage=0;
     drawWalletChart();
+    renderPayHistory();
 }
 function closeWalletScreen(){
     haptic('light');
@@ -3520,7 +3600,7 @@ function openTgProfile(){
         <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:8px;flex-shrink:0;">
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Пополнить баланс</button>
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Апгрейд системы</button>
-            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Reset balance to 500</button>
+            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Сброс</button>
         </div>
 
     </div>

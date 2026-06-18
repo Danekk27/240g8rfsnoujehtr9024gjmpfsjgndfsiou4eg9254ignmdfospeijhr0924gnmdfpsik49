@@ -759,7 +759,7 @@
         .compare-toggle-arrow { font-size:11px;color:rgba(255,255,255,0.3);transition:transform .4s cubic-bezier(0.4,0,0.2,1); }
         .compare-toggle-btn.open .compare-toggle-arrow { transform:rotate(180deg); }
         .compare-body { overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(0.4,0,0.2,1),opacity .4s ease; }
-        .compare-body.open { max-height:500px;opacity:1; }
+        .compare-body.open { max-height:700px;opacity:1;overflow:visible; }
         .plan-compare { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-top:6px;overflow-x:auto; }
         .plan-compare-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:16px; }
         .plan-compare table { width:100%;border-collapse:collapse;min-width:300px; }
@@ -797,7 +797,7 @@
         .daily-bonus-next.visible .daily-bonus-timer{opacity:1;transform:translateY(0);}
 
         .bottom-nav { height:70px;background:rgba(19,21,30,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);flex-shrink:0; }
-        .nav-item { background:none;border:none;color:rgba(255,255,255,0.6);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
+        .nav-item { background:none;border:none;color:rgba(255,255,255,0.45);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
         .nav-item:active { transform:scale(.92); }
         .nav-item.active { color:#4F8EF7; }
         .nav-item svg { width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
@@ -1119,7 +1119,7 @@ function dismissWelcome(){
                 <span class="compare-toggle-arrow">▼</span>
             </button>
             <div class="compare-body" id="compareBody">
-                <div class="plan-compare" style="margin-bottom:14px;margin-top:-6px;">
+                <div class="plan-compare" style="margin-bottom:14px;margin-top:6px;">
                     <table>
                         <thead>
                             <tr>
@@ -1359,7 +1359,7 @@ function dismissWelcome(){
                     <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                 </button>
                 <button class="chat-send-btn" onclick="processAction()">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
         </div>
@@ -1380,7 +1380,7 @@ function dismissWelcome(){
         </button>
         <button class="nav-item active" id="nav-main" onclick="switchTab('tab-main',this)">
             <div class="nav-icon-main">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/></svg>
             </div>
             <div style="margin-top:2px;" data-i18n="navMain">Main</div>
         </button>
@@ -1400,77 +1400,6 @@ function dismissWelcome(){
 
 </div>
 
-<!-- Payment Modal -->
-<div class="modal-overlay" id="paymentModal" style="display:none;">
-    <div class="modal-card payment-modal-card">
-        <button class="modal-close-x" onclick="closePaymentModal()" aria-label="Close">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div id="payStep1" class="pay-step">
-            <div class="pay-title" data-i18n="payChooseTitle">Choose option</div>
-            <div class="pay-subtitle" data-i18n="payChooseSubtitle">What do you want to do?</div>
-            <button class="pay-choice-btn" onclick="payChoose('upgrade')">
-                <div class="pay-choice-icon" style="background:linear-gradient(135deg,#3f65c4,#6990f0);"><svg viewBox="0 0 24 24" width="22" height="22" stroke="white" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-                <div class="pay-choice-text"><div class="pay-choice-title" data-i18n="payChoiceUpgrade">System Upgrade</div><div class="pay-choice-desc" data-i18n="payChoiceUpgradeDesc">Switch tariff plan</div></div>
-                <span class="pay-choice-arrow">›</span>
-            </button>
-            <button class="pay-choice-btn" onclick="payChoose('topup')">
-                <div class="pay-choice-icon" style="background:linear-gradient(135deg,#5db8f0,#7bd3ff);"><span style="font-size:22px;">💎</span></div>
-                <div class="pay-choice-text"><div class="pay-choice-title" data-i18n="payChoiceTopup">Top up balance</div><div class="pay-choice-desc" data-i18n="payChoiceTopupDesc">Get more diamonds</div></div>
-                <span class="pay-choice-arrow">›</span>
-            </button>
-        </div>
-        <div id="payStepDiamonds" class="pay-step" style="display:none;">
-            <button class="pay-back-btn" onclick="payShowStep(1)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span data-i18n="payBack">Back</span></button>
-            <div class="pay-title" data-i18n="payDiamondsTitle">Choose amount 💎</div>
-            <div class="pay-subtitle" data-i18n="payDiamondsSubtitle">How many diamonds do you need?</div>
-            <div class="pay-diamonds-grid">
-                <button class="pay-diamond-btn" onclick="payChooseDiamonds(100)"><span>💎</span><b>100</b></button>
-                <button class="pay-diamond-btn" onclick="payChooseDiamonds(250)"><span>💎</span><b>250</b></button>
-                <button class="pay-diamond-btn" onclick="payChooseDiamonds(500)"><span>💎</span><b>500</b></button>
-                <button class="pay-diamond-btn rank-3" onclick="payChooseDiamonds(1000)"><span>💎</span><b>1 000</b><span class="pay-diamond-badge rank-3-badge" data-i18n="payTop3">Top 3</span></button>
-                <button class="pay-diamond-btn rank-1" onclick="payChooseDiamonds(2500)"><span>💎</span><b>2 500</b><span class="pay-diamond-badge rank-1-badge" data-i18n="payTop1">Top 1</span></button>
-                <button class="pay-diamond-btn rank-2" onclick="payChooseDiamonds(5000)"><span>💎</span><b>5 000</b><span class="pay-diamond-badge rank-2-badge" data-i18n="payTop2">Top 2</span></button>
-                <button class="pay-diamond-btn" onclick="payChooseDiamonds(10000)"><span>💎</span><b>10 000</b></button>
-                <button class="pay-diamond-btn" onclick="payChooseDiamonds(25000)"><span>💎</span><b>25 000</b></button>
-            </div>
-        </div>
-        <div id="payStepPlans" class="pay-step" style="display:none;">
-            <button class="pay-back-btn" onclick="payShowStep(1)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span data-i18n="payBack">Back</span></button>
-            <div class="pay-title" data-i18n="payPlansTitle">Choose plan</div>
-            <div class="pay-subtitle"><span data-i18n="payCurrentPlan">Current plan:</span> <span id="payCurrentPlanLabel" class="pay-current-plan">—</span></div>
-            <div class="pay-plans-list">
-                <button class="pay-plan-btn pay-plan-premium" data-plan="premium" onclick="payChoosePlan('premium')"><div class="pay-plan-info"><span class="pay-plan-name">Premium</span><span class="pay-plan-price">100$ / <span data-i18n="perMonth">month</span></span></div><span class="pay-plan-current-badge" data-i18n="payCurrent">Current</span></button>
-                <button class="pay-plan-btn pay-plan-pro" data-plan="pro" onclick="payChoosePlan('pro')"><div class="pay-plan-info"><span class="pay-plan-name">Pro</span><span class="pay-plan-price">50$ / <span data-i18n="perMonth">month</span></span></div><span class="pay-plan-current-badge" data-i18n="payCurrent">Current</span></button>
-                <button class="pay-plan-btn pay-plan-lite" data-plan="lite" onclick="payChoosePlan('lite')"><div class="pay-plan-info"><span class="pay-plan-name">Lite</span><span class="pay-plan-price">25$ / <span data-i18n="perMonth">month</span></span></div><span class="pay-plan-current-badge" data-i18n="payCurrent">Current</span></button>
-                <button class="pay-plan-btn pay-plan-plus" data-plan="plus" onclick="payChoosePlan('plus')"><div class="pay-plan-info"><span class="pay-plan-name">Plus</span><span class="pay-plan-price">10$ / <span data-i18n="perMonth">month</span></span></div><span class="pay-plan-current-badge" data-i18n="payCurrent">Current</span></button>
-                <button class="pay-plan-btn pay-plan-default" data-plan="default" onclick="payChoosePlan('default')"><div class="pay-plan-info"><span class="pay-plan-name">Default</span><span class="pay-plan-price" data-i18n="freeLabel">Free</span></div><span class="pay-plan-current-badge" data-i18n="payCurrent">Current</span></button>
-            </div>
-        </div>
-        <div id="payStep2" class="pay-step" style="display:none;">
-            <button class="pay-back-btn" onclick="payBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span data-i18n="payBack">Back</span></button>
-            <div class="pay-title" data-i18n="payDepositTitle">Deposit</div>
-            <div class="pay-subtitle" data-i18n="payDepositSubtitle">Select payment method</div>
-            <div class="pay-summary" id="paySummary" style="display:none;">
-                <div class="pay-summary-text"><div class="pay-summary-label" id="paySummaryLabel" data-i18n="paySummaryDonate">You're donating:</div><div class="pay-summary-value" id="paySummaryValue">—</div></div>
-            </div>
-            <div class="pay-diamonds-grid" style="margin-top:4px;">
-                <button class="pay-diamond-btn pay-method-btn-ton" onclick="payMethod('ton')" style="flex-direction:column;gap:10px;padding:18px 10px;border-color:rgba(0,152,234,0.4);background:linear-gradient(135deg,rgba(0,152,234,0.13),rgba(0,152,234,0.04));">
-                    <div style="width:44px;height:44px;border-radius:14px;background:#0098ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M12 2L2 8.5l10 13.5 10-13.5L12 2zm-1 4h2v3l3.5-1L17 9.5l-5 6.5-5-6.5L8.5 8 11 9V6z"/></svg>
-                    </div>
-                    <b style="font-size:14px;">TON</b>
-                </button>
-                <button class="pay-diamond-btn pay-method-btn-cb" onclick="payMethod('cryptobot')" style="flex-direction:column;gap:10px;padding:18px 10px;border-color:rgba(59,158,237,0.4);background:linear-gradient(135deg,rgba(59,158,237,0.13),rgba(59,158,237,0.04));">
-                    <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#3b9eed,#5ab8ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M21 7L9 19l-5.5-5.5L5 12l4 4L19.5 5.5 21 7z"/></svg>
-                    </div>
-                    <b style="font-size:14px;">Crypto Bot</b>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Voice Modal -->
 <div class="modal-overlay" id="voiceModal" style="display:none;">
@@ -1831,7 +1760,21 @@ function setAccentTheme(color){
 
 function changeGlow(color){document.documentElement.setAttribute('data-glow',color);document.querySelectorAll('.glow-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.glow-btn[data-color="${color}"]`);if(btn)btn.classList.add('active');saveMemory('glow',color);}
 
-function setPlan(plan){const current=aiMemory.plan||'default',currentRank=PLAN_RANK[current]||0,targetRank=PLAN_RANK[plan]||0;if(plan===current){haptic('rigid');return;}if(targetRank<currentRank){haptic('rigid');const msgs={ru:'Нельзя перейти на менее выгодный тариф',en:'Downgrading to a lower plan is not allowed',ja:'下位プランへのダウングレードはできません',zh:'不允许降级到较低套餐',uk:'Не можна перейти на менш вигідний тариф'};alert(msgs[currentLang]||msgs.en);return;}if(plan==='default'){saveMemory('plan','default');showPlanGlow('default');haptic('light');return;}window._payAction='upgrade';window._payPlan=plan;window._payDiamonds=null;const m=document.getElementById('paymentModal');if(m)m.style.display='flex';payShowStep(2);haptic('medium');}
+function setPlan(plan){
+    const current=aiMemory.plan||'default',currentRank=PLAN_RANK[current]||0,targetRank=PLAN_RANK[plan]||0;
+    if(plan===current){haptic('rigid');return;}
+    if(targetRank<currentRank){haptic('rigid');const msgs={ru:'Нельзя перейти на менее выгодный тариф',en:'Downgrading to a lower plan is not allowed',ja:'下位プランへのダウングレードはできません',zh:'不允许降级到较低套餐',uk:'Не можна перейти на менш вигідний тариф'};alert(msgs[currentLang]||msgs.en);return;}
+    const now=Date.now(),exp=now+30*24*60*60*1000;
+    aiMemory.plan=plan;aiMemory.planPurchasedAt=now;aiMemory.planExpiresAt=exp;
+    saveMemory('plan',plan);saveMemory('planPurchasedAt',now);saveMemory('planExpiresAt',exp);
+    showPlanGlow(plan);
+    if(!aiMemory.planHistory)aiMemory.planHistory=[];
+    aiMemory.planHistory.push({plan,ts:now,expiresAt:exp});
+    saveMemory('planHistory',aiMemory.planHistory);
+    _newPayEntry=true;payHistoryPage=0;
+    setTimeout(()=>{renderPayHistory();updateCurrentPlanBlock();},60);
+    haptic('success');
+}
 const PLAN_FEATURES={
     premium:{
         en:[[1,'Unlimited photo generation'],[1,'4K / HD quality'],[1,'Advanced AI editing'],[1,'Custom styles & presets'],[1,'Priority processing queue'],[1,'Unlimited AI chat'],[1,'All future features'],[1,'Dedicated 24/7 support']],

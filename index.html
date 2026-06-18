@@ -1072,7 +1072,7 @@ function dismissWelcome(){
             <div class="section-title" data-i18n="navSite">Our Site</div>
             <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:24px 20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);text-align:center;">
                 <div style="width:52px;height:52px;border-radius:16px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#4F8EF7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#4F8EF7" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
                 <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;" data-i18n="navSite">Our Site</div>
                 <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:20px;" data-i18n="siteDesc">Official web resource.</div>
@@ -1318,8 +1318,8 @@ function dismissWelcome(){
             <div id="libraryList" class="library-list"></div>
             <div id="libraryEmpty" class="library-empty">
                 <div class="library-empty-icon">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#4F8EF7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 10px rgba(79,142,247,0.4))">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="#4F8EF7" style="filter:drop-shadow(0 0 10px rgba(79,142,247,0.4))">
+                        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
                     </svg>
                 </div>
                 <div class="library-empty-title" data-i18n="libraryEmptyTitle">No chats yet</div>
@@ -1333,10 +1333,7 @@ function dismissWelcome(){
             <div class="section-title" data-i18n="navFavorites">Favorites</div>
             <div class="daily-bonus-card" style="text-align:center;padding:40px 20px;">
                 <div style="font-size:40px;margin-bottom:14px;filter:drop-shadow(0 0 10px var(--glow-color-1));">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="url(#favGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <defs><linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--glow-color-1)"/><stop offset="100%" stop-color="var(--glow-color-2)"/></linearGradient></defs>
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="#4F8EF7" stroke="none" style="filter:drop-shadow(0 0 10px rgba(79,142,247,0.4))"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </div>
                 <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;" data-i18n="navFavorites">Favorites</div>
                 <div style="font-size:13px;color:rgba(255,255,255,0.38);">Coming soon...</div>
@@ -1942,9 +1939,8 @@ function renderLibrary(){
         item.style.cursor='pointer';
         item.onclick=function(){openChatFromLib(chat.id);};
         const uid='lcg'+chat.id;
-        item.innerHTML='<div class="library-chat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'
-            +'<defs><linearGradient id="'+uid+'" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--glow-color-1)"/><stop offset="100%" stop-color="var(--glow-color-2)"/></linearGradient></defs>'
-            +'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="url(#'+uid+')"/></svg></div>'
+        item.innerHTML='<div class="library-chat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#4F8EF7" stroke="none">'
+            +'<path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></div>'
             +'<div class="library-chat-info"><div class="library-chat-title">'+_escHtml(chat.title)+'</div><div class="library-chat-date">'+_escHtml(chat.date)+'</div></div>'
             +'<button class="library-chat-del" onclick="event.stopPropagation();deleteChatItem('+chat.id+')" aria-label="delete">'
             +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,110,110,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'

@@ -358,9 +358,11 @@
         .pay-page-btn { background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.7);transition:background .15s,opacity .15s;padding:0;flex-shrink:0; }
         .pay-page-btn:active { background:rgba(255,255,255,0.12); }
         .pay-page-disabled { opacity:0.28;cursor:default;pointer-events:none; }
+        .pay-plan-icon { background-size:300% 300% !important;animation:walletBtnWave 4s ease-in-out infinite; }
         .pay-item-wrap { position:relative;overflow:hidden; }
         .pay-item-inner { position:relative;z-index:1;background:transparent;will-change:transform;transition:transform .25s cubic-bezier(0.4,0,0.2,1); }
-        .pay-item-action-btn { position:absolute;right:0;top:0;bottom:0;width:68px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:0;transition:opacity .15s; }
+        .pay-item-action-btn { position:absolute;right:0;top:0;bottom:0;width:68px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:0;transition:opacity .15s;pointer-events:none;opacity:0; }
+        .pay-item-action-btn.revealed { pointer-events:auto;opacity:1; }
         .pay-item-action-btn:active { opacity:0.7; }
         .pay-swipe-delete { background:rgba(255,65,65,0.18); }
         .pay-swipe-restore { background:rgba(79,142,247,0.18); }
@@ -1712,7 +1714,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Aurora",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Розумний ШІ-асистент — для спілкування, зображень, коду і не тільки.",welcomeGems:"стартових діамантів",welcomeTip1:"Ставте запитання, створюйте зображення, вирішуйте задачі",welcomeTip2:"Редагуйте та покращуйте фото одним запитом",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс алмазів синхронізується з Telegram",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені.",acctTitle:"Мій аккаунт",acctUsernameRow:"Ім'я користувача",acctPlanRow:"Тариф",acctThemeRow:"Тема",acctLangRow:"Мова",acctHistTitle:"Історія оплати",acctHistEmpty:"Історія порожня",acctReceived:"отримано",acctPrivilege:"Привілегія ·",acctPlanActive:"✓ активна",acctHistDiamonds:"алмазів",settingsSupport:"Підтримка",acctPlanPeriod:"Термін тарифу",acctRegRow:"Реєстрація",ourProjects:"Наші проекти",acctCurrentApp:"поточний додаток",comparePlans:"Порівняння тарифів",cmpPhotos:"Фото / міс",cmpQuality:"Якість",cmpEditing:"AI-редаг.",cmpChat:"Чат AI / міс",cmpPriority:"Пріоритет",cmpSupport:"Підтримка",cmpStandard:"Стандарт",cmpBasic:"Базове",cmpAdvanced:"Розширене",cmpCommunity:"Спільнота",wallet7days:"7 днів",walletResetBtn:"Скинути до 500",walletIncome:"+ Дохід",walletExpense:"− Витрати",walletTopupShort:"Поповнити"}
 };
 
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0,walletChartPage=0;
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0,walletChartPage=0,_payNavDir=0,_wcReveal=false;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
@@ -2260,7 +2262,7 @@ function renderPayHistory(){
     if(!list)return;
     var items=[];
     var hist=aiMemory.diamondHistory||[];
-    hist.slice().reverse().forEach(function(h){var cat=h.type||'spend';if(cat==='bonus'||cat==='promo'||(cat==='spend'&&h.d<0))return;items.push({cat:cat,d:h.d,v:h.v,ts:h.t});});
+    hist.slice().reverse().forEach(function(h){var cat=h.type||'spend';if(cat==='bonus'||cat==='promo'||cat==='spend')return;items.push({cat:cat,d:h.d,v:h.v,ts:h.t});});
     if(aiMemory.plan&&aiMemory.plan!=='default'&&aiMemory.planPurchasedAt){
         items.push({cat:'plan',plan:aiMemory.plan,d:0,ts:aiMemory.planPurchasedAt});
         items.sort(function(a,b){return b.ts-a.ts;});
@@ -2312,8 +2314,10 @@ function renderPayHistory(){
         var negative=item.d<0;
         var iconBg,iconBorder,iconSvg;
         if(cat==='plan'){
-            iconBg='rgba(79,142,247,0.08)';iconBorder='rgba(79,142,247,0.2)';
-            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>';
+            var _pc={premium:{g:'135deg,#b8860a,#f0c040,#ffe57a,#f0c040,#b8860a',s:'#f7d84a',br:'rgba(247,216,74,0.5)'},pro:{g:'135deg,#a82020,#e04040,#f07070,#e04040,#a82020',s:'#f75a5a',br:'rgba(247,90,90,0.5)'},lite:{g:'135deg,#2d3aa8,#4c5df5,#7a8ff5,#4c5df5,#2d3aa8',s:'#7a8ff5',br:'rgba(122,143,245,0.5)'},plus:{g:'135deg,#0a7a5a,#1eb890,#5df0c9,#1eb890,#0a7a5a',s:'#5df0c9',br:'rgba(93,240,201,0.5)'},default:{g:'135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4',s:'#4F8EF7',br:'rgba(79,142,247,0.5)'}};
+            var _c=_pc[item.plan]||_pc.default;
+            iconBg='linear-gradient('+_c.g+')';iconBorder=_c.br;
+            iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+_c.s+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg>';
         } else if(negative){
             iconBg='rgba(255,100,100,0.08)';iconBorder='rgba(255,100,100,0.18)';
             iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7a7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>';
@@ -2321,10 +2325,17 @@ function renderPayHistory(){
             iconBg='rgba(79,142,247,0.08)';iconBorder='rgba(79,142,247,0.2)';
             iconSvg='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F8EF7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
         }
-        var icon='<div style="width:40px;height:40px;border-radius:12px;background:'+iconBg+';border:1px solid '+iconBorder+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+iconSvg+'</div>';
+        var iconClass=cat==='plan'?' class="pay-plan-icon"':'';
+        var icon='<div'+iconClass+' style="width:40px;height:40px;border-radius:12px;background:'+iconBg+';border:1px solid '+iconBorder+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+iconSvg+'</div>';
         var labelName=cat==='plan'?lbl('plan')+' · '+item.plan.charAt(0).toUpperCase()+item.plan.slice(1):lbl(cat);
         var sub=fmtDate(item.ts)+' · '+fmtTime(item.ts);
-        if(item.v!=null&&cat!=='plan')sub+=' · '+balLabel()+': '+Number(item.v).toLocaleString();
+        if(cat==='plan'){
+            var _durMs=(aiMemory.planExpiresAt||0)-(aiMemory.planPurchasedAt||0);
+            var _durMo=Math.round(_durMs/(30*24*60*60*1000));
+            var _mL={ru:'мес.',uk:'міс.',ja:'ヶ月',zh:'月',en:'mo.'};var _yL={ru:'год',uk:'рік',ja:'年',zh:'年',en:'yr.'};
+            if(_durMs>0){sub+=_durMo>=11?' · 1 '+(_yL[currentLang]||_yL.en):_durMo>=5?' · 6 '+(_mL[currentLang]||_mL.en):' · '+_durMo+' '+(_mL[currentLang]||_mL.en);}
+        } else if(cat==='topup'&&item.d!=null){sub+=' · +'+(Number(item.d).toLocaleString())+' 💎';}
+        else if(item.v!=null&&cat!=='topup'){sub+=' · '+balLabel()+': '+Number(item.v).toLocaleString();}
         var isErr=item.status==='error';
         var bClr=isErr?'#ff7a7a':'#3DDC84';
         var bBg=isErr?'rgba(255,122,122,0.08)':'rgba(61,220,132,0.08)';
@@ -2349,6 +2360,11 @@ function renderPayHistory(){
         return buildItemHtml(item,i,pageItems,isDel);
     }).join('');
     initPaySwipes();
+    if(_payNavDir!==0){
+        var _dir=_payNavDir;_payNavDir=0;
+        list.style.cssText+='transform:translateX('+(_dir>0?'28px':'-28px')+');opacity:0;transition:none;';
+        requestAnimationFrame(function(){list.style.cssText+='transition:transform .22s ease,opacity .18s ease;transform:translateX(0);opacity:1;';});
+    }
 }
 function softDeletePayItem(ts){haptic('light');if(!aiMemory.deletedPayTs)aiMemory.deletedPayTs=[];if(aiMemory.deletedPayTs.indexOf(ts)===-1)aiMemory.deletedPayTs.push(ts);saveMemory('deletedPayTs',aiMemory.deletedPayTs);payHistoryPage=0;renderPayHistory();}
 function restorePayItem(ts){haptic('light');if(!aiMemory.deletedPayTs)return;aiMemory.deletedPayTs=aiMemory.deletedPayTs.filter(function(x){return x!==ts;});saveMemory('deletedPayTs',aiMemory.deletedPayTs);renderPayHistory();}
@@ -2356,8 +2372,13 @@ function initPaySwipes(){
     var ACT_W=68,THRESH=40;
     document.querySelectorAll('.pay-item-wrap').forEach(function(wrap){
         var inner=wrap.querySelector('.pay-item-inner');
+        var actionBtn=wrap.querySelector('.pay-item-action-btn');
         if(!inner)return;
         var startX=0,startY=0,curX=0,revealed=false,locked=false;
+        function setRevealed(val){
+            revealed=val;
+            if(actionBtn){if(val)actionBtn.classList.add('revealed');else actionBtn.classList.remove('revealed');}
+        }
         inner.addEventListener('touchstart',function(e){
             startX=e.touches[0].clientX;startY=e.touches[0].clientY;curX=revealed?-ACT_W:0;locked=false;
             inner.style.transition='none';
@@ -2372,17 +2393,17 @@ function initPaySwipes(){
             inner.style.transform='translateX('+curX+'px)';
         },{passive:true});
         inner.addEventListener('touchend',function(){
-            if(locked){return;}
+            if(locked)return;
             inner.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';
-            if(!revealed&&curX<-THRESH){inner.style.transform='translateX(-'+ACT_W+'px)';revealed=true;closeOtherSwipes(wrap);}
-            else if(revealed&&curX>-ACT_W+THRESH){inner.style.transform='translateX(0)';revealed=false;}
+            if(!revealed&&curX<-THRESH){inner.style.transform='translateX(-'+ACT_W+'px)';setRevealed(true);closeOtherSwipes(wrap);}
+            else if(revealed&&curX>-ACT_W+THRESH){inner.style.transform='translateX(0)';setRevealed(false);}
             else if(revealed){inner.style.transform='translateX(-'+ACT_W+'px)';}
             else{inner.style.transform='translateX(0)';}
         },{passive:true});
     });
 }
-function closeOtherSwipes(except){document.querySelectorAll('.pay-item-wrap').forEach(function(w){if(w===except)return;var inn=w.querySelector('.pay-item-inner');if(inn){inn.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';inn.style.transform='translateX(0)';}});}
-function payHistoryNav(dir){haptic('light');payHistoryPage+=dir;renderPayHistory();}
+function closeOtherSwipes(except){document.querySelectorAll('.pay-item-wrap').forEach(function(w){if(w===except)return;var inn=w.querySelector('.pay-item-inner');var btn=w.querySelector('.pay-item-action-btn');if(inn){inn.style.transition='transform .25s cubic-bezier(0.4,0,0.2,1)';inn.style.transform='translateX(0)';}if(btn)btn.classList.remove('revealed');});}
+function payHistoryNav(dir){haptic('light');_payNavDir=dir;payHistoryPage+=dir;renderPayHistory();}
 function openAccount(){
     var u=tg.initDataUnsafe&&tg.initDataUnsafe.user;
 
@@ -2952,7 +2973,7 @@ function setWalletFilter(f,btn){
     else{walletChartFilter=f;document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
     walletChartPage=0;haptic('light');drawWalletChart();
 }
-function walletChartNav(dir){haptic('light');walletChartPage+=dir;drawWalletChart();}
+function walletChartNav(dir){haptic('light');walletChartPage+=dir;_wcReveal=true;drawWalletChart();}
 function drawWalletChart(hovIdx){
     if(hovIdx===undefined)hovIdx=-1;
     const canvas=document.getElementById('walletChart');
@@ -3158,6 +3179,26 @@ function drawWalletChart(hovIdx){
         }
         labels.forEach(l=>{const sp=document.createElement('span');sp.className='wallet-chart-label';sp.textContent=l;labEl.appendChild(sp);});
     }
+    if(_wcReveal){_wcReveal=false;revealWalletChart();}
+}
+function revealWalletChart(){
+    const canvas=document.getElementById('walletChart');
+    if(!canvas)return;
+    const off=document.createElement('canvas');
+    off.width=canvas.width;off.height=canvas.height;
+    off.getContext('2d').drawImage(canvas,0,0);
+    const ctx=canvas.getContext('2d');
+    const dur=520,start=performance.now();
+    function frame(now){
+        const t=Math.min(1,(now-start)/dur);
+        const e=1-Math.pow(1-t,2.8);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        const revW=Math.ceil(e*canvas.width);
+        if(revW>0)ctx.drawImage(off,0,0,revW,canvas.height,0,0,revW,canvas.height);
+        if(t<1)requestAnimationFrame(frame);
+        else ctx.drawImage(off,0,0);
+    }
+    requestAnimationFrame(frame);
 }
 function toggleContactsDropdown(e){
     e.stopPropagation();

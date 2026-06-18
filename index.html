@@ -796,16 +796,16 @@
         .daily-bonus-timer{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;font-variant-numeric:tabular-nums;opacity:0;transform:translateY(8px);transition:opacity .35s ease .18s,transform .35s ease .18s;}
         .daily-bonus-next.visible .daily-bonus-timer{opacity:1;transform:translateY(0);}
 
-        .bottom-nav { height:70px;background:rgba(19,21,30,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);flex-shrink:0; }
-        .nav-item { background:none;border:none;color:rgba(255,255,255,0.45);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
+        .bottom-nav { height:70px;background:#13151e;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);flex-shrink:0; }
+        .nav-item { background:none;border:none;color:#7a8a9e;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:9.5px;font-weight:500;flex:1;min-width:0;transition:color .25s,transform .2s; }
         .nav-item:active { transform:scale(.92); }
         .nav-item.active { color:#4F8EF7; }
-        .nav-item svg { width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
+        .nav-item svg { width:22px;height:22px;fill:currentColor;stroke:none; }
 
         .nav-icon-main { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:0;background:transparent;color:rgba(255,255,255,0.35);box-shadow:none;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s cubic-bezier(.34,1.56,.64,1),margin-top .35s cubic-bezier(.34,1.56,.64,1),background .3s ease,color .3s ease,box-shadow .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1); }
         .nav-item.active .nav-icon-main { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite,mainPulse 2.5s ease-in-out infinite;color:white;width:44px;height:44px;margin-top:-15px;box-shadow:0 4px 16px rgba(79,142,247,0.45),0 0 0 4px rgba(19,21,30,0.97); }
         @keyframes mainPulse { 0%,100%{box-shadow:0 4px 16px rgba(79,142,247,0.4),0 0 0 4px rgba(19,21,30,0.97)} 50%{box-shadow:0 6px 24px rgba(79,142,247,0.65),0 0 0 4px rgba(19,21,30,0.97)} }
-        .nav-icon-main svg { width:24px;height:24px;transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
+        .nav-icon-main svg { width:24px;height:24px;fill:currentColor;stroke:none;transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
         .nav-item.active .nav-icon-main svg { transform:scale(1.1); }
 
         .modal-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px; }
@@ -1197,7 +1197,6 @@ function dismissWelcome(){
             <div class="upgrade-card">
                 <div class="upgrade-card-row">
                     <div class="upgrade-info"><span class="upgrade-title">Default</span><span class="upgrade-price" data-i18n="freeLabel">Free</span></div>
-                    <button class="upgrade-btn" onclick="setPlan('default')" data-i18n="btnSelect">Select</button>
                 </div>
                 <button class="upgrade-details-toggle" onclick="togglePlanDetails('default',this)">
                     <span data-i18n="planDetails">Details</span>
@@ -1367,15 +1366,15 @@ function dismissWelcome(){
 
     <div class="bottom-nav">
         <button class="nav-item" id="nav-shop" onclick="switchTab('tab-shop',this)">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M3 6l3-4h12l3 4v13a2 2 0 01-2 2H5a2 2 0 01-2-2V6z"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M17 8c0-2.76-2.24-5-5-5S7 5.24 7 8H4L2 22h20L20 8h-3zm-5-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm0 11c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
             <div data-i18n="navShop">Shop</div>
         </button>
         <button class="nav-item" id="nav-site" onclick="switchTab('tab-site',this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             <div data-i18n="navSite">Site</div>
         </button>
         <button class="nav-item" id="nav-library" onclick="switchTab('tab-library',this)">
-            <svg viewBox="0 0 24 24" fill="none"><line x1="6.5" y1="17" x2="20" y2="17"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
             <div data-i18n="navLibrary">Library</div>
         </button>
         <button class="nav-item active" id="nav-main" onclick="switchTab('tab-main',this)">
@@ -1385,7 +1384,7 @@ function dismissWelcome(){
             <div style="margin-top:2px;" data-i18n="navMain">Main</div>
         </button>
         <button class="nav-item" id="nav-favorites" onclick="switchTab('tab-favorites',this)">
-            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <div data-i18n="navFavorites">Favorites</div>
         </button>
         <button class="nav-item" id="nav-upgrade" onclick="switchTab('tab-upgrade',this)">
@@ -1393,7 +1392,7 @@ function dismissWelcome(){
             <div data-i18n="navUpgradeShort">Upgrade</div>
         </button>
         <button class="nav-item" id="nav-settings" onclick="switchTab('tab-settings',this)">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.63-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.4-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             <div data-i18n="navSettings">Settings</div>
         </button>
     </div>

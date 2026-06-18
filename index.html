@@ -1338,11 +1338,11 @@ function dismissWelcome(){
                                 <div id="sndIcon5" style="width:34px;height:34px;border-radius:10px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:rgba(79,142,247,0.7);transition:all .2s;">
                                     <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="6" width="2.5" height="6" rx="1.2" fill="currentColor"/><rect x="4" y="2" width="2.5" height="10" rx="1.2" fill="currentColor"/><rect x="8" y="0" width="2.5" height="12" rx="1.2" fill="currentColor"/><rect x="12" y="2" width="2.5" height="10" rx="1.2" fill="currentColor"/><rect x="16" y="5" width="2.5" height="7" rx="1.2" fill="currentColor"/></svg>
                                 </div>
-                                <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">Cascade</div><div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">Descending 4-note fall</div></div>
+                                <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#fff;">Chord</div><div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px;">Gentle piano chord</div></div>
                                 <div id="sndDot5" style="width:8px;height:8px;border-radius:50%;background:#4F8EF7;opacity:0;transition:opacity .2s;flex-shrink:0;"></div>
                             </div>
                         </div>
-                        <div style="border-top:1px solid rgba(255,255,255,0.05);margin-top:20px;padding-top:16px;padding-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                        <div style="border-top:1px solid rgba(255,255,255,0.05);margin-top:20px;padding-top:16px;padding-bottom:22px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="font-size:14px;color:rgba(255,255,255,0.45);" id="soundStateLabel">On</span>
                             <label class="switch"><input type="checkbox" id="soundToggle" checked onchange="toggleSound(this)"><span class="slider"></span></label>
                         </div>
@@ -1386,7 +1386,7 @@ function dismissWelcome(){
         <!-- FAVORITES -->
         <div id="tab-favorites" class="tab-content">
             <div class="section-title" data-i18n="navFavorites">Favorites</div>
-            <div class="library-empty">
+            <div class="library-empty" style="margin-top:14px;">
                 <div class="daily-bonus-card" style="text-align:center;padding:40px 20px;margin-bottom:0;">
                     <div style="margin-bottom:14px;">
                         <svg viewBox="0 0 24 24" width="48" height="48" fill="#4F8EF7" stroke="none" style="filter:drop-shadow(0 0 10px rgba(79,142,247,0.4))"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -1422,7 +1422,7 @@ function dismissWelcome(){
                 <button class="chat-voice-btn" onclick="openVoiceModal()">
                     <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                 </button>
-                <button class="chat-send-btn" onclick="processAction()">
+                <button class="chat-send-btn" id="chatSendBtn" onclick="processAction()">
                     <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
@@ -1690,7 +1690,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Aurora",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Розумний ШІ-асистент — для спілкування, зображень, коду і не тільки.",welcomeGems:"стартових діамантів",welcomeTip1:"Ставте запитання, створюйте зображення, вирішуйте задачі",welcomeTip2:"Редагуйте та покращуйте фото одним запитом",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс алмазів синхронізується з Telegram",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені.",acctTitle:"Мій аккаунт",acctUsernameRow:"Ім'я користувача",acctPlanRow:"Тариф",acctThemeRow:"Тема",acctLangRow:"Мова",acctHistTitle:"Історія оплати",acctHistEmpty:"Історія порожня",acctReceived:"отримано",acctPrivilege:"Привілегія ·",acctPlanActive:"✓ активна",acctHistDiamonds:"алмазів",settingsSupport:"Підтримка",acctPlanPeriod:"Термін тарифу",acctRegRow:"Реєстрація",ourProjects:"Наші проекти",acctCurrentApp:"поточний додаток",comparePlans:"Порівняння тарифів",cmpPhotos:"Фото / міс",cmpQuality:"Якість",cmpEditing:"AI-редаг.",cmpChat:"Чат AI / міс",cmpPriority:"Пріоритет",cmpSupport:"Підтримка",cmpStandard:"Стандарт",cmpBasic:"Базове",cmpAdvanced:"Розширене",cmpCommunity:"Спільнота",wallet7days:"7 днів",walletResetBtn:"Скинути до 500",walletIncome:"+ Дохід",walletExpense:"− Витрати",walletTopupShort:"Поповнити"}
 };
 
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0,walletChartPage=0,_payNavDir=0,_wcReveal=false,_newPayEntry=false;
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0,walletChartPage=0,_payNavDir=0,_wcReveal=false,_newPayEntry=false,_isGenerating=false,_genTimer=null;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
@@ -1762,21 +1762,21 @@ function _playRawSound(n){
         g2.gain.setValueAtTime(0.0001,t);g2.gain.linearRampToValueAtTime(0.1,t+0.006);g2.gain.exponentialRampToValueAtTime(0.001,t+0.3);
         o2.connect(g2);g2.connect(ctx.destination);o2.start(t);o2.stop(t+0.3);
     } else if(n===5){
-        // Cascade: descending 4-note pentatonic fall, sine + octave overtone each
-        [[659.25,0],[523.25,0.1],[392,0.2],[293.66,0.3]].forEach(function(nd){
+        // Chord: C major piano chord — C5, E5, G5 sines with staggered attack + warm overtone
+        [[523.25,0,0.13,0.65],[659.25,0.008,0.10,0.56],[783.99,0.016,0.08,0.48]].forEach(function(h){
             var o=ctx.createOscillator(),g=ctx.createGain();
-            o.type='sine';o.frequency.value=nd[0];
-            var s=t+nd[1];
-            g.gain.setValueAtTime(0.0001,s);g.gain.linearRampToValueAtTime(0.15,s+0.006);g.gain.exponentialRampToValueAtTime(0.001,s+0.9);
-            o.connect(g);g.connect(ctx.destination);o.start(s);o.stop(s+0.91);
+            o.type='sine';o.frequency.value=h[0];
+            var s=t+h[1];
+            g.gain.setValueAtTime(0.0001,s);g.gain.linearRampToValueAtTime(h[2],s+0.008);g.gain.exponentialRampToValueAtTime(0.001,s+h[3]);
+            o.connect(g);g.connect(ctx.destination);o.start(s);o.stop(s+h[3]);
             var o2=ctx.createOscillator(),g2=ctx.createGain();
-            o2.type='triangle';o2.frequency.value=nd[0]*2;
-            g2.gain.setValueAtTime(0.0001,s);g2.gain.linearRampToValueAtTime(0.04,s+0.004);g2.gain.exponentialRampToValueAtTime(0.001,s+0.26);
-            o2.connect(g2);g2.connect(ctx.destination);o2.start(s);o2.stop(s+0.26);
+            o2.type='triangle';o2.frequency.value=h[0]*2;
+            g2.gain.setValueAtTime(0.0001,s);g2.gain.linearRampToValueAtTime(0.035,s+0.006);g2.gain.exponentialRampToValueAtTime(0.001,s+0.22);
+            o2.connect(g2);g2.connect(ctx.destination);o2.start(s);o2.stop(s+0.22);
         });
     }
 }
-function playClickSound(){if(!isSoundEnabled)return;_playRawSound(aiMemory.soundTheme||1);}
+function playClickSound(){if(!isSoundEnabled)return;_playRawSound(aiMemory.soundTheme||2);}
 function setSoundTheme(n){
     aiMemory.soundTheme=n;saveMemory('soundTheme',n);
     _playRawSound(n);
@@ -1788,7 +1788,7 @@ function setSoundTheme(n){
         if(icon){icon.style.background=act?'rgba(79,142,247,0.18)':'rgba(79,142,247,0.1)';icon.style.borderColor=act?'rgba(79,142,247,0.4)':'rgba(79,142,247,0.15)';}
     }
 }
-function initSoundUI(){setSoundTheme(aiMemory.soundTheme||1);}
+function initSoundUI(){setSoundTheme(aiMemory.soundTheme||2);}
 document.addEventListener('click',e=>{if(e.target.closest('button,.merged-wallet-btn,.nav-item,label.switch'))playClickSound();});
 function toggleSound(cb){isSoundEnabled=cb.checked;const l=document.getElementById('soundStateLabel');if(l)l.textContent=cb.checked?'On':'Off';}
 
@@ -2147,6 +2147,27 @@ function saveMemory(k,v){aiMemory[k]=v;try{localStorage.setItem('aiMemory',JSON.
 
 function showTypingBubble(){const hist=document.getElementById('chatHistory');if(!hist||document.getElementById('aiTypingBubble'))return;const container=document.createElement('div');container.id='aiTypingBubble';container.className='msg-container';const bubble=document.createElement('div');bubble.className='msg-ai';const dots=document.createElement('div');dots.className='typing-dots';dots.innerHTML='<span></span><span></span><span></span>';bubble.appendChild(dots);container.appendChild(bubble);hist.appendChild(container);setTimeout(()=>{hist.scrollTop=hist.scrollHeight;},50);}
 function hideTypingBubble(){const e=document.getElementById('aiTypingBubble');if(e)e.remove();}
+function setGenerating(on){
+    _isGenerating=on;
+    var btn=document.getElementById('chatSendBtn');
+    var input=document.getElementById('textPrompt');
+    var plusBtn=document.getElementById('chatPlusBtn');
+    if(on){
+        if(btn){btn.onclick=cancelGeneration;btn.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>';}
+        if(input){input.disabled=true;input.style.opacity='0.4';}
+        if(plusBtn){plusBtn.disabled=true;plusBtn.style.opacity='0.4';}
+    }else{
+        if(btn){btn.onclick=processAction;btn.innerHTML='<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>';}
+        if(input){input.disabled=false;input.style.opacity='';}
+        if(plusBtn){plusBtn.disabled=false;plusBtn.style.opacity='';}
+    }
+}
+function cancelGeneration(){
+    if(_genTimer){clearTimeout(_genTimer);_genTimer=null;}
+    hideTypingBubble();
+    setGenerating(false);
+    haptic('light');
+}
 
 function showImageBubble(isEdit){
     const hist=document.getElementById('chatHistory');
@@ -2421,7 +2442,7 @@ function toggleFavoriteImg(src,btn){
     }
 }
 
-function callMockAI(isImg){var delay=isImg?3200:(1200+Math.random()*600);setTimeout(function(){hideTypingBubble();var t=translations[currentLang]||translations.en;if(isImg){appendMessage('ai','🎨 '+(t.creatingImage||'Creating image...')+' — AI не подключён',null);}else{appendMessage('ai','👋 CynovaAI — демо режим',null);}if(_chatSaved&&_currentChatId)_updateChatInLib();},delay);}
+function callMockAI(isImg){var delay=isImg?3200:(1200+Math.random()*600);_genTimer=setTimeout(function(){_genTimer=null;hideTypingBubble();var t=translations[currentLang]||translations.en;if(isImg){appendMessage('ai','🎨 '+(t.creatingImage||'Creating image...')+' — AI не подключён',null);}else{appendMessage('ai','👋 CynovaAI — демо режим',null);}if(_chatSaved&&_currentChatId)_updateChatInLib();setGenerating(false);},delay);}
 function showNoDiamondsBanner(){
     var banner=document.getElementById('noDiamondsBanner');
     if(!banner)return;
@@ -2455,7 +2476,7 @@ function _shakeBanner(){
     banner.classList.add('shake');
     setTimeout(function(){banner.classList.remove('shake');},400);
 }
-function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}{const bal=aiMemory.diamonds||0;if(bal<25){var bnr=document.getElementById('noDiamondsBanner');if(bnr&&bnr.classList.contains('visible')){_shakeBanner();}else{showNoDiamondsBanner();}return;}addDiamonds(-25,isImgTask?'image':'text');}closeNoDiamondsBanner();haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();callMockAI(isImgTask);}
+function processAction(){const p=document.getElementById('textPrompt'),fi=document.getElementById('fileInput'),pi=document.getElementById('previewImg'),txt=p?p.value.trim():'',hasImg=(fi&&fi.files&&fi.files[0]&&pi&&pi.src&&pi.src.startsWith('data:'));if(!txt&&!hasImg)return;const isImgTask=hasImg||(currentMode==='edit');if(currentMode==='edit'){if(!hasImg){haptic('rigid');const panel=document.getElementById('chatInputPanel');if(panel){panel.style.transition='transform .08s';let n=0;const shake=setInterval(()=>{panel.style.transform=`translateX(${n%2===0?-6:6}px)`;n++;if(n>5){clearInterval(shake);panel.style.transform='';}},60);}const msgs={ru:'Загрузите фото для режима редактирования',en:'Upload a photo for Edit mode',ja:'「編集」モードでは写真が必要です',zh:'编辑模式需要上传照片',uk:'Завантажте фото'};alert(msgs[currentLang]||msgs.en);return;}}{const bal=aiMemory.diamonds||0;if(bal<25){var bnr=document.getElementById('noDiamondsBanner');if(bnr&&bnr.classList.contains('visible')){_shakeBanner();}else{showNoDiamondsBanner();}return;}addDiamonds(-25,isImgTask?'image':'text');}closeNoDiamondsBanner();haptic('medium');appendMessage('user',txt,hasImg?pi.src:null);if(!_chatSaved){_chatSaved=true;_addChatToLib();}if(isImgTask){showImageBubble(currentMode==='edit');}else{showTypingBubble();}if(p){p.value='';if(window.smoothInputUpdaters&&window.smoothInputUpdaters.textPrompt)window.smoothInputUpdaters.textPrompt();}clearPreview();setGenerating(true);callMockAI(isImgTask);}
 
 function openVoiceModal(){haptic('medium');const m=document.getElementById('voiceModal');if(m)m.style.display='flex';const t=document.getElementById('voiceTranscript');if(t)t.textContent='';const s=document.getElementById('voiceStatus');if(s)s.textContent='Listening...';const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){if(s)s.textContent='Not supported';return;}recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.lang=currentLang==='ru'?'ru-RU':currentLang==='ja'?'ja-JP':currentLang==='zh'?'zh-CN':currentLang==='uk'?'uk-UA':'en-US';recognition.onresult=e=>{let txt='';for(let i=0;i<e.results.length;i++)txt+=e.results[i][0].transcript;const t=document.getElementById('voiceTranscript');if(t)t.textContent=txt;};recognition.start();}
 function stopVoice(){if(recognition)recognition.stop();const m=document.getElementById('voiceModal');if(m)m.style.display='none';const t=document.getElementById('voiceTranscript');if(t&&t.textContent){const p=document.getElementById('textPrompt');if(p)p.value=t.textContent;}}

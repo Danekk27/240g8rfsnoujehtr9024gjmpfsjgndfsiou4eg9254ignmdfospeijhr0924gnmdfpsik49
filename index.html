@@ -2805,7 +2805,7 @@ function openWalletScreen(){
     set('walletUpgradeBtn',t.walletUpgrade||'System Upgrade');
     set('walletTopupBtn',t.walletTopup||'Top up balance');
     set('walletHeaderTitle',t.walletTitle||'Wallet');
-    const wreset=document.querySelector('.wallet-reset-btn');if(wreset)wreset.textContent=t.walletResetBtn||'Reset balance to 500';
+    const wreset=document.querySelector('.wallet-reset-btn');if(wreset)wreset.textContent=t.walletResetBtn||'Сбросить';
     const bal=aiMemory.diamonds||0;
     set('walletBalanceNum',Number(bal).toLocaleString());
     walletChartPeriod=0;walletChartFilter='all';walletChartPage=0;
@@ -2821,6 +2821,7 @@ function resetWalletBalance(){
     aiMemory.plan='default';
     aiMemory.planPurchasedAt=null;
     aiMemory.planExpiresAt=null;
+    aiMemory.planHistory=[];
     aiMemory.balanceReset=(aiMemory.balanceReset||0)+1;
     saveMemory('diamonds',500);
     saveMemory('diamondHistory',[]);
@@ -2828,6 +2829,7 @@ function resetWalletBalance(){
     saveMemory('plan','default');
     saveMemory('planPurchasedAt',null);
     saveMemory('planExpiresAt',null);
+    saveMemory('planHistory',[]);
     saveMemory('balanceReset',aiMemory.balanceReset);
     if(tg.CloudStorage&&tg.CloudStorage.setItem)tg.CloudStorage.setItem('diamonds','500',function(){});
     const sc=document.getElementById('starCount');if(sc)sc.textContent='500';
@@ -3602,7 +3604,7 @@ function openTgProfile(){
         <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:8px;flex-shrink:0;">
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Пополнить баланс</button>
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Апгрейд системы</button>
-            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Сброс</button>
+            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Сбросить</button>
         </div>
 
     </div>

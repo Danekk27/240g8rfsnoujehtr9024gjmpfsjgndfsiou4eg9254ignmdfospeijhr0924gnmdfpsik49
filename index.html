@@ -802,7 +802,7 @@
         .nav-item.active { color:#4F8EF7; }
         .nav-item svg { width:22px;height:22px;fill:currentColor;stroke:none; }
 
-        .nav-icon-main { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:0;background:transparent;color:rgba(255,255,255,0.35);box-shadow:none;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s cubic-bezier(.34,1.56,.64,1),margin-top .35s cubic-bezier(.34,1.56,.64,1),background .3s ease,color .3s ease,box-shadow .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1); }
+        .nav-icon-main { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:0;background:transparent;color:#7a8a9e;box-shadow:none;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s cubic-bezier(.34,1.56,.64,1),margin-top .35s cubic-bezier(.34,1.56,.64,1),background .3s ease,color .3s ease,box-shadow .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1); }
         .nav-item.active .nav-icon-main { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite,mainPulse 2.5s ease-in-out infinite;color:white;width:44px;height:44px;margin-top:-15px;box-shadow:0 4px 16px rgba(79,142,247,0.45),0 0 0 4px rgba(19,21,30,0.97); }
         @keyframes mainPulse { 0%,100%{box-shadow:0 4px 16px rgba(79,142,247,0.4),0 0 0 4px rgba(19,21,30,0.97)} 50%{box-shadow:0 6px 24px rgba(79,142,247,0.65),0 0 0 4px rgba(19,21,30,0.97)} }
         .nav-icon-main svg { width:24px;height:24px;fill:currentColor;stroke:none;transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
@@ -1366,7 +1366,7 @@ function dismissWelcome(){
 
     <div class="bottom-nav">
         <button class="nav-item" id="nav-shop" onclick="switchTab('tab-shop',this)">
-            <svg viewBox="0 0 24 24"><path d="M17 8c0-2.76-2.24-5-5-5S7 5.24 7 8H4L2 22h20L20 8h-3zm-5-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm0 11c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h13v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H18c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 22.46 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             <div data-i18n="navShop">Shop</div>
         </button>
         <button class="nav-item" id="nav-site" onclick="switchTab('tab-site',this)">
@@ -1374,7 +1374,7 @@ function dismissWelcome(){
             <div data-i18n="navSite">Site</div>
         </button>
         <button class="nav-item" id="nav-library" onclick="switchTab('tab-library',this)">
-            <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4 2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>
             <div data-i18n="navLibrary">Library</div>
         </button>
         <button class="nav-item active" id="nav-main" onclick="switchTab('tab-main',this)">

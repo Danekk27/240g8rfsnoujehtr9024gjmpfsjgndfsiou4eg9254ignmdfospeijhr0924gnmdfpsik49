@@ -315,12 +315,12 @@
         .wallet-header { position:sticky;top:0;z-index:10;background:rgba(19,21,30,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;padding:14px 20px;flex-shrink:0; }
         .wallet-header-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff; }
         .wallet-body { padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;flex:1; }
-        .wallet-balance-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+        .wallet-balance-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-shrink:0; }
         .wallet-balance-label { font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between; }
         .wallet-balance-badge { font-size:11px;font-weight:600;color:#3DDC84;background:rgba(61,220,132,0.12);border:1px solid rgba(61,220,132,0.25);border-radius:6px;padding:2px 8px; }
         .wallet-balance-amount { font-family:'Syne',sans-serif;font-size:48px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;line-height:1; }
         .wallet-balance-amount span.gem { font-size:38px;filter:drop-shadow(0 0 10px rgba(79,142,247,0.6)); }
-        .wallet-chart-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+        .wallet-chart-card { background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-shrink:0; }
         .wallet-chart-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
         .wallet-chart-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff; }
         #walletChart { width:100%;height:160px;display:block;cursor:crosshair; }
@@ -351,8 +351,7 @@
         .wt-shake { animation:wtShake .4s ease !important; }
         .settings-icon-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#5a90e8,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 8s ease-in-out infinite; }
         .acct-plan-bar-shimmer { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 4s ease-in-out infinite; }
-        .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:12px 14px;border-radius:16px;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s;display:flex;flex-direction:column;align-items:center;gap:2px;flex:1; }
-        .wallet-action-btn-sub { font-size:11px;font-weight:400;opacity:0.7;letter-spacing:0.2px; }
+        .wallet-action-btn { background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:white;border:none;padding:14px 10px;border-radius:16px;font-weight:600;font-size:13px;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .2s,filter .2s;flex:1;text-align:center; }
         .wallet-action-btn:active { transform:scale(.96);filter:brightness(0.88); }
         .wallet-reset-btn { background:rgba(252,61,61,0.1);border:1px solid rgba(252,61,61,0.3);color:#fc3d3d;padding:12px;border-radius:16px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s; }
         .wallet-reset-btn:active { transform:scale(.96);background:rgba(252,61,61,0.2); }
@@ -3374,7 +3373,7 @@ function openTgProfile(){
         </div>
 
         <!-- ── Payment history ── -->
-        <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+        <div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-shrink:0;">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
                 <span id="acctHistTitle" style="font-size:14px;font-weight:700;color:#fff;font-family:'Syne',sans-serif;">История оплаты</span>
                 <span id="acctPayCount" style="font-size:11px;color:rgba(255,255,255,0.45);"></span>
@@ -3383,7 +3382,7 @@ function openTgProfile(){
         </div>
 
         <!-- ── Action buttons ── -->
-        <div style="display:flex;flex-direction:row;gap:10px;padding-bottom:8px;">
+        <div style="display:flex;flex-direction:row;gap:10px;padding-bottom:8px;flex-shrink:0;">
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Пополнить баланс</button>
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Апгрейд системы</button>
         </div>

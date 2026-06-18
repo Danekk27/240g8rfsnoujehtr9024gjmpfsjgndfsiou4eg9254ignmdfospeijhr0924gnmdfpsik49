@@ -424,6 +424,13 @@
         .wt-promo-status { font-size:11px;margin-top:5px;padding-left:2px;min-height:14px;transition:opacity .2s; }
         .wt-promo-ok { background:linear-gradient(135deg,#2d5fc4,#4a80e0);color:#fff;border:none;padding:0 16px;border-radius:11px;font-weight:700;cursor:pointer;font-size:13px;transition:transform .12s,opacity .2s;flex-shrink:0;height:38px; }
         .wt-promo-ok:active { transform:scale(.95); }
+        /* Plan Upgrade Sheet */
+        .pu-plan-pill{display:flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);cursor:pointer;font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);transition:all .2s;font-family:'Syne',sans-serif;flex:1;}
+        .pu-duration-card{display:flex;flex-direction:column;align-items:center;padding:13px 6px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);cursor:pointer;transition:border-color .2s,background .2s,transform .15s;flex:1;position:relative;gap:4px;}
+        .pu-duration-card:active{transform:scale(.97);}
+        .pu-save-badge{position:absolute;top:-8px;right:4px;background:linear-gradient(135deg,#3DDC84,#22b865);color:#fff;font-size:8px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap;letter-spacing:0.3px;}
+        .pu-go-btn{width:100%;padding:13px;border-radius:16px;border:none;background:linear-gradient(135deg,#2d5fc4,#3a6fd4,#4a80e0,#3a6fd4,#2d5fc4);background-size:300% 300%;animation:walletBtnWave 12s ease-in-out infinite;color:#fff;font-weight:700;font-size:14px;font-family:'Syne',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.35);transition:transform .15s;}
+        .pu-go-btn:active{transform:scale(.97);}
         .terms-header-info { flex: 1; min-width: 0; }
         .terms-header-title {
             font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
@@ -1756,20 +1763,159 @@ function setAccentTheme(color){
 
 function changeGlow(color){document.documentElement.setAttribute('data-glow',color);document.querySelectorAll('.glow-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.glow-btn[data-color="${color}"]`);if(btn)btn.classList.add('active');saveMemory('glow',color);}
 
-function setPlan(plan){
-    const current=aiMemory.plan||'default',currentRank=PLAN_RANK[current]||0,targetRank=PLAN_RANK[plan]||0;
-    if(plan===current){haptic('rigid');return;}
-    if(targetRank<currentRank){haptic('rigid');const msgs={ru:'Нельзя перейти на менее выгодный тариф',en:'Downgrading to a lower plan is not allowed',ja:'下位プランへのダウングレードはできません',zh:'不允许降级到较低套餐',uk:'Не можна перейти на менш вигідний тариф'};alert(msgs[currentLang]||msgs.en);return;}
-    const now=Date.now(),exp=now+30*24*60*60*1000;
+function setPlan(plan){haptic('light');openPlanUpgrade(plan);}
+
+var _puPlan='plus',_puDuration=1;
+var _PU_PRICES={premium:100,pro:50,lite:25,plus:10};
+var _PU_NAMES={premium:'Premium',pro:'Pro',lite:'Lite',plus:'Plus'};
+var _PU_COLORS={
+    premium:{main:'#f7d84a',bg:'rgba(247,216,74,0.08)',border:'rgba(247,216,74,0.22)'},
+    pro:{main:'#f75a5a',bg:'rgba(247,90,90,0.08)',border:'rgba(247,90,90,0.22)'},
+    lite:{main:'#7a8ff5',bg:'rgba(122,143,245,0.08)',border:'rgba(122,143,245,0.22)'},
+    plus:{main:'#5df0c9',bg:'rgba(93,240,201,0.08)',border:'rgba(93,240,201,0.22)'}
+};
+var _PU_GR={
+    premium:{g:'135deg,rgba(120,80,5,0.7),rgba(180,140,30,0.6),rgba(200,160,50,0.55),rgba(180,140,30,0.6),rgba(120,80,5,0.7)',s:'rgba(240,200,80,0.8)'},
+    pro:{g:'135deg,rgba(100,15,15,0.7),rgba(180,40,40,0.6),rgba(210,80,80,0.55),rgba(180,40,40,0.6),rgba(100,15,15,0.7)',s:'rgba(240,100,100,0.8)'},
+    lite:{g:'135deg,rgba(25,30,120,0.7),rgba(60,75,200,0.6),rgba(100,120,230,0.55),rgba(60,75,200,0.6),rgba(25,30,120,0.7)',s:'rgba(140,160,240,0.8)'},
+    plus:{g:'135deg,rgba(5,80,55,0.7),rgba(20,140,100,0.6),rgba(60,200,160,0.55),rgba(20,140,100,0.6),rgba(5,80,55,0.7)',s:'rgba(80,210,170,0.8)'}
+};
+
+function openPlanUpgrade(plan){
+    _puPlan=plan||'plus';
+    _puDuration=1;
+    haptic('light');
+    var s1=document.getElementById('puStep1'),s2=document.getElementById('puStep2'),sc=document.getElementById('puStepCrypto');
+    if(s1)s1.style.display='';
+    if(s2)s2.style.display='none';
+    if(sc)sc.style.display='none';
+    puRenderStep1();
+    document.getElementById('planUpgradeSheet').classList.add('open');
+    document.getElementById('planUpgradeOverlay').classList.add('open');
+}
+function closePlanUpgrade(){
+    document.getElementById('planUpgradeSheet').classList.remove('open');
+    document.getElementById('planUpgradeOverlay').classList.remove('open');
+}
+function puRenderStep1(){
+    var plan=_puPlan;
+    var col=_PU_COLORS[plan]||_PU_COLORS.plus;
+    var name=_PU_NAMES[plan]||plan;
+    var base=_PU_PRICES[plan]||10;
+    var gr=_PU_GR[plan]||_PU_GR.plus;
+    var isCur=(aiMemory.plan||'default')===plan;
+    var title=document.getElementById('puStep1Title');
+    if(title)title.textContent='Upgrade · '+name;
+    var hdr=document.getElementById('puPlanHeader');
+    if(hdr){
+        hdr.innerHTML='<div style="background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid '+col.border+';border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);">'
+            +'<div class="pay-plan-icon" style="width:44px;height:44px;border-radius:13px;background:linear-gradient('+gr.g+');background-size:300% 300%;border:1px solid '+col.border+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'
+            +'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="'+gr.s+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><line x1="5" y1="20" x2="19" y2="20"/></svg></div>'
+            +'<div style="flex:1;min-width:0;">'
+            +'<div style="font-family:\'Syne\',sans-serif;font-size:16px;font-weight:700;color:'+col.main+';">'+name+'</div>'
+            +'<div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;">$'+base+' / month</div>'
+            +'</div>'
+            +(isCur?'<div style="font-size:10px;font-weight:700;color:'+col.main+';background:'+col.bg+';border:1px solid '+col.border+';border-radius:8px;padding:3px 9px;white-space:nowrap;flex-shrink:0;">Current</div>':'')
+            +'</div>';
+    }
+    var pills=document.getElementById('puPlanPills');
+    if(pills){
+        var allP=['plus','lite','pro','premium'];
+        pills.innerHTML='<div style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:600;align-self:center;white-space:nowrap;flex-shrink:0;">Switch:</div>'
+            +allP.map(function(p){
+                var c=_PU_COLORS[p];
+                var active=p===plan;
+                return '<button class="pu-plan-pill" onclick="puSetPlan(\''+p+'\')" style="'+(active?'color:'+c.main+';background:'+c.bg+';border-color:'+c.border+';':'')+'">'
+                    +_PU_NAMES[p]+'</button>';
+            }).join('');
+    }
+    var drow=document.getElementById('puDurationRow');
+    if(drow){
+        var durs=[
+            {mo:1,label:'1 month',total:base,save:0},
+            {mo:6,label:'6 months',total:Math.round(base*6*0.9),save:10},
+            {mo:12,label:'1 year',total:Math.round(base*12*0.85),save:15}
+        ];
+        drow.innerHTML=durs.map(function(d){
+            var act=d.mo===_puDuration;
+            return '<button class="pu-duration-card'+(act?' active':'')+'" data-months="'+d.mo+'" onclick="puSetDuration('+d.mo+')" '
+                +'style="border-color:'+(act?col.border:'rgba(255,255,255,0.08)')+';background:'+(act?col.bg:'rgba(255,255,255,0.03)')+'">'
+                +(d.save>0?'<span class="pu-save-badge">-'+d.save+'%</span>':'')
+                +'<span style="font-family:\'Syne\',sans-serif;font-size:11px;font-weight:700;color:#fff;">'+d.label+'</span>'
+                +'<span style="font-size:14px;font-weight:700;color:'+col.main+';font-family:\'Syne\',sans-serif;">$'+d.total+'</span>'
+                +'<span style="font-size:10px;color:rgba(255,255,255,0.38);">$'+(d.mo===1?base:Math.round(d.total/d.mo))+'/mo</span>'
+                +'</button>';
+        }).join('');
+    }
+}
+function puSetPlan(plan){haptic('light');_puPlan=plan;puRenderStep1();}
+function puSetDuration(months){haptic('light');_puDuration=months;puRenderStep1();}
+function puGoToDeposit(){
+    haptic('medium');
+    var s1=document.getElementById('puStep1'),s2=document.getElementById('puStep2');
+    if(s1)s1.style.display='none';
+    if(s2){s2.style.display='';s2.style.animation='fadeInUp .22s ease both';}
+    puRenderStep2();
+}
+function puBack(){
+    haptic('light');
+    var s1=document.getElementById('puStep1'),s2=document.getElementById('puStep2');
+    if(s2)s2.style.display='none';
+    if(s1)s1.style.display='';
+}
+function puRenderStep2(){
+    var plan=_puPlan,months=_puDuration,base=_PU_PRICES[plan]||10,name=_PU_NAMES[plan]||plan;
+    var total=months===1?base:months===6?Math.round(base*6*0.9):Math.round(base*12*0.85);
+    var durLabel=months===1?'1 month':months===6?'6 months':'1 year';
+    var from=new Date(),to=new Date(from.getTime()+months*30*24*60*60*1000);
+    function fd(d){return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();}
+    var sp=document.getElementById('puSummaryPlan'),spr=document.getElementById('puSummaryPrice'),dr=document.getElementById('puDateRange');
+    var pi=document.getElementById('puPromoInput'),ps=document.getElementById('puPromoStatus');
+    if(sp)sp.textContent=name+' · '+durLabel;
+    if(spr)spr.textContent='$'+total;
+    if(dr)dr.textContent=fd(from)+' – '+fd(to);
+    if(pi)pi.value='';
+    if(ps){ps.textContent='';ps.className='wt-promo-status';}
+}
+function puApplyPromo(){
+    haptic('light');
+    var inp=document.getElementById('puPromoInput'),st=document.getElementById('puPromoStatus');
+    var code=inp?inp.value.trim():'';
+    if(!code){
+        if(inp){inp.classList.add('wt-promo-shake','error');setTimeout(function(){inp.classList.remove('wt-promo-shake');},500);}
+        return;
+    }
+    if(st){st.textContent='Invalid promo code';st.style.color='rgba(252,61,61,0.85)';}
+    if(inp)inp.classList.add('error');
+}
+function puOpenCrypto(){
+    haptic('light');
+    var s2=document.getElementById('puStep2'),sc=document.getElementById('puStepCrypto');
+    if(s2)s2.style.display='none';
+    if(sc){sc.style.display='';sc.style.animation='fadeInUp .22s ease both';}
+}
+function puBackCrypto(){
+    haptic('light');
+    var s2=document.getElementById('puStep2'),sc=document.getElementById('puStepCrypto');
+    if(sc)sc.style.display='none';
+    if(s2)s2.style.display='';
+}
+function puChooseMethod(method){
+    haptic('success');
+    puConfirmPlan();
+}
+function puConfirmPlan(){
+    var plan=_puPlan,months=_puDuration,now=Date.now(),exp=now+months*30*24*60*60*1000;
     aiMemory.plan=plan;aiMemory.planPurchasedAt=now;aiMemory.planExpiresAt=exp;
     saveMemory('plan',plan);saveMemory('planPurchasedAt',now);saveMemory('planExpiresAt',exp);
     showPlanGlow(plan);
     if(!aiMemory.planHistory)aiMemory.planHistory=[];
-    aiMemory.planHistory.push({plan,ts:now,expiresAt:exp});
+    aiMemory.planHistory.push({plan:plan,ts:now,expiresAt:exp});
     saveMemory('planHistory',aiMemory.planHistory);
     _newPayEntry=true;payHistoryPage=0;
-    setTimeout(()=>{renderPayHistory();updateCurrentPlanBlock();},60);
+    setTimeout(function(){renderPayHistory();updateCurrentPlanBlock();},60);
     haptic('success');
+    closePlanUpgrade();
 }
 const PLAN_FEATURES={
     premium:{
@@ -2185,7 +2331,7 @@ function renderPayHistory(){
     if(!list)return;
     var items=[];
     var hist=aiMemory.diamondHistory||[];
-    hist.slice().reverse().forEach(function(h){var cat=h.type||'spend';if(cat==='bonus'||cat==='promo'||cat==='spend')return;items.push({cat:cat,d:h.d,v:h.v,ts:h.t});});
+    hist.slice().reverse().forEach(function(h){var cat=h.type||'spend';if(cat==='bonus'||cat==='promo'||cat==='spend'||h.d<0)return;items.push({cat:cat,d:h.d,v:h.v,ts:h.t});});
     var planHist=aiMemory.planHistory||[];
     if(planHist.length>0){
         planHist.forEach(function(ph){items.push({cat:'plan',plan:ph.plan,d:0,ts:ph.ts,expiresAt:ph.expiresAt});});
@@ -3690,6 +3836,96 @@ function openTgProfile(){
     </div>
 </div>
 
+
+<!-- Plan Upgrade Sheet -->
+<div class="wallet-topup-overlay" id="planUpgradeOverlay" onclick="closePlanUpgrade()"></div>
+<div class="wallet-topup-sheet" id="planUpgradeSheet" style="max-width:320px;max-height:90vh;overflow-y:auto;scrollbar-width:none;">
+    <!-- Step 1: Plan + Duration -->
+    <div id="puStep1">
+        <div class="wallet-topup-head">
+            <div>
+                <div class="wallet-topup-title" id="puStep1Title">Plan Upgrade</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px;">Choose your period</div>
+            </div>
+            <button class="wallet-topup-close" onclick="closePlanUpgrade()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="wt-divider"></div>
+        <div id="puPlanHeader" style="margin:0 14px 10px;"></div>
+        <div id="puPlanPills" style="display:flex;gap:5px;padding:0 14px;margin-bottom:14px;"></div>
+        <div id="puDurationRow" style="display:flex;gap:7px;padding:0 14px;margin-bottom:14px;"></div>
+        <div style="padding:0 14px 2px;"><button class="pu-go-btn" onclick="puGoToDeposit()">Continue →</button></div>
+    </div>
+    <!-- Step 2: Deposit -->
+    <div id="puStep2" style="display:none;">
+        <div class="wallet-topup-head" style="align-items:center;">
+            <button class="pay-back-btn" style="margin:0;" onclick="puBack()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+            <div style="flex:1;text-align:center;"><div class="wallet-topup-title">Deposit</div></div>
+            <button class="wallet-topup-close" onclick="closePlanUpgrade()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="wt-divider"></div>
+        <div style="margin:0 14px 10px;background:linear-gradient(225deg,#21242f 0%,#181b25 100%);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <span id="puSummaryPlan" style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;">—</span>
+                <span id="puSummaryPrice" style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#3DDC84;">$—</span>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:8px;"></div>
+            <div style="display:flex;align-items:center;gap:6px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span id="puDateRange" style="font-size:11px;color:rgba(255,255,255,0.4);">—</span>
+            </div>
+        </div>
+        <div style="padding:0 14px 10px;">
+            <div style="display:flex;gap:6px;">
+                <input type="text" id="puPromoInput" class="wt-promo-input" placeholder="Promo code..." autocomplete="off" autocorrect="off" spellcheck="false">
+                <button onclick="puApplyPromo()" class="wt-promo-ok">OK</button>
+            </div>
+            <div id="puPromoStatus" class="wt-promo-status"></div>
+        </div>
+        <div style="padding:0 14px;display:flex;flex-direction:column;gap:6px;">
+            <button class="wt-pay-method" onclick="puOpenCrypto()">
+                <img src="https://i.postimg.cc/j5FcJkvt/Chat-GPT-Image-16-iun-2026-g-01-43-43.png" width="36" height="36" style="border-radius:10px;flex-shrink:0;object-fit:cover;">
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:#fff;">Cryptocurrency</div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="puChooseMethod('cryptobot')">
+                <img src="https://i.postimg.cc/Kc74V7mr/cryptobot.jpg" width="36" height="36" style="border-radius:10px;flex-shrink:0;object-fit:cover;">
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:#fff;">Crypto Bot</div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="puChooseMethod('card')">
+                <img src="https://i.postimg.cc/dVYb1LLS/795c5864-70ed-4187-a17d-3456dfd60021.png" width="36" height="36" style="border-radius:10px;flex-shrink:0;object-fit:cover;">
+                <div style="flex:1;text-align:left;font-size:14px;font-weight:600;color:#fff;">Bank card</div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+    <!-- Step Crypto -->
+    <div id="puStepCrypto" style="display:none;">
+        <div class="wallet-topup-head" style="align-items:center;">
+            <button class="pay-back-btn" style="margin:0;" onclick="puBackCrypto()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+            <div style="flex:1;text-align:center;"><div class="wallet-topup-title">Choose currency</div></div>
+            <button class="wallet-topup-close" onclick="closePlanUpgrade()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="wt-divider"></div>
+        <div style="padding:0 14px 14px;display:flex;flex-direction:column;gap:6px;">
+            <button class="wt-pay-method" onclick="puChooseMethod('ton')">
+                <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 56 56" fill="none" width="36" height="36"><path d="M28 56C43.464 56 56 43.464 56 28C56 12.536 43.464 0 28 0C12.536 0 0 12.536 0 28C0 43.464 12.536 56 28 56Z" fill="#0098EA"/><path d="M37.5603 15.6277H18.4386C14.9228 15.6277 12.6944 19.4202 14.4632 22.4861L26.2644 42.9409C27.0345 44.2765 28.9644 44.2765 29.7345 42.9409L41.5381 22.4861C43.3045 19.4251 41.0761 15.6277 37.5627 15.6277H37.5603ZM26.2548 36.8068L23.6847 31.8327L17.4833 20.7414C17.0742 20.0315 17.5795 19.1218 18.4362 19.1218H26.2524V36.8092L26.2548 36.8068ZM38.5108 20.739L32.3118 31.8351L29.7417 36.8068V19.1194H37.5579C38.4146 19.1194 38.9199 20.0291 38.5108 20.739Z" fill="white"/></svg></div>
+                <div style="flex:1;text-align:left;"><div style="font-size:14px;font-weight:600;color:#fff;">TON</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">The Open Network</div></div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="puChooseMethod('usdt_trc20')">
+                <div style="position:relative;flex-shrink:0;width:36px;height:36px;"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:#50af95;"><svg width="36" height="36" viewBox="0 0 339.43 295.27"><path d="m62.15 1.45-61.89 130a2.52 2.52 0 0 0 .54 2.94l167.15 160.17a2.55 2.55 0 0 0 3.53 0L338.63 134.4a2.52 2.52 0 0 0 .54-2.94l-61.89-130A2.5 2.5 0 0 0 275 0H64.45a2.5 2.5 0 0 0-2.3 1.45Z" style="fill:#50af95;fill-rule:evenodd"/><path d="M191.19 144.8c-1.2.09-7.4.46-21.23.46-11 0-18.81-.33-21.55-.46-42.51-1.87-74.24-9.27-74.24-18.13s31.73-16.25 74.24-18.15v28.91c2.78.2 10.74.67 21.74.67 13.2 0 19.81-.55 21-.66v-28.9c42.42 1.89 74.08 9.29 74.08 18.13s-31.65 16.24-74.08 18.12Zm0-39.25V79.68h59.2V40.23H89.21v39.45h59.19v25.86c-48.11 2.21-84.29 11.74-84.29 23.16s36.18 20.94 84.29 23.16v82.9h42.78v-82.93c48-2.21 84.12-11.73 84.12-23.14s-36.09-20.93-84.12-23.15Zm0 0Z" style="fill:#fff;fill-rule:evenodd"/></svg></div></div>
+                <div style="flex:1;text-align:left;"><div style="font-size:14px;font-weight:600;color:#fff;">USDT</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">TRC20 · Tron network</div></div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="wt-pay-method" onclick="puChooseMethod('sol')">
+                <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;overflow:hidden;"><svg width="36" height="36" viewBox="0 0 36 36"><defs><linearGradient x1="90.737%" y1="34.776%" x2="35.509%" y2="55.415%" id="pus__a"><stop stop-color="#00FFA3" offset="0%"/><stop stop-color="#DC1FFF" offset="100%"/></linearGradient><linearGradient x1="66.588%" y1="43.8%" x2="11.36%" y2="64.439%" id="pus__b"><stop stop-color="#00FFA3" offset="0%"/><stop stop-color="#DC1FFF" offset="100%"/></linearGradient><linearGradient x1="78.586%" y1="39.317%" x2="23.358%" y2="59.956%" id="pus__c"><stop stop-color="#00FFA3" offset="0%"/><stop stop-color="#DC1FFF" offset="100%"/></linearGradient></defs><g fill="none"><circle fill="#181E33" cx="18" cy="18" r="18"/><path d="M3.9 14.355a.785.785 0 0 1 .554-.23h19.153c.35 0 .525.423.277.67l-3.783 3.784a.785.785 0 0 1-.555.23H.393a.392.392 0 0 1-.277-.67l3.783-3.784z" fill="url(#pus__a)" transform="translate(6 9)"/><path d="M3.9.23c.15-.146.35-.23.554-.23h19.153c.35 0 .525.422.277.67l-3.783 3.783a.785.785 0 0 1-.555.23H.393a.392.392 0 0 1-.277-.67L3.899.229z" fill="url(#pus__b)" transform="translate(6 9)"/><path d="M20.1 7.247a.785.785 0 0 0-.554-.23H.393a.392.392 0 0 0-.277.67l3.783 3.784c.145.145.344.23.555.23h19.153c.35 0 .525-.423.277-.67l-3.783-3.784z" fill="url(#pus__c)" transform="translate(6 9)"/></g></svg></div>
+                <div style="flex:1;text-align:left;"><div style="font-size:14px;font-weight:600;color:#fff;">Solana</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">SOL</div></div>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="rgba(255,255,255,0.35)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Confirm dialog -->
 <div class="confirm-overlay" id="confirmOverlay">

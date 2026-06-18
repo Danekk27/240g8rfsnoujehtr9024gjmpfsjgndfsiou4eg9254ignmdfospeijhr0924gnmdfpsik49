@@ -1705,7 +1705,7 @@ const translations = {
     uk:{navMain:"Головна",navShop:"Магазин",navSite:"Сайт",navUpgrade:"Апгрейд системи",navUpgradeShort:"Апгрейд",navSettings:"Налаштування",shopTitle:"Не вистачає лімітів?",shopDesc:"Поповніть баланс діамантів!",btnTopup:"Поповнити",btnUpgrade:"Покращити",siteDesc:"Офіційний веб-ресурс.",perMonth:"місяць",btnSelect:"Обрати",themeTitle:"Тема",langTitle:"Мова",glowTitle:"Підсвічування",soundTitle:"Звуки",glowAuto:"Авто",glowNone:"Прибрати",glowGreen:"Зелена",glowPink:"Рожева",glowBlue:"Синя",glowRed:"Червона",glowYellow:"Жовта",glowPurple:"Фіолетова",glowAuthor:"Aurora",yourPlan:"Ваш тариф",planActive:"Активний",planExpired:"Закінчився",planDetails:"Детальніше",walletTitle:"Гаманець",walletBalance:"Ваш баланс",walletActivity:"Активність",walletUpgrade:"Апгрейд системи",walletTopup:"Поповнити баланс",topupSelectTitle:"Оберіть кількість",navLibrary:"Бібліотека",navFavorites:"Вибране",dailyBonusTitle:"Щоденний бонус",dailyBonusSubtitle:"Заходьте щодня!",dailyBonusClaim:"Забрати",dailyBonusClaimed:"Отримано",dailyBonusNextLabel:"Наступний бонус через",termsTitle:"Угода користувача",termsLastUpdated:"Останнє оновлення: червень 2026",termsYourCountry:"Ваша країна:",chatPlaceholder:"Введіть запит...",modeCreate:"Створити",modeEdit:"Змінити",freeLabel:"Безкоштовно",payChooseTitle:"Виберіть дію",payChooseSubtitle:"Що ви хочете зробити?",payChoiceUpgrade:"Апгрейд системи",payChoiceUpgradeDesc:"Змінити тарифний план",payChoiceTopup:"Поповнити баланс",payChoiceTopupDesc:"Отримати більше діамантів",payDepositTitle:"Депозит",payDepositSubtitle:"Виберіть зручний спосіб",payBack:"Назад",payWallet:"Гаманець:",payDisconnect:"Відключити",payPromo:"Ввести промокод...",payDiamondsTitle:"Виберіть кількість 💎",payDiamondsSubtitle:"Скільки діамантів потрібно?",payTop1:"Топ 1",payTop2:"Топ 2",payTop3:"Топ 3",payPlansTitle:"Виберіть тариф",payCurrentPlan:"Поточний тариф:",payCurrent:"Поточний",paySummaryDonate:"Ви донатите:",paySummaryUpgrade:"Ви переходите на:",newChat:"Новий чат",creatingImage:"Створення зображення...",editingImage:"Редагування зображення...",notEnoughDiamonds:"Недостатньо діамантів",welcomeTitle:"Ласкаво просимо до CynovaAI!",welcomeSub:"Розумний ШІ-асистент — для спілкування, зображень, коду і не тільки.",welcomeGems:"стартових діамантів",welcomeTip1:"Ставте запитання, створюйте зображення, вирішуйте задачі",welcomeTip2:"Редагуйте та покращуйте фото одним запитом",welcomeTip3:"Отримуйте щоденний бонус у Магазині",welcomeTip4:"Баланс алмазів синхронізується з Telegram",libraryEmptyTitle:"Немає чатів",libraryEmptySub:"Почніть новий чат, і він з'явиться тут",libraryClear:"Очистити історію",confirmYes:"Так",confirmNo:"Ні",confirmDeleteTitle:"Видалити чат?",confirmDeleteText:"Цю дію не можна скасувати.",confirmClearTitle:"Очистити історію?",confirmClearText:"Всі чати будуть видалені.",acctTitle:"Мій аккаунт",acctUsernameRow:"Ім'я користувача",acctPlanRow:"Тариф",acctThemeRow:"Тема",acctLangRow:"Мова",acctHistTitle:"Історія оплати",acctHistEmpty:"Історія порожня",acctReceived:"отримано",acctPrivilege:"Привілегія ·",acctPlanActive:"✓ активна",acctHistDiamonds:"алмазів",settingsSupport:"Підтримка",acctPlanPeriod:"Термін тарифу",acctRegRow:"Реєстрація",ourProjects:"Наші проекти",acctCurrentApp:"поточний додаток",comparePlans:"Порівняння тарифів",cmpPhotos:"Фото / міс",cmpQuality:"Якість",cmpEditing:"AI-редаг.",cmpChat:"Чат AI / міс",cmpPriority:"Пріоритет",cmpSupport:"Підтримка",cmpStandard:"Стандарт",cmpBasic:"Базове",cmpAdvanced:"Розширене",cmpCommunity:"Спільнота",wallet7days:"7 днів",walletResetBtn:"Скинути до 500",walletIncome:"+ Дохід",walletExpense:"− Витрати",walletTopupShort:"Поповнити"}
 };
 
-var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0;
+var currentLang='en',isSoundEnabled=true,audioCtx=null,menuStates={},aiMemory={},currentTabId='tab-main',currentMode='create',_chatSaved=false,_currentChatId=null,walletChartPeriod=0,walletChartFilter='all',payHistoryPage=0,walletChartPage=0;
 const PLAN_RANK={default:0,plus:1,lite:2,pro:3,premium:4};
 try{aiMemory=JSON.parse(localStorage.getItem('aiMemory')||'{}');}catch(e){}
 // One-time balance reset to 500 (balanceReset v1)
@@ -2674,7 +2674,7 @@ function openWalletScreen(){
     const wreset=document.querySelector('.wallet-reset-btn');if(wreset)wreset.textContent=t.walletResetBtn||'Reset balance to 500';
     const bal=aiMemory.diamonds||0;
     set('walletBalanceNum',Number(bal).toLocaleString());
-    walletChartPeriod=0;walletChartFilter='all';
+    walletChartPeriod=0;walletChartFilter='all';walletChartPage=0;
     initWalletChartEvents();
     setTimeout(drawWalletChart,50);
     renderPayHistory();
@@ -2903,12 +2903,13 @@ function initWalletChartEvents(){
         setTimeout(()=>drawWalletChart(-1),2200);
     },{passive:false});
 }
-function setWalletPeriod(p,btn){walletChartPeriod=p;haptic('light');document.querySelectorAll('.wcp-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');drawWalletChart();}
+function setWalletPeriod(p,btn){walletChartPeriod=p;walletChartPage=0;haptic('light');document.querySelectorAll('.wcp-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');drawWalletChart();}
 function setWalletFilter(f,btn){
     if(walletChartFilter===f){walletChartFilter='all';document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));}
     else{walletChartFilter=f;document.querySelectorAll('.wcf-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
-    haptic('light');drawWalletChart();
+    walletChartPage=0;haptic('light');drawWalletChart();
 }
+function walletChartNav(dir){haptic('light');walletChartPage+=dir;drawWalletChart();}
 function drawWalletChart(hovIdx){
     if(hovIdx===undefined)hovIdx=-1;
     const canvas=document.getElementById('walletChart');
@@ -2939,6 +2940,31 @@ function drawWalletChart(hovIdx){
         } else {
             pts=[{t:cutoff>0?cutoff:history[0].t-dayMs,v:startV,d:0},...history];
         }
+    }
+    // ── Chart pagination ──
+    const CPS=7; // points per page
+    const totalChartPages=Math.max(1,Math.ceil((pts.length-1)/(CPS-1)));
+    if(walletChartPage>=totalChartPages)walletChartPage=Math.max(0,totalChartPages-1);
+    const pagerEl=document.getElementById('walletChartPager');
+    if(pagerEl){
+        if(totalChartPages>1){
+            const isF=walletChartPage===0,isL=walletChartPage===totalChartPages-1;
+            pagerEl.innerHTML='<div style="display:flex;align-items:center;gap:7px;">'+
+                '<button class="pay-page-btn'+(isF?' pay-page-disabled':'')+'" onclick="walletChartNav(-1)">'+
+                '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>'+
+                '<span style="font-size:11px;color:rgba(255,255,255,0.4);min-width:28px;text-align:center;">'+(walletChartPage+1)+' / '+totalChartPages+'</span>'+
+                '<button class="pay-page-btn'+(isL?' pay-page-disabled':'')+'" onclick="walletChartNav(1)">'+
+                '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>'+
+                '</div>';
+        } else { pagerEl.innerHTML=''; }
+    }
+    // Slice pts for this page
+    if(walletChartPage===0){
+        pts=pts.slice(0,CPS);
+    } else {
+        const carryIdx=(CPS-1)*walletChartPage;
+        const carry=Object.assign({},pts[carryIdx]||pts[pts.length-1],{_carry:true});
+        pts=[carry,...pts.slice(carryIdx+1,carryIdx+CPS)];
     }
     canvas._wcPts=pts;
     const dpr=window.devicePixelRatio||1;
@@ -3389,7 +3415,10 @@ function openTgProfile(){
         <div class="wallet-chart-card">
             <div class="wallet-chart-head">
                 <div class="wallet-chart-title" id="walletActivityLabel">Diamond activity</div>
-                <div class="wallet-info-btn" id="walletChartInfoBtn" onclick="showInfoModal('chart')">i</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <div id="walletChartPager"></div>
+                    <div class="wallet-info-btn" id="walletChartInfoBtn" onclick="showInfoModal('chart')">i</div>
+                </div>
             </div>
             <canvas id="walletChart"></canvas>
             <div class="wallet-chart-labels" id="walletChartLabels"></div>
@@ -3408,6 +3437,7 @@ function openTgProfile(){
         <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:8px;flex-shrink:0;">
             <button class="wallet-action-btn" id="walletTopupBtn" onclick="openWalletTopup()">Пополнить баланс</button>
             <button class="wallet-action-btn" id="walletUpgradeBtn" onclick="closeWalletScreen();setTimeout(()=>switchTab('tab-upgrade',document.getElementById('nav-upgrade')),420);">Апгрейд системы</button>
+            <button class="wallet-reset-btn" style="width:100%;" onclick="resetWalletBalance()">Reset balance to 500</button>
         </div>
 
     </div>
